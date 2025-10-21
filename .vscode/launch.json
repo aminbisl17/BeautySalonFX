@@ -4,7 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "type": "java",
+            "name": "Database",
+            "request": "launch",
+            "mainClass": "com.beautysalon.Backend.Database.Database",
+            "projectName": "BeautySalonFX"
+        },
         {
             "type": "java",
             "name": "Current File",
@@ -17,7 +23,7 @@
             "request": "launch",
             "mainClass": "com.beautysalon.App",
             "projectName": "BeautySalonFX",
-             "vmArgs": "--module-path \"C:\\javafx-sdk-25\\lib\" --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path \"C:\\javafx-sdk-25\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

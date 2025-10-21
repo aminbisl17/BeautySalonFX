@@ -8,6 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.beautysalon.Backend.Database.Entities.clientsData;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -43,9 +47,37 @@ public class Database {
           return alert;
      }
 
+        public static List<clientsData> getAllClients() {
+
+        try {
+
+            List<clientsData> list = new ArrayList<>();
+            rs = (connection.createStatement()).executeQuery("SELECT * FROM beautysalon.clients");
+
+            while (rs.next()) {
+                list.add(new clientsData
+                       (rs.getInt("ID"),
+                        rs.getString("emri"),
+                        rs.getString("mbiemri"),
+                        rs.getString("gjinia").charAt(0),
+                        rs.getString("numri_telefonit"),
+                        rs.getTimestamp("data_regjistrimit"),
+                        rs.getString("pershkrimi")));
+            }
+            rs = null;
+
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
    
 
      public static void main(String[] args) {
        connect();
+       for(clientsData d : getAllClients()){
+        System.out.println(d.getEmri());
+       }
      }
 }

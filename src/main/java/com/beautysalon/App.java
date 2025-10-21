@@ -10,10 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+
+        stage.initStyle(StageStyle.UNDECORATED);
     
         
         Parent root = new FXMLLoader(getClass().getResource("/fxml/EmployeeDashboard.fxml")).load();

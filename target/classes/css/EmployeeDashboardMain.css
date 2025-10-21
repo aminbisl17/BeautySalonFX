@@ -1,0 +1,8 @@
+#pageTitle {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-border-color: transparent transparent white transparent; /* bottom only */
+    -fx-border-width: 0 0 2 0; /* thickness only on bottom */
+    -fx-padding: 5;
+}
+

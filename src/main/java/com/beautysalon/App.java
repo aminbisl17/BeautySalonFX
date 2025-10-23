@@ -2,6 +2,7 @@ package com.beautysalon;
 
 import java.io.IOException;
 
+import com.beautysalon.Backend.Database.Database;
 import com.beautysalon.Frontend.EmployeeSide.EmployeeDashboard.MainDashboard;
 
 import javafx.application.Application;
@@ -15,6 +16,7 @@ import javafx.stage.StageStyle;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+         Database.connect();
 
         stage.initStyle(StageStyle.UNDECORATED);
     

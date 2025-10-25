@@ -1,0 +1,21 @@
+/* Set uniform row height */
+.table-view .table-row-cell {
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+}
+
+/* Optional: alternate row colors */
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+/* Optional: column styling */
+.table-view .table-cell.column-index-1 {
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+}

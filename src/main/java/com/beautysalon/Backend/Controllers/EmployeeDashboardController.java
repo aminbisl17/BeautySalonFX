@@ -1,5 +1,6 @@
 package com.beautysalon.Backend.Controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.beautysalon.Backend.Database.Database;
@@ -9,13 +10,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EmployeeDashboardController {
@@ -66,7 +72,12 @@ public class EmployeeDashboardController {
     private TableColumn<clientsData, java.sql.Timestamp> colData;
 
     @FXML
-    public void initialize() {
+    private Button regbtn;
+
+    public void loadData() {
+
+        table.getItems().clear();
+
         colID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         colEmri.setCellValueFactory(new PropertyValueFactory<>("emri"));
         colMbiemri.setCellValueFactory(new PropertyValueFactory<>("mbiemri"));
@@ -77,15 +88,43 @@ public class EmployeeDashboardController {
 
         List<clientsData> list = Database.getAllClients();
 
-    // Convert to ObservableList
-    ObservableList<clientsData> data = FXCollections.observableArrayList(list);
-    table.setItems(data);
+        // Convert to ObservableList
+        ObservableList<clientsData> data = FXCollections.observableArrayList(list);
+        table.setItems(data);
     }
 
     @FXML
-    void close(ActionEvent 
-    event) {
-((Stage) closebtn.getScene().getWindow()).close();
+    public void initialize() {
+   
+        loadData();
+    }
+
+    @FXML
+    void close(ActionEvent event) {
+        ((Stage) closebtn.getScene().getWindow()).close();
+    }
+
+    @FXML
+    void registerClient() {
+        try {
+    
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerClientForm.fxml"));
+            Parent root = fxmlLoader.load();
+
+            ((registerFormController)fxmlLoader.getController()).setEc(this);
+
+         
+            Stage stage = new Stage();
+            stage.setTitle("Register Client");
+            stage.setScene(new Scene(root));
+
+        
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

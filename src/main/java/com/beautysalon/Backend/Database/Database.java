@@ -11,10 +11,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.beautysalon.Backend.Database.Entities.clientsData;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Database {
      //private static Database instance;
@@ -73,6 +76,34 @@ public class Database {
         return null;
     }
    
+      public static void RegisterClient(String emri, String mbiemri, char gjinia, String numri_telefonit, String pershkrimi) {
+
+        for (clientsData data : getAllClients()) {
+            if ((data.getEmri().equalsIgnoreCase(emri) && data.getMbiemri().equalsIgnoreCase(mbiemri)) ||
+                    data.getNumri_telefonit().equals(numri_telefonit)) {
+                JOptionPane.showMessageDialog(null, "User already exists!", "", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
+        try {
+
+            ps = connection.prepareStatement(
+                    "INSERT INTO beautysalon.clients(emri, mbiemri, gjinia, numri_telefonit, pershkrimi) VALUES(?,?,?,?,?)");
+           // ps.setInt(1, ID);
+            ps.setString(1, emri);
+            ps.setString(2, mbiemri);
+            ps.setString(3, String.valueOf(gjinia));
+            ps.setString(4, numri_telefonit);
+            ps.setString(5, pershkrimi);
+            ps.executeUpdate();
+            ps.close();
+
+          showAlert(AlertType.INFORMATION, "Success", "A client has been registered!", emri + " has been registered!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
      public static void main(String[] args) {
        connect();

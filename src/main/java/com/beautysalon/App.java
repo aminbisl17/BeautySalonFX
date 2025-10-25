@@ -20,7 +20,6 @@ public class App extends Application {
 
         stage.initStyle(StageStyle.UNDECORATED);
     
-        
         Parent root = new FXMLLoader(getClass().getResource("/fxml/EmployeeDashboard.fxml")).load();
         
         stage.setScene(new Scene(root, 1001, 653));

@@ -74,7 +74,44 @@ public class EmployeeDashboardController {
     @FXML
     private Button regbtn;
 
+    private void setupRowClickListener() {
+    table.setRowFactory((_) -> {
+        TableRow<clientsData> row = new TableRow<>();
+        row.setOnMouseClicked((_) -> {
+            if (!row.isEmpty()) { // double-click
+                clientsData selectedClient = row.getItem();
+                showClientDialog(selectedClient);
+            }
+        });
+        return row;
+    });
+}
+
+        void showClientDialog(clientsData client) {
+
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/clientProfileForm.fxml"));
+            Parent root;
+            try {
+                root = fxmlLoader.load();
+
+            ((clientProfileFormController)fxmlLoader.getController()).setData(client.getEmri(), client.getMbiemri(), client.getNumri_telefonit(), client.getGjinia(), client.getPershkrimi(), client.getData_regjistrimit());;
+
+            Stage stage = new Stage();
+            stage.setTitle("Register Client");
+            stage.setScene(new Scene(root));
+
+        
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            } catch (IOException e) {
+            
+                e.printStackTrace();
+            }
+   }
+
     public void loadData() {
+
 
         table.getItems().clear();
 
@@ -95,8 +132,11 @@ public class EmployeeDashboardController {
 
     @FXML
     public void initialize() {
+
+        pageTitle.setText("Klientet");
    
         loadData();
+        setupRowClickListener();
     }
 
     @FXML

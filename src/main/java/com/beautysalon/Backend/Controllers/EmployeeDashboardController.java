@@ -3,6 +3,8 @@ package com.beautysalon.Backend.Controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.beautysalon.Backend.Controllers.klientet.dialogues.clientProfileFormController;
+import com.beautysalon.Backend.Controllers.klientet.dialogues.registerFormController;
 import com.beautysalon.Backend.Database.Database;
 import com.beautysalon.Backend.Database.Entities.clientsData;
 
@@ -96,7 +98,7 @@ public class EmployeeDashboardController {
         void showClientDialog(clientsData client) {
 
             
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/clientProfileForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/klientet/dialogues/clientProfileForm.fxml"));
             Parent root;
             try {
                 root = fxmlLoader.load();
@@ -156,7 +158,7 @@ public class EmployeeDashboardController {
     setupRowClickListener();
 
     try {
-        BorderPane appointments = new FXMLLoader(getClass().getResource("/fxml/appointments.fxml")).load();
+        BorderPane appointments = new FXMLLoader(getClass().getResource("/fxml/terminet/appointments.fxml")).load();
 
         spED.getChildren().addAll(appointments);
 
@@ -185,7 +187,7 @@ public class EmployeeDashboardController {
     void registerClient() {
         try {
     
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerClientForm.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/klientet/dialogues/registerClientForm.fxml"));
             Parent root = fxmlLoader.load();
 
             ((registerFormController)fxmlLoader.getController()).setEc(this);

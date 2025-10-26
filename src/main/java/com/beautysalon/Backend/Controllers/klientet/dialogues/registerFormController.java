@@ -1,5 +1,6 @@
-package com.beautysalon.Backend.Controllers;
+package com.beautysalon.Backend.Controllers.klientet.dialogues;
 
+import com.beautysalon.Backend.Controllers.EmployeeDashboardController;
 import com.beautysalon.Backend.Database.Database;
 
 import javafx.fxml.FXML;

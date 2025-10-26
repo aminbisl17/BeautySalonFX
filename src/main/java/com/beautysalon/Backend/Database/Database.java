@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 
 import com.beautysalon.Backend.Database.Entities.clientsData;
 
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 

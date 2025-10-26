@@ -1,4 +1,4 @@
-package com.beautysalon.Backend.Controllers;
+package com.beautysalon.Backend.Controllers.klientet.dialogues;
 
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;

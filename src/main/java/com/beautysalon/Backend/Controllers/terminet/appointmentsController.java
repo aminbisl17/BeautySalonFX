@@ -1,4 +1,4 @@
-package com.beautysalon.Backend.Controllers;
+package com.beautysalon.Backend.Controllers.terminet;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;

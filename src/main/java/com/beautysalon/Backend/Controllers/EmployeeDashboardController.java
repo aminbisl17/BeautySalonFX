@@ -20,11 +20,15 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EmployeeDashboardController {
+
+    @FXML
+    private BorderPane appointmentsView;
 
     @FXML
     private BorderPane clientTable;
@@ -74,6 +78,8 @@ public class EmployeeDashboardController {
     @FXML
     private Button regbtn;
 
+    private List<Pane> cards;
+
     private void setupRowClickListener() {
     table.setRowFactory((_) -> {
         TableRow<clientsData> row = new TableRow<>();
@@ -110,6 +116,18 @@ public class EmployeeDashboardController {
             }
    }
 
+    public void showPage(int targetIndex){
+       for (int i = 0; i < cards.size(); i++) {
+        Pane card = cards.get(i);
+        boolean visible = (i == targetIndex);
+
+        card.setVisible(visible);          // show/hide visually
+        card.setManaged(visible);          // include/exclude from layout
+        card.setDisable(!visible);         // prevent hidden pane from handling input
+        card.setMouseTransparent(!visible); // allow clicks to pass through hidden panes
+    }
+    }
+
     public void loadData() {
 
 
@@ -132,11 +150,30 @@ public class EmployeeDashboardController {
 
     @FXML
     public void initialize() {
+    pageTitle.setText("Klientet");
 
-        pageTitle.setText("Klientet");
-   
-        loadData();
-        setupRowClickListener();
+    loadData();
+    setupRowClickListener();
+
+    try {
+        BorderPane appointments = new FXMLLoader(getClass().getResource("/fxml/appointments.fxml")).load();
+
+        spED.getChildren().addAll(appointments);
+
+        cards = List.of(clientTable, appointments);
+
+        // Bind size once
+        for (Pane card : cards) {
+            card.prefWidthProperty().bind(spED.widthProperty());
+            card.prefHeightProperty().bind(spED.heightProperty());
+        }
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    // Show first page
+    showPage(0);
     }
 
     @FXML
@@ -166,5 +203,14 @@ public class EmployeeDashboardController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+private void onButton1Clicked() { showPage(0); }
+
+@FXML
+private void onButton2Clicked() { showPage(1); }
+
+@FXML
+private void onButton3Clicked() { /* showCard(2);  */ }
 
 }

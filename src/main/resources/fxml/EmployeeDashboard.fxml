@@ -13,20 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-   prefHeight="653.0" prefWidth="1001.0"
-   stylesheets="@../css/EmployeeDashboard/EmployeeDashboardMain.css"
-   xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="com.beautysalon.Backend.Controllers.EmployeeDashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="1001.0" stylesheets="@../css/EmployeeDashboard/EmployeeDashboardMain.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Backend.Controllers.EmployeeDashboardController">
    <left>
-      <BorderPane prefHeight="200.0" prefWidth="200.0"
-         style="-fx-background-color: rgb(55, 58, 65);" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgb(55, 58, 65);" BorderPane.alignment="CENTER">
          <top>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
-               BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="clientView" mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button fx:id="clientView" mnemonicParsing="false" onAction="#onButton1Clicked" text="Klientet" />
+                  <Button mnemonicParsing="false" onAction="#onButton2Clicked" text="Terminet" />
                   <Button mnemonicParsing="false" text="Button" />
                </children>
             </VBox>
@@ -38,11 +32,11 @@
          <children>
             <BorderPane fx:id="clientTable" prefHeight="200.0" prefWidth="200.0">
                <center>
-                  <TableView fx:id="table" stylesheets="@../css/EmployeeDashboard/table.css" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/EmployeeDashboard/table.css" BorderPane.alignment="CENTER">
                     <columns>
                         <TableColumn fx:id="colID" prefWidth="50" text="ID" />
-        <TableColumn fx:id="colEmri" prefWidth="100" text="Emri"/>
-        <TableColumn fx:id="colMbiemri" prefWidth="100" text="Mbiemri"/>
+        <TableColumn fx:id="colEmri" prefWidth="100" text="Emri" />
+        <TableColumn fx:id="colMbiemri" prefWidth="100" text="Mbiemri" />
         <TableColumn fx:id="colGjinia" prefWidth="70" text="Gjinia" />
         <TableColumn fx:id="colNumri" prefWidth="120" text="Numri Telefonit" />
         <TableColumn fx:id="colData" prefWidth="150" text="Data Regjistrimit" />
@@ -57,11 +51,9 @@
                   </TableView>
                </center>
                <top>
-                  <AnchorPane prefHeight="55.0" prefWidth="801.0"
-                     style="-fx-background-color: rgb(250, 250,250);" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="55.0" prefWidth="801.0" style="-fx-background-color: rgb(250, 250,250);" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="regbtn" layoutX="14.0" layoutY="15.0" mnemonicParsing="false"
-                           text="Register client" onAction="#registerClient" />
+                        <Button fx:id="regbtn" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#registerClient" text="Register client" />
                      </children>
                   </AnchorPane>
                </top>
@@ -73,17 +65,14 @@
       </StackPane>
    </center>
    <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="1001.0"
-         style="-fx-background-color: rgb(42, 43, 46);" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="1001.0" style="-fx-background-color: rgb(42, 43, 46);" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="pageTitle" prefHeight="39.0" prefWidth="122.0" text="Label"
-               textFill="WHITE">
+            <Label fx:id="pageTitle" prefHeight="39.0" prefWidth="122.0" text="Label" textFill="WHITE">
                <font>
                   <Font name="SansSerif Bold" size="24.0" />
                </font>
             </Label>
-            <SplitPane prefHeight="57.0" prefWidth="685.0"
-               style="-fx-background-color: rgb(42, 43, 46);">
+            <SplitPane prefHeight="57.0" prefWidth="685.0" style="-fx-background-color: rgb(42, 43, 46);">
 
             </SplitPane>
             <Button fx:id="minimizebtn" mnemonicParsing="false" text="Button" />

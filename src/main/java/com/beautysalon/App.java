@@ -3,13 +3,10 @@ package com.beautysalon;
 import java.io.IOException;
 
 import com.beautysalon.Backend.Database.Database;
-import com.beautysalon.Frontend.EmployeeSide.EmployeeDashboard.MainDashboard;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 

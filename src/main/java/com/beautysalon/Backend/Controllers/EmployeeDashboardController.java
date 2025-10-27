@@ -164,7 +164,6 @@ public class EmployeeDashboardController {
 
         cards = List.of(clientTable, appointments);
 
-        // Bind size once
         for (Pane card : cards) {
             card.prefWidthProperty().bind(spED.widthProperty());
             card.prefHeightProperty().bind(spED.heightProperty());
@@ -174,7 +173,6 @@ public class EmployeeDashboardController {
         e.printStackTrace();
     }
 
-    // Show first page
     showPage(0);
     }
 

@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Backend.Controllers.terminet.appointmentsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Backend.Controllers.terminet.appointmentsController">
    <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ToolBar prefHeight="40.0" BorderPane.alignment="CENTER">
         <items>
           <Button mnemonicParsing="false" text="Button" />
             <Button mnemonicParsing="false" text="Button" />
@@ -19,21 +18,21 @@
       </ToolBar>
    </top>
    <center>
-      <StackPane fx:id="stackpane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane fx:id="stackpane" BorderPane.alignment="CENTER">
          <children>
-            <BorderPane fx:id="weekCal" prefHeight="200.0" prefWidth="200.0">
+            <BorderPane fx:id="weekCal">
                <top>
-                  <HBox prefHeight="38.0" prefWidth="697.0" BorderPane.alignment="CENTER" />
+                  <HBox prefHeight="50.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
                </top>
                <left>
-                  <VBox prefHeight="530.0" prefWidth="47.0" BorderPane.alignment="CENTER" />
+                  <VBox prefWidth="50.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
                </left>
             </BorderPane>
          </children>
       </StackPane>
    </center>
    <right>
-      <VBox prefHeight="568.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+      <VBox prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" text="Button" />
             <Button mnemonicParsing="false" text="Button" />

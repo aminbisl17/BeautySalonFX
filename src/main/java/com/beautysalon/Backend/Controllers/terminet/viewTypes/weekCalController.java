@@ -22,12 +22,17 @@ public class weekCalController {
     @FXML
     public void initialize() {
 
+            gridpane.getStylesheets().add(
+        getClass().getResource("/css/EmployeeDashboard/terminet/week.css").toExternalForm()
+    );
+/* 
         for (int day = 0; day < DAYS; day++) {
+
             for (int hour = 0; hour < HOURS; hour++) {
 
                 StackPane slot = new StackPane();
                 slot.setPrefSize(100, 50);
-                slot.getStyleClass().add("/css/EmployeeDashboard/terminet/week.css");
+                slot.getStyleClass().add("slot");
 
                 // Hover effect
                 slot.setOnMouseEntered(e -> slot.getStyleClass().add("slot-hover"));
@@ -50,6 +55,7 @@ public class weekCalController {
         // Example appointment
         addAppointment(2, 1, "Haircut - Anna");
          addAppointment(1, 3, "Haircut - Amin");
+         */
     }
 
     public void addAppointment(int day, int hour, String text) {

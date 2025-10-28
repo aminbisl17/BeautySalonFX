@@ -25,7 +25,7 @@
                   <HBox prefHeight="50.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
                </top>
                <left>
-                  <VBox prefWidth="50.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
+                  <VBox fx:id="leftpane" prefWidth="50.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
                </left>
             </BorderPane>
          </children>

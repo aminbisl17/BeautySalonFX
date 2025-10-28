@@ -1,0 +1,13 @@
+.slot {
+    -fx-border-color: lightgray;
+    -fx-background-color: white;
+}
+
+.slot-hover {
+    -fx-background-color: #fff8cc; /* light yellow */
+}
+
+.slot-highlighted {
+    -fx-background-color: lightblue;
+    -fx-border-color: gray;
+}

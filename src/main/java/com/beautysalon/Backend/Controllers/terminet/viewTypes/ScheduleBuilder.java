@@ -48,7 +48,7 @@ public class ScheduleBuilder {
         // 2️⃣ Create time column
         for (int i = 0; i < hourCount; i++) {
             LocalTime labelTime = start.plusHours(i);
-            Label timeLabel = new Label(labelTime.format(DateTimeFormatter.ofPattern("HH:00")));
+            Label timeLabel = new Label(labelTime.format(DateTimeFormatter.ofPattern("HH:mm")));
             timeLabel.getStyleClass().add("time-label");
             leftTimeColumn.getChildren().add(timeLabel);
         }

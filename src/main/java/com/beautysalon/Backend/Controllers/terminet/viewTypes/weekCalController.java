@@ -23,9 +23,9 @@ public class weekCalController {
     public void initialize() {
 
             gridpane.getStylesheets().add(
-        getClass().getResource("/css/EmployeeDashboard/terminet/week.css").toExternalForm()
+        getClass().getResource("/css/EmployeeDashboard/terminet/week1.css").toExternalForm()
     );
-/* 
+ 
         for (int day = 0; day < DAYS; day++) {
 
             for (int hour = 0; hour < HOURS; hour++) {
@@ -55,7 +55,7 @@ public class weekCalController {
         // Example appointment
         addAppointment(2, 1, "Haircut - Anna");
          addAppointment(1, 3, "Haircut - Amin");
-         */
+         
     }
 
     public void addAppointment(int day, int hour, String text) {

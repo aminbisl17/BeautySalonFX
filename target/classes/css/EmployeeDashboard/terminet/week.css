@@ -1,0 +1,23 @@
+.slot {
+    -fx-border-color: lightgray;
+    -fx-background-color: white;
+}
+
+.slot-hover {
+    -fx-background-color: #fff8cc; /* light yellow */
+}
+
+.slot-highlighted {
+    -fx-background-color: lightblue;
+    -fx-border-color: gray;
+}
+
+.slot-appointment {
+    -fx-background-color: lightgreen;
+    -fx-border-color: gray;
+}
+
+.appointment-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: black;
+}

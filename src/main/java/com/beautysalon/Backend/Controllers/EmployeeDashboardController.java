@@ -3,6 +3,8 @@ package com.beautysalon.Backend.Controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.beautysalon.Client;
+import com.beautysalon.ClientService;
 import com.beautysalon.Backend.Controllers.klientet.dialogues.clientProfileFormController;
 import com.beautysalon.Backend.Controllers.klientet.dialogues.registerFormController;
 import com.beautysalon.Backend.Database.Database;
@@ -54,7 +56,7 @@ public class EmployeeDashboardController {
     private StackPane spED;
 
     @FXML
-    private TableView<clientsData> table;
+    private TableView<Client> table;
 
     @FXML
     private TableColumn<clientsData, Integer> colID;
@@ -84,11 +86,11 @@ public class EmployeeDashboardController {
 
     private void setupRowClickListener() {
     table.setRowFactory((_) -> {
-        TableRow<clientsData> row = new TableRow<>();
+        TableRow<Client> row = new TableRow<>();
         row.setOnMouseClicked((_) -> {
             if (!row.isEmpty()) { // double-click
-                clientsData selectedClient = row.getItem();
-                showClientDialog(selectedClient);
+                Client selectedClient = row.getItem();
+            //   showClientDialog(selectedClient);
             }
         });
         return row;
@@ -143,13 +145,29 @@ public class EmployeeDashboardController {
         colGjinia.setCellValueFactory(new PropertyValueFactory<>("gjinia"));
         colData.setCellValueFactory(new PropertyValueFactory<>("data_regjistrimit"));
 
-        List<clientsData> list = Database.getAllClients();
+     //   List<clientsData> list = Database.getAllClients();
 
-        // Convert to ObservableList
-        ObservableList<clientsData> data = FXCollections.observableArrayList(list);
-        table.setItems(data);
+      ClientService service = new ClientService();
+
+// Fetch clients from API
+List<Client> clientList;
+try {
+    clientList = service.getClients();
+
+
+// Wrap into ObservableList for JavaFX TableView
+ObservableList<Client> clients = FXCollections.observableArrayList(clientList);
+
+// Set items to TableView
+
+    table.setItems(clients);
+    // Optional: print all clients to console
+    clients.forEach(System.out::println);
+} catch (Exception e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+}
     }
-
     @FXML
     public void initialize() {
     pageTitle.setText("Klientet");

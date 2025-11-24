@@ -2,6 +2,9 @@ package com.beautysalon.Backend.Controllers.terminet;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +50,7 @@ public class appointmentsController {
        gridpane.getStylesheets().add(
         getClass().getResource("/css/EmployeeDashboard/terminet/week1.css").toExternalForm()
     );
- 
+
         for (int day = 0; day < DAYS; day++) {
 
             for (int hour = 0; hour < HOURS; hour++) {

@@ -162,7 +162,7 @@ ObservableList<Client> clients = FXCollections.observableArrayList(clientList);
 
     table.setItems(clients);
     // Optional: print all clients to console
-    clients.forEach(System.out::println);
+  //  clients.forEach(System.out::println);
 } catch (Exception e) {
     // TODO Auto-generated catch block
     e.printStackTrace();

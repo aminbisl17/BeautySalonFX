@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ClientService {
-private static final String API_URL = "http://localhost:8080/api/clients";
+private static final String API_URL = "http://192.168.100.23:8080/api/clients";
 private static final String USERNAME = "sa";
 private static final String PASSWORD = "11112222";
 

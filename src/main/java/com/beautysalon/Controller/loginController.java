@@ -1,9 +1,14 @@
 package com.beautysalon.Controller;
 
-import com.beautysalon.StageManager;
-import com.beautysalon.API.Authentication.AuthService;
-import com.beautysalon.API.responses.loginResponse;
-import com.beautysalon.Model.User;
+import java.io.IOException;
+
+import javax.naming.AuthenticationException;
+
+import com.beautysalon.gate.API.SessionManager;
+import com.beautysalon.gate.API.Authentication.AuthService;
+import com.beautysalon.gate.Exceptions.ServerErrorException;
+import com.beautysalon.gate.Model.User;
+import com.beautysalon.gate.responses.loginResponse;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -41,21 +46,44 @@ public class loginController{
             String token = response.getToken();
             User user = response.getUser();
 
+            SessionManager.setToken(token);
+            SessionManager.setUser(user);
+
            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Welcome");
             alert.setHeaderText("Welcome " + user.getEmri());
-         //   alert.setContentText(ex.getMessage());
             alert.showAndWait();
 
-           
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Failed");
-            alert.setHeaderText("Unable to login");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
+        } 
+        catch (ServerErrorException e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error 500");
+        alert.setHeaderText("Server unreachable");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
+    }
+         catch (AuthenticationException e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Login failed");
+        alert.setHeaderText("Invalid credentials");
+        alert.setContentText("Username or password is incorrect.");
+        alert.showAndWait();
+    }
+        catch(RuntimeException e){
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Connection error");
+        alert.setHeaderText("Server unreachable!");
+        alert.setContentText("Please check your internet connection.");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
+        }
+        catch (Exception e) {
+        e.printStackTrace();
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Unexpected error");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
         }
     }
 }

@@ -1,22 +1,24 @@
-package com.beautysalon.API.Authentication;
+package com.beautysalon.gate.API.Authentication;
 
+import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
-import com.beautysalon.API.APIClient;
-import com.beautysalon.API.responses.loginResponse;
-import com.beautysalon.Configuration.MapperProvider;
+import javax.naming.AuthenticationException;
+
+import com.beautysalon.gate.API.APIClient;
+import com.beautysalon.gate.Configuration.MapperProvider;
+import com.beautysalon.gate.Exceptions.ServerErrorException;
+import com.beautysalon.gate.responses.loginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AuthService {
 
-    private static final HttpClient CLIENT = HttpClient.newHttpClient();
     private static final ObjectMapper MAPPER = MapperProvider.getMapper();
 
-    public loginResponse login(String username, String password) throws Exception {
+    public loginResponse login(String username, String password) throws ServerErrorException, IOException, InterruptedException, AuthenticationException {
 
     String json = MAPPER.writeValueAsString(
         Map.of("username", username, "password", password)
@@ -30,8 +32,12 @@ public class AuthService {
 
     HttpResponse<String> response = APIClient.getClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-    if (response.statusCode() == 401) {
-        throw new RuntimeException("Invalid username or password");
+    if (response.statusCode() == 401 || response.statusCode() == 403) {
+        throw new  AuthenticationException("Invalid username or password");
+    }
+
+    if (response.statusCode() == 500) {
+        throw new ServerErrorException("Internal server error");
     }
 
     if (response.statusCode() != 200) {

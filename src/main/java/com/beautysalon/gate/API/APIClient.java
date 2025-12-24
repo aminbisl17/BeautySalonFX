@@ -1,4 +1,4 @@
-package com.beautysalon.API;
+package com.beautysalon.gate.API;
 
 
 import java.net.http.HttpClient;

@@ -6,7 +6,9 @@ import javax.naming.AuthenticationException;
 
 import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Authentication.AuthService;
+import com.beautysalon.gate.API.Services.ServicesService;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
+import com.beautysalon.gate.Model.Sherbimet;
 import com.beautysalon.gate.Model.User;
 import com.beautysalon.gate.responses.loginResponse;
 
@@ -26,7 +28,8 @@ public class loginController{
 
     @FXML
     private PasswordField userpasswordField;
- private AuthService authService = new AuthService(); // create instance
+
+    private AuthService authService = new AuthService(); 
 
     @FXML
     public void initialize() {
@@ -42,13 +45,18 @@ public class loginController{
 
             loginResponse response = authService.login(username, password);
 
- 
-            String token = response.getToken();
             User user = response.getUser();
 
-            SessionManager.setToken(token);
+            SessionManager.setToken(response.getToken());
             SessionManager.setUser(user);
 
+
+            SessionManager.setSherbimet(new ServicesService().getAllSherbimet());
+
+         for(Sherbimet s : SessionManager.getSherbimet()){
+                System.out.println(s.getEmri_sherbimit());
+         }
+         
            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Welcome");
             alert.setHeaderText("Welcome " + user.getEmri());

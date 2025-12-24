@@ -1,14 +1,26 @@
 package com.beautysalon.gate.API;
 
+import java.util.List;
+
+import com.beautysalon.gate.Model.Sherbimet;
 import com.beautysalon.gate.Model.User;
 
 public class SessionManager {
 
+    private SessionManager() {}
+
     private static String token;
     private static User currentUser;
+    private static List<Sherbimet> sherbimet;
 
     
-    private SessionManager() {}
+    public static List<Sherbimet> getSherbimet() {
+        return sherbimet;
+    }
+
+    public static void setSherbimet(List<Sherbimet> sherbimet) {
+        SessionManager.sherbimet = sherbimet;
+    }
 
     public static void setToken(String jwt) {
         token = jwt;

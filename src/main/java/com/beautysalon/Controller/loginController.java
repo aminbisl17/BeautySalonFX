@@ -1,17 +1,20 @@
 package com.beautysalon.Controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.naming.AuthenticationException;
 
 import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Authentication.AuthService;
+import com.beautysalon.gate.API.Clients.ClientsService;
 import com.beautysalon.gate.API.Services.ServicesService;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
-import com.beautysalon.gate.Model.Atributet_sherbimeve;
-import com.beautysalon.gate.Model.Sherbimet;
 import com.beautysalon.gate.Model.User;
+import com.beautysalon.gate.Model.clients.Client;
+import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
+import com.beautysalon.gate.Model.services.Sherbimet;
 import com.beautysalon.gate.responses.loginResponse;
 
 import javafx.fxml.FXML;
@@ -19,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class loginController{
 
@@ -49,7 +53,6 @@ public class loginController{
 
             User user = response.getUser();
 
-        //    System.out.println(response.getToken());
             SessionManager.setToken(response.getToken());
             SessionManager.setUser(user);
          
@@ -58,6 +61,7 @@ public class loginController{
             alert.setHeaderText("Welcome " + user.getEmri());
             alert.showAndWait();
 
+            ((Stage) submitButton.getScene().getWindow()).close();
             StageManager.MainWindow();
 
         } 

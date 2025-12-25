@@ -1,4 +1,4 @@
-package com.beautysalon.gate.Model;
+package com.beautysalon.gate.Model.services;
 
 import java.time.LocalTime;
 

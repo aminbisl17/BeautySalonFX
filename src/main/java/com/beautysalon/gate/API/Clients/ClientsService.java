@@ -1,4 +1,4 @@
-package com.beautysalon.gate.API.Services;
+package com.beautysalon.gate.API.Clients;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,21 +12,19 @@ import com.beautysalon.gate.API.APIClient;
 import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
-import com.beautysalon.gate.Model.services.Sherbimet;
-import com.beautysalon.gate.responses.loginResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.beautysalon.gate.Model.clients.Client;
 
-public class ServicesService {
-    private ObjectMapper MAPPER = MapperProvider.getMapper();
+public class ClientsService {
+    
 
-    public List<Sherbimet> getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
+    public List<Client> fetchAllClients() throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
 
-        String token = SessionManager.getToken();
+          String token = SessionManager.getToken();
 
         if(token == null || token.isEmpty()){
               throw new AuthenticationException("Access token expired");
         }
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/mixed/sherbimet/all"))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/employee/clients/all"))
         .header("Authorization","Bearer " + token)
         .GET().build();
 
@@ -43,10 +41,10 @@ public class ServicesService {
     if (response.statusCode() != 200) {
         throw new RuntimeException("Login failed");
     }
-            
-        return MAPPER.readValue(
+
+         return MapperProvider.getMapper().readValue(
     response.body(),
-    new com.fasterxml.jackson.core.type.TypeReference<List<Sherbimet>>() {}
+    new com.fasterxml.jackson.core.type.TypeReference<List<Client>>() {}
 );
     }
 }

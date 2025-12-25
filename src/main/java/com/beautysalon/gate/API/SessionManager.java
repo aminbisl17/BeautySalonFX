@@ -2,8 +2,9 @@ package com.beautysalon.gate.API;
 
 import java.util.List;
 
-import com.beautysalon.gate.Model.Sherbimet;
 import com.beautysalon.gate.Model.User;
+import com.beautysalon.gate.Model.clients.Client;
+import com.beautysalon.gate.Model.services.Sherbimet;
 
 public class SessionManager {
 
@@ -12,8 +13,17 @@ public class SessionManager {
     private static String token;
     private static User currentUser;
     private static List<Sherbimet> sherbimet;
+    private static List<Client> clients;
 
     
+    public static List<Client> getClients() {
+        return clients;
+    }
+
+    public static void setClients(List<Client> clients) {
+        SessionManager.clients = clients;
+    }
+
     public static List<Sherbimet> getSherbimet() {
         return sherbimet;
     }

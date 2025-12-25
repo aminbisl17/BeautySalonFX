@@ -6,7 +6,7 @@ public class Atributet_sherbimeve {
         
     private Long id_atributit;
     private String opsioni;
-    private String pershkrimi_opsionit;
+    private String pershkrimi;
     private Double qmimi;
     private Integer zbritja;
     private LocalTime kohezgjatja;
@@ -25,11 +25,12 @@ public class Atributet_sherbimeve {
     public void setOpsioni(String opsioni) {
         this.opsioni = opsioni;
     }
-    public String getPershkrimi_opsionit() {
-        return pershkrimi_opsionit;
+        public String getPershkrimi() {
+        return pershkrimi;
     }
-    public void setPershkrimi_opsionit(String pershkrimi_opsionit) {
-        this.pershkrimi_opsionit = pershkrimi_opsionit;
+
+    public void setPershkrimi(String pershkrimi) {
+        this.pershkrimi = pershkrimi;
     }
     public Double getQmimi() {
         return qmimi;

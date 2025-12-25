@@ -2,6 +2,8 @@ package com.beautysalon;
 
 import java.io.IOException;
 
+import com.beautysalon.gate.API.SessionManager;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,4 +39,26 @@ public class StageManager {
             e.printStackTrace();
         }
     }
+
+    public static void MainWindow(){
+        try{
+
+            Parent root = FXMLLoader.load(StageManager.class.getResource("/fxml/MainWindow.fxml"));
+
+            ps.setTitle(SessionManager.getUser().getEmri());
+            ps.setScene(new Scene(root));
+            ps.setMaximized(true);
+            ps.show();
+
+        } catch(IOException e){
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Loading Error");
+            alert.setHeaderText("Unable to load MainWindow");
+            alert.setContentText("The login screen could not be loaded.\n"
+                               + "Please contact support.");
+
+            alert.showAndWait();
+            e.printStackTrace();
+    }
+}
 }

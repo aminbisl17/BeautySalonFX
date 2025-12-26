@@ -5,17 +5,26 @@ import java.util.List;
 
 import com.beautysalon.gate.API.Clients.ClientsService;
 import com.beautysalon.gate.Model.clients.Client;
+import com.beautysalon.gate.Model.clients.ClientHistory;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class clientsviewController {
 
@@ -66,13 +75,24 @@ public class clientsviewController {
         });
 
     table.getColumns().addAll(idCol, emriCol, mbiemriCol, gjiniaCol, usernameCol, numriCol, dateCol);
+
+    table.setRowFactory(tv -> {
+    TableRow<Client> row = new TableRow<>();
+
+    row.setOnMouseClicked(event -> {
+        if (!row.isEmpty() && event.getClickCount() == 2) {
+            ClientProfile(row.getItem());
+        }
+    });
+
+    return row;
+});
     fetchClientsAsync();
     }
     private void fetchClientsAsync() {
         Task<List<Client>> task = new Task<>() {
             @Override
             protected List<Client> call() throws Exception {
-                // This will run in a background thread
                 return clientsService.fetchAllClients();
             }
         };
@@ -98,4 +118,42 @@ public class clientsviewController {
         thread.setDaemon(true);
         thread.start();
     }
+
+    private void ClientProfile(Client client){
+
+       TableView<ClientHistory> historyTable = new TableView<>();
+
+    TableColumn<ClientHistory, String> serviceCol = new TableColumn<>("Service");
+    serviceCol.setCellValueFactory(new PropertyValueFactory<>("service"));
+
+    TableColumn<ClientHistory, String> employeeCol = new TableColumn<>("Employee");
+    employeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+
+    TableColumn<ClientHistory, Double> priceCol = new TableColumn<>("Price");
+    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+    TableColumn<ClientHistory, String> dateCol = new TableColumn<>("Date");
+    dateCol.setCellValueFactory(cd ->
+        new SimpleStringProperty(
+            cd.getValue().getData_sherbimit()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+        )
+    );
+
+    historyTable.getColumns().addAll(serviceCol, employeeCol, priceCol, dateCol);
+    historyTable.getItems().addAll(client.getClientHistory());
+
+    Label title = new Label(
+        "History for " + client.getEmri() + " " + client.getMbiemri()
+    );
+
+    VBox root = new VBox(10, title, historyTable);
+    root.setPadding(new Insets(10));
+
+    Stage stage = new Stage();
+    stage.setTitle("Client History");
+    stage.setScene(new Scene(root, 600, 400));
+    stage.show();
+    }
 }
+

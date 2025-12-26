@@ -32,15 +32,17 @@ public class AuthService {
 
     HttpResponse<String> response = APIClient.getClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-    if (response.statusCode() == 401 || response.statusCode() == 403) {
+    int code = response.statusCode();
+
+    if (code == 401 || code == 403) {
         throw new  AuthenticationException("Invalid username or password");
     }
 
-    if (response.statusCode() == 500) {
+    if (code == 500) {
         throw new ServerErrorException("Internal server error");
     }
 
-    if (response.statusCode() != 200) {
+    if (code != 200) {
         throw new RuntimeException("Login failed");
     }
 

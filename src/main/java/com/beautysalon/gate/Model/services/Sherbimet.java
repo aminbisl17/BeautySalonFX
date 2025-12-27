@@ -15,9 +15,9 @@ public class Sherbimet {
     private String emri_sherbimit;
     private String pershkrimi;
     private Double qmimi_baze;
-    private Boolean is_active;
-    private LocalDateTime created_at;
-    private LocalDateTime update_at;
+   // private Boolean is_active;
+ //   private LocalDateTime created_at;
+   // private LocalDateTime update_at;
     private int zbritja;
     private LocalTime kohezgjatja;
 
@@ -55,10 +55,10 @@ public class Sherbimet {
     public void setQmimi_baze(Double qmimi_baze) {
         this.qmimi_baze = qmimi_baze;
     }
-    public Boolean getIs_active() {
+   /*  public Boolean getIs_active() {
         return is_active;
     }
-    public void setIs_active(Boolean is_active) {
+     public void setIs_active(Boolean is_active) {
         this.is_active = is_active;
     }
     public LocalDateTime getCreated_at() {
@@ -72,7 +72,7 @@ public class Sherbimet {
     }
     public void setUpdate_at(LocalDateTime update_at) {
         this.update_at = update_at;
-    }
+    } */
     public int getZbritja() {
         return zbritja;
     }

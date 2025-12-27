@@ -28,7 +28,7 @@ public class ServicesService {
         }
 
         HttpResponse<String> response = APIClient.getClient().send(
-            HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/mixed/sherbimet/all"))
+            HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/employee/sherbimet/all"))
         .header("Authorization","Bearer " + token)
         .GET().build(), HttpResponse.BodyHandlers.ofString());
 

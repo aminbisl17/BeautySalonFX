@@ -131,21 +131,10 @@ public class clientsviewController {
     }
 
     private void ClientProfile(Client client){
-
-        /*
-         private int id_historiku;
-    private String emri_sherbimit;
-    private String emri_atributit;
-    private LocalDateTime data_sherbimit;
-    private Double pagesa;
-    private Double qmimiBazik;
-    private int zbritja;
-    private String pershkrimi;
-    private Time kohezgjatja;
-        */
-
        TableView<ClientHistory> historyTable = new TableView<>();
 
+       historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+       
     TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Sherbimi");
     eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
 
@@ -195,7 +184,7 @@ kohezgjatjaCol.setCellValueFactory(cd ->
     Stage stage = new Stage();
     stage.setTitle("Client History");
     stage.setScene(new Scene(root, 600, 400));
-    stage.show();
+    stage.showAndWait();
     }
 }
 

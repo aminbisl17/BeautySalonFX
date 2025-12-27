@@ -11,7 +11,7 @@ public class User {
       private String emri, mbiemri, gjinia, pershkrimi, username, numri_telefonit, email;
 
     @JsonProperty("data_regjistrimit")
-    private LocalDateTime data_regjistrimit;
+   private LocalDateTime data_regjistrimit;
 
     @JsonProperty("is_active")
     private Boolean is_active;
@@ -65,7 +65,7 @@ public class User {
       public void setEmail(String email) {
           this.email = email;
       }
-      public LocalDateTime getData_regjistrimit() {
+       public LocalDateTime getData_regjistrimit() {
           return data_regjistrimit;
       }
       public void setData_regjistrimit(LocalDateTime data_regjistrimit) {
@@ -76,5 +76,5 @@ public class User {
       }
       public void setIs_active(Boolean is_active) {
           this.is_active = is_active;
-      }
+      } 
 }

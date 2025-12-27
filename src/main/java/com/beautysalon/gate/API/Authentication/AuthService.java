@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AuthService {
 
-    private static final ObjectMapper MAPPER = MapperProvider.getMapper();
+    private ObjectMapper MAPPER = MapperProvider.getMapper();
 
     public loginResponse login(String username, String password) throws ServerErrorException, IOException, InterruptedException, AuthenticationException {
 
@@ -24,13 +24,12 @@ public class AuthService {
         Map.of("username", username, "password", password)
     );
 
-    HttpRequest request = HttpRequest.newBuilder()
+    HttpResponse<String> response = APIClient.getClient().send(
+         HttpRequest.newBuilder()
             .uri(URI.create("http://localhost:8000/auth/login/employee"))
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(json))
-            .build();
-
-    HttpResponse<String> response = APIClient.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+            .build(), HttpResponse.BodyHandlers.ofString());
 
     int code = response.statusCode();
 

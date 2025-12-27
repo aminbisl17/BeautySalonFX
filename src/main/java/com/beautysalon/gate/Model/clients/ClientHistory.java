@@ -2,6 +2,7 @@ package com.beautysalon.gate.Model.clients;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ClientHistory {
     
@@ -13,7 +14,7 @@ public class ClientHistory {
     private Double qmimiBazik;
     private int zbritja;
     private String pershkrimi;
-    private Time kohezgjatja;
+    private LocalTime kohezgjatja;
 
     public ClientHistory(){}
 
@@ -66,10 +67,10 @@ public class ClientHistory {
     public void setPershkrimi(String pershkrimi) {
         this.pershkrimi = pershkrimi;
     }
-    public Time getKohezgjatja() {
+    public LocalTime getKohezgjatja() {
         return kohezgjatja;
     }
-    public void setKohezgjatja(Time kohezgjatja) {
+    public void setKohezgjatja(LocalTime kohezgjatja) {
         this.kohezgjatja = kohezgjatja;
     }
 }

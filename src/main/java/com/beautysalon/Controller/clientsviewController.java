@@ -3,6 +3,7 @@ package com.beautysalon.Controller;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Clients.ClientsService;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
@@ -32,7 +33,7 @@ public class clientsviewController {
     private BorderPane clientsview;
 
     @FXML
-    private Button registerbutton;
+    private Button refreshbutton;
 
     @FXML
     private TableView<Client> table;
@@ -41,6 +42,8 @@ public class clientsviewController {
 
     @FXML
     public void initialize(){
+
+        refreshbutton.setOnAction((_) ->{ table.getItems().clear(); fetchClientsAsync(); });
 
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
@@ -74,9 +77,9 @@ public class clientsviewController {
             }
         });
 
-    table.getColumns().addAll(idCol, emriCol, mbiemriCol, gjiniaCol, usernameCol, numriCol, dateCol);
+    table.getColumns().setAll( List.of(idCol, emriCol, mbiemriCol, gjiniaCol, usernameCol, numriCol, dateCol));
 
-    table.setRowFactory(tv -> {
+    table.setRowFactory((_) -> {
     TableRow<Client> row = new TableRow<>();
 
     row.setOnMouseClicked(event -> {
@@ -87,9 +90,16 @@ public class clientsviewController {
 
     return row;
 });
-    fetchClientsAsync();
+
+   if(SessionManager.getClients() == null){
+        fetchClientsAsync();
+        return;
+   }
+   table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
+
     }
     private void fetchClientsAsync() {
+
         Task<List<Client>> task = new Task<>() {
             @Override
             protected List<Client> call() throws Exception {
@@ -97,9 +107,10 @@ public class clientsviewController {
             }
         };
 
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded((_) -> {
             List<Client> clientsList = task.getValue();
             table.setItems(FXCollections.observableArrayList(clientsList));
+            SessionManager.setClients(task.getValue());
         });
 
         task.setOnFailed(event -> {
@@ -121,18 +132,48 @@ public class clientsviewController {
 
     private void ClientProfile(Client client){
 
+        /*
+         private int id_historiku;
+    private String emri_sherbimit;
+    private String emri_atributit;
+    private LocalDateTime data_sherbimit;
+    private Double pagesa;
+    private Double qmimiBazik;
+    private int zbritja;
+    private String pershkrimi;
+    private Time kohezgjatja;
+        */
+
        TableView<ClientHistory> historyTable = new TableView<>();
 
-    TableColumn<ClientHistory, String> serviceCol = new TableColumn<>("Service");
-    serviceCol.setCellValueFactory(new PropertyValueFactory<>("service"));
+    TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Sherbimi");
+    eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
 
-    TableColumn<ClientHistory, String> employeeCol = new TableColumn<>("Employee");
-    employeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+        TableColumn<ClientHistory, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
+    pershkrimiCol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
 
-    TableColumn<ClientHistory, Double> priceCol = new TableColumn<>("Price");
-    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+    TableColumn<ClientHistory, String> atrCol = new TableColumn<>("Atributi i sherbimit");
+    atrCol.setCellValueFactory(new PropertyValueFactory<>("emri_atributit"));
 
-    TableColumn<ClientHistory, String> dateCol = new TableColumn<>("Date");
+    TableColumn<ClientHistory, Double> qmimiBazik = new TableColumn<>("Qmimi fillestar");
+    qmimiBazik.setCellValueFactory(new PropertyValueFactory<>("qmimiBazik"));
+
+    TableColumn<ClientHistory, Double> qmimiFinal = new TableColumn<>("Qmimi final");
+    qmimiFinal.setCellValueFactory(new PropertyValueFactory<>("pagesa"));
+
+    TableColumn<ClientHistory, String> kohezgjatjaCol = new TableColumn<>("Kohëzgjatja");
+
+      TableColumn<ClientHistory, Integer> zbrCol = new TableColumn<>("Zbritja");
+    zbrCol.setCellValueFactory(new PropertyValueFactory<>("zbritja"));
+
+kohezgjatjaCol.setCellValueFactory(cd ->
+    new SimpleStringProperty(
+        cd.getValue().getKohezgjatja()
+            .format(DateTimeFormatter.ofPattern("HH:mm"))
+    )
+);
+
+    TableColumn<ClientHistory, String> dateCol = new TableColumn<>("Data e sherbimit");
     dateCol.setCellValueFactory(cd ->
         new SimpleStringProperty(
             cd.getValue().getData_sherbimit()
@@ -140,7 +181,8 @@ public class clientsviewController {
         )
     );
 
-    historyTable.getColumns().addAll(serviceCol, employeeCol, priceCol, dateCol);
+    historyTable.getColumns().setAll(List.of(dateCol,eshCol, atrCol, pershkrimiCol, kohezgjatjaCol, qmimiBazik, zbrCol, qmimiFinal));
+
     historyTable.getItems().addAll(client.getClientHistory());
 
     Label title = new Label(

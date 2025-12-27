@@ -49,6 +49,10 @@ public class loginController{
 
         try {
 
+            if(username.isEmpty() || password.isEmpty()){
+                return;
+            }
+
             loginResponse response = authService.login(username, password);
 
             User user = response.getUser();

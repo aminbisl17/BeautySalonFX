@@ -63,7 +63,7 @@ public class mainController {
         });
 
         clientsbutton.setOnAction(e -> loadCenterContent("/fxml/clientsview.fxml"));
-     //   servicesbutton.setOnAction(e -> loadCenterContent("/com/beautysalon/fxml/ServicesView.fxml"));
+        servicesbutton.setOnAction(e -> loadCenterContent("/fxml/servicesview.fxml"));
        // profilebutton.setOnAction(e -> loadCenterContent("/com/beautysalon/fxml/ProfileView.fxml"));
 
     }

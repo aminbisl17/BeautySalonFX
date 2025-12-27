@@ -23,7 +23,6 @@ public class Sherbimet {
 
     private List<Atributet_sherbimeve> atributet;
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public Sherbimet(){}
     
     public List<Atributet_sherbimeve> getAtributet() {

@@ -13,7 +13,7 @@
    <top>
       <ToolBar BorderPane.alignment="CENTER">
         <items>
-          <Button fx:id="registerbutton" mnemonicParsing="false" text="register" />
+          <Button fx:id="refreshbutton" mnemonicParsing="false" text="Refresh" />
         </items>
       </ToolBar>
    </top>

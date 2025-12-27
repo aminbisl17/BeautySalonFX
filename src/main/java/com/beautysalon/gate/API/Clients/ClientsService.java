@@ -24,15 +24,16 @@ public class ClientsService {
         if(token == null || token.isEmpty()){
               throw new AuthenticationException("Access token expired");
         }
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/employee/clients/all"))
+
+        HttpResponse<String> response = APIClient.getClient().send(
+            HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/employee/clients/all"))
         .header("Authorization","Bearer " + token)
-        .GET().build();
+        .GET().build(), HttpResponse.BodyHandlers.ofString());
 
-        HttpResponse<String> response = APIClient.getClient().send(request, HttpResponse.BodyHandlers.ofString());
-
+        
           if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new  AuthenticationException("Invalid username or password");
-    }
+       }
 
     if (response.statusCode() == 500) {
         throw new ServerErrorException("Internal server error");

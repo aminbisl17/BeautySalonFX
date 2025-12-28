@@ -13,7 +13,6 @@ import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.services.Sherbimet;
-import com.beautysalon.gate.responses.loginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ServicesService {

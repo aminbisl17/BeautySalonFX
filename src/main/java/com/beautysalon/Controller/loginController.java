@@ -1,20 +1,12 @@
 package com.beautysalon.Controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.naming.AuthenticationException;
 
 import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Authentication.AuthService;
-import com.beautysalon.gate.API.Clients.ClientsService;
-import com.beautysalon.gate.API.Services.ServicesService;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.User;
-import com.beautysalon.gate.Model.clients.Client;
-import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
-import com.beautysalon.gate.Model.services.Sherbimet;
 import com.beautysalon.gate.responses.loginResponse;
 
 import javafx.fxml.FXML;

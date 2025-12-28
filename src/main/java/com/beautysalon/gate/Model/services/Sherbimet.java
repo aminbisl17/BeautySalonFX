@@ -1,10 +1,8 @@
 package com.beautysalon.gate.Model.services;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Sherbimet {
@@ -15,9 +13,6 @@ public class Sherbimet {
     private String emri_sherbimit;
     private String pershkrimi;
     private Double qmimi_baze;
-   // private Boolean is_active;
- //   private LocalDateTime created_at;
-   // private LocalDateTime update_at;
     private int zbritja;
     private LocalTime kohezgjatja;
 

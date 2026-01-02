@@ -3,8 +3,9 @@ package com.beautysalon.Controller;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Clients.ClientsService;
+import com.beautysalon.gate.Configuration.ExpiredToken;
+import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
 
@@ -28,8 +29,8 @@ import javafx.stage.Stage;
 
 public class clientsviewController {
 
-    @FXML
-    private BorderPane clientsview;
+    //@FXML
+    //private BorderPane clientsview;
 
     @FXML
     private Button refreshbutton;
@@ -122,6 +123,7 @@ public class clientsviewController {
                 alert.setHeaderText(ex.getClass().getSimpleName());
                 alert.setContentText(ex.getMessage());
                 alert.showAndWait();
+                ExpiredToken.RedirectAfterExpire((Stage) refreshbutton.getScene().getWindow());
             });
         });
 

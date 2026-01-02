@@ -8,15 +8,20 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
-import com.beautysalon.gate.API.APIClient;
-import com.beautysalon.gate.API.SessionManager;
+import com.beautysalon.gate.Configuration.APIClient;
+import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Configuration.MapperProvider;
+import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.services.Sherbimet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ServicesService {
     private ObjectMapper MAPPER = MapperProvider.getMapper();
+
+      private String[] api_services = {
+          DotEnv.getDotEnv().get("API_SERVICES_ALL")
+    };
 
     public List<Sherbimet> getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
 
@@ -27,7 +32,7 @@ public class ServicesService {
         }
 
         HttpResponse<String> response = APIClient.getClient().send(
-            HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/employee/sherbimet/all"))
+            HttpRequest.newBuilder().uri(URI.create(api_services[0]))
         .header("Authorization","Bearer " + token)
         .GET().build(), HttpResponse.BodyHandlers.ofString());
 

@@ -8,13 +8,7 @@ public class User {
     @JsonProperty("ID")
     private Long ID;
     
-      private String emri, mbiemri, gjinia, pershkrimi, username, numri_telefonit, email;
-
-    @JsonProperty("data_regjistrimit")
-   private LocalDateTime data_regjistrimit;
-
-    @JsonProperty("is_active")
-    private Boolean is_active;
+      private String emri, mbiemri, username, numri_telefonit, email;
 
       public User(){}
       public Long getID() {
@@ -35,18 +29,6 @@ public class User {
       public void setMbiemri(String mbiemri) {
           this.mbiemri = mbiemri;
       }
-      public String getGjinia() {
-          return gjinia;
-      }
-      public void setGjinia(String gjinia) {
-          this.gjinia = gjinia;
-      }
-      public String getPershkrimi() {
-          return pershkrimi;
-      }
-      public void setPershkrimi(String pershkrimi) {
-          this.pershkrimi = pershkrimi;
-      }
       public String getUsername() {
           return username;
       }
@@ -65,16 +47,4 @@ public class User {
       public void setEmail(String email) {
           this.email = email;
       }
-       public LocalDateTime getData_regjistrimit() {
-          return data_regjistrimit;
-      }
-      public void setData_regjistrimit(LocalDateTime data_regjistrimit) {
-          this.data_regjistrimit = data_regjistrimit;
-      }
-      public Boolean getIs_active() {
-          return is_active;
-      }
-      public void setIs_active(Boolean is_active) {
-          this.is_active = is_active;
-      } 
 }

@@ -25,5 +25,10 @@
             "projectName": "BeautySalonFX",
             "vmArgs": "--module-path \"C:\\javafx-sdk-25\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
-    ]
+    ],
+    "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "on",
+    "strings": "on"
+}
 }

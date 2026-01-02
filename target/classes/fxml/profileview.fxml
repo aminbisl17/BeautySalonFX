@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.profileviewController">
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="emriField" editable="false" />
+            <TextField fx:id="mbiemriField" editable="false" />
+            <TextField fx:id="numriTelField" editable="false" />
+            <TextField fx:id="emailField" editable="false" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

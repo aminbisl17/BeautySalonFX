@@ -1,4 +1,4 @@
-package com.beautysalon.gate.API;
+package com.beautysalon.gate.Configuration;
 
 import java.util.List;
 
@@ -38,6 +38,10 @@ public class SessionManager {
 
     public static String getToken() {
         return token;
+    }
+
+    public static void ClearToken(){
+         token = null;
     }
 
     public static void setUser(User user) {

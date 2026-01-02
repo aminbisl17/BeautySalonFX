@@ -3,8 +3,9 @@ package com.beautysalon.Controller;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Services.ServicesService;
+import com.beautysalon.gate.Configuration.ExpiredToken;
+import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
 
@@ -37,6 +38,8 @@ public class servicesviewController {
 
     @FXML
     private void initialize(){
+         
+        
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
          refreshbtn.setOnAction((_)->{ table.getItems().clear(); fetchServices(); });
@@ -102,6 +105,7 @@ public class servicesviewController {
                 alert.setHeaderText(e.getClass().getSimpleName());
                 alert.setContentText(e.getMessage());
                 alert.showAndWait();
+                ExpiredToken.RedirectAfterExpire((Stage) refreshbtn.getScene().getWindow());
             });
         }); 
 

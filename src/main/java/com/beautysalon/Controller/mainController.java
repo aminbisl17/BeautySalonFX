@@ -62,15 +62,13 @@ public class mainController {
 
         clientsbutton.setOnAction(e -> loadCenterContent("/fxml/clientsview.fxml"));
         servicesbutton.setOnAction(e -> loadCenterContent("/fxml/servicesview.fxml"));
-       // profilebutton.setOnAction(e -> loadCenterContent("/com/beautysalon/fxml/ProfileView.fxml"));
+        profilebutton.setOnAction(e -> loadCenterContent("/fxml/profileview.fxml"));
 
     }
 
       private void loadCenterContent(String fxmlPath) {
         try {
             BorderPane node = FXMLLoader.load(getClass().getResource(fxmlPath));
-        //     node.prefWidthProperty().bind(mainpane.widthProperty());
-          //  node.prefHeightProperty().bind(mainpane.heightProperty());
             mainpane.setCenter(node);
         } catch (Exception e) {
             e.printStackTrace();

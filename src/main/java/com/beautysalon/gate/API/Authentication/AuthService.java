@@ -8,7 +8,8 @@ import java.util.Map;
 
 import javax.naming.AuthenticationException;
 
-import com.beautysalon.gate.API.APIClient;
+import com.beautysalon.gate.Configuration.APIClient;
+import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.responses.loginResponse;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AuthService {
 
     private ObjectMapper MAPPER = MapperProvider.getMapper();
+   // private String authapi = DotEnv.getDotEnv().get("API_AUTHENTICATION");
 
     public loginResponse login(String username, String password) throws ServerErrorException, IOException, InterruptedException, AuthenticationException {
 
@@ -26,7 +28,7 @@ public class AuthService {
 
     HttpResponse<String> response = APIClient.getClient().send(
          HttpRequest.newBuilder()
-            .uri(URI.create("http://localhost:8000/auth/login/employee"))
+            .uri(URI.create(DotEnv.getDotEnv().get("API_AUTHENTICATION")))
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(json))
             .build(), HttpResponse.BodyHandlers.ofString());

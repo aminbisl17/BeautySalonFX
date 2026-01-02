@@ -3,8 +3,8 @@ package com.beautysalon.Controller;
 import javax.naming.AuthenticationException;
 
 import com.beautysalon.StageManager;
-import com.beautysalon.gate.API.SessionManager;
 import com.beautysalon.gate.API.Authentication.AuthService;
+import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.User;
 import com.beautysalon.gate.responses.loginResponse;

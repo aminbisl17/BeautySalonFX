@@ -2,7 +2,7 @@ package com.beautysalon;
 
 import java.io.IOException;
 
-import com.beautysalon.gate.API.SessionManager;
+import com.beautysalon.gate.Configuration.SessionManager;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,6 +26,8 @@ public class StageManager {
 
             ps.setTitle("login");
             ps.setScene(new Scene(root));
+            ps.setMaximized(false);
+            ps.setResizable(false);
             ps.show();
         
         }catch(IOException e){
@@ -48,6 +50,7 @@ public class StageManager {
             ps.setTitle(SessionManager.getUser().getEmri());
             ps.setScene(new Scene(root));
             ps.setMaximized(true);
+            ps.setResizable(true);
             ps.show();
 
         } catch(IOException e){

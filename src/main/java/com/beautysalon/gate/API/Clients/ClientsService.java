@@ -8,14 +8,21 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
-import com.beautysalon.gate.API.APIClient;
-import com.beautysalon.gate.API.SessionManager;
+import com.beautysalon.gate.Configuration.APIClient;
+import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Configuration.MapperProvider;
+import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.clients.Client;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ClientsService {
     
+    private ObjectMapper mapper = MapperProvider.getMapper();
+
+    private String[] api_clients = {
+          DotEnv.getDotEnv().get("API_CLIENTS_ALL")
+    };
 
     public List<Client> fetchAllClients() throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
 
@@ -26,7 +33,7 @@ public class ClientsService {
         }
 
         HttpResponse<String> response = APIClient.getClient().send(
-            HttpRequest.newBuilder().uri(URI.create("http://localhost:8000/api/employee/clients/all"))
+            HttpRequest.newBuilder().uri(URI.create(api_clients[0]))
         .header("Authorization","Bearer " + token)
         .GET().build(), HttpResponse.BodyHandlers.ofString());
 
@@ -43,7 +50,7 @@ public class ClientsService {
         throw new RuntimeException("Login failed");
     }
 
-         return MapperProvider.getMapper().readValue(
+         return mapper.readValue(
     response.body(),
     new com.fasterxml.jackson.core.type.TypeReference<List<Client>>() {}
 );

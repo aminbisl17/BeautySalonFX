@@ -123,7 +123,7 @@ public class clientsviewController {
                 alert.setHeaderText(ex.getClass().getSimpleName());
                 alert.setContentText(ex.getMessage());
                 alert.showAndWait();
-                ExpiredToken.RedirectAfterExpire((Stage) refreshbutton.getScene().getWindow());
+                ExpiredToken.RedirectAfterExpire(); //(Stage) refreshbutton.getScene().getWindow()
             });
         });
 

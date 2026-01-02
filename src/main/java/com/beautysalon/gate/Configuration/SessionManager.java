@@ -59,5 +59,7 @@ public class SessionManager {
     public static void clear() {
         token = null;
         currentUser = null;
+        sherbimet = null;
+        clients = null;
     }
 }

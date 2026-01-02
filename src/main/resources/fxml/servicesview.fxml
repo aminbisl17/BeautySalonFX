@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
@@ -7,13 +8,19 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicesviewController">
    <center>
-      <TableView fx:id="table" BorderPane.alignment="CENTER" />
+      <TableView fx:id="table" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="50.0" right="50.0" top="20.0" />
+         </BorderPane.margin></TableView>
    </center>
    <top>
       <ToolBar prefHeight="40.0" BorderPane.alignment="CENTER">
         <items>
           <Button fx:id="refreshbtn" mnemonicParsing="false" text="Refresh" />
         </items>
+         <BorderPane.margin>
+            <Insets left="50.0" right="50.0" top="20.0" />
+         </BorderPane.margin>
       </ToolBar>
    </top>
 </BorderPane>

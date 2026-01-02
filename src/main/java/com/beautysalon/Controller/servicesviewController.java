@@ -105,7 +105,7 @@ public class servicesviewController {
                 alert.setHeaderText(e.getClass().getSimpleName());
                 alert.setContentText(e.getMessage());
                 alert.showAndWait();
-                ExpiredToken.RedirectAfterExpire((Stage) refreshbtn.getScene().getWindow());
+                ExpiredToken.RedirectAfterExpire(); //(Stage) refreshbtn.getScene().getWindow()
             });
         }); 
 

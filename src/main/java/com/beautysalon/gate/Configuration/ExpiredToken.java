@@ -4,10 +4,11 @@ import com.beautysalon.StageManager;
 import javafx.stage.Stage;
 
 public class ExpiredToken {
-    
-    public static void RedirectAfterExpire(Stage stage){
+
+
+    public static void RedirectAfterExpire(){
         SessionManager.ClearToken();
-         stage.close();
+        StageManager.getStage().close();
         StageManager.login();
     }
 }

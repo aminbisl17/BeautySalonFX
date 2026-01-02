@@ -64,4 +64,8 @@ public class StageManager {
             e.printStackTrace();
     }
 }
+
+public static Stage getStage() {
+        return ps;
+    }
 }

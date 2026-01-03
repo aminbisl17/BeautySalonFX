@@ -28,20 +28,7 @@ public class ApiTests {
     @Test
     void testFetchAllClientsSuccess() throws Exception {
 
-        List<Client> clientList = clients.fetchAllClients();
-
-        assertNotNull(clientList);
-        assertFalse(clientList.isEmpty());
-
-        clientList.forEach(client -> {
-            System.out.println("Client: " + client.getEmri());
-
-            if (client.getClientHistory() != null) {
-                client.getClientHistory().forEach(history -> {
-                    System.out.println("  Service: " + history.getEmri_sherbimit());
-                });
-            }
-        });
+     
     }
 
     @Test

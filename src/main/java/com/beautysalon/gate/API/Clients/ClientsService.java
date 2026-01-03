@@ -14,6 +14,7 @@ import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.clients.Client;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ClientsService {
@@ -24,7 +25,7 @@ public class ClientsService {
           DotEnv.getDotEnv().get("API_CLIENTS_ALL")
     };
 
-    public List<Client> fetchAllClients() throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
+    public void fetchAllClients() throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
 
           String token = SessionManager.getToken();
 
@@ -50,9 +51,7 @@ public class ClientsService {
         throw new RuntimeException("Login failed");
     }
 
-         return mapper.readValue(
-    response.body(),
-    new com.fasterxml.jackson.core.type.TypeReference<List<Client>>() {}
-);
+    SessionManager.setClients(mapper.readValue(response.body(),new TypeReference<List<Client>>() {}));
+
     }
 }

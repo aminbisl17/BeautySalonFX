@@ -101,17 +101,18 @@ public class clientsviewController {
     }
     private void fetchClientsAsync() {
 
-        Task<List<Client>> task = new Task<>() {
+        Task<Void> task = new Task<>() {
             @Override
-            protected List<Client> call() throws Exception {
-                return clientsService.fetchAllClients();
+            protected Void call() throws Exception {
+                clientsService.fetchAllClients();
+                return null;
             }
         };
 
         task.setOnSucceeded((_) -> {
-            List<Client> clientsList = task.getValue();
-            table.setItems(FXCollections.observableArrayList(clientsList));
-            SessionManager.setClients(task.getValue());
+    
+            table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
+            
         });
 
         task.setOnFailed(event -> {
@@ -123,7 +124,7 @@ public class clientsviewController {
                 alert.setHeaderText(ex.getClass().getSimpleName());
                 alert.setContentText(ex.getMessage());
                 alert.showAndWait();
-                ExpiredToken.RedirectAfterExpire(); //(Stage) refreshbutton.getScene().getWindow()
+                ExpiredToken.RedirectAfterExpire();
             });
         });
 

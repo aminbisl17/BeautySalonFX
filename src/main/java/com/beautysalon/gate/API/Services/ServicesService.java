@@ -14,16 +14,18 @@ import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Model.services.Sherbimet;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ServicesService {
+    
     private ObjectMapper MAPPER = MapperProvider.getMapper();
 
       private String[] api_services = {
           DotEnv.getDotEnv().get("API_SERVICES_ALL")
     };
 
-    public List<Sherbimet> getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
+    public void getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
 
         String token = SessionManager.getToken();
 
@@ -48,9 +50,7 @@ public class ServicesService {
         throw new RuntimeException("Login failed");
     }
             
-        return MAPPER.readValue(
-    response.body(),
-    new com.fasterxml.jackson.core.type.TypeReference<List<Sherbimet>>() {}
-);
+    SessionManager.setSherbimet(MAPPER.readValue(response.body(),new TypeReference<List<Sherbimet>>() {}));
+
     }
 }

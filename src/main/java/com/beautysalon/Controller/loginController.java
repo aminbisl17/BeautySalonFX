@@ -45,16 +45,11 @@ public class loginController{
                 return;
             }
 
-            loginResponse response = authService.login(username, password);
-
-            User user = response.getUser();
-
-            SessionManager.setToken(response.getToken());
-            SessionManager.setUser(user);
+            authService.login(username, password);
          
            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Welcome");
-            alert.setHeaderText("Welcome " + user.getEmri());
+            alert.setHeaderText("Welcome " + SessionManager.getUser().getEmri());
             alert.showAndWait();
 
             ((Stage) submitButton.getScene().getWindow()).close();

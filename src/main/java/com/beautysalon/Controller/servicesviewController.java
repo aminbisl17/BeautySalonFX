@@ -83,17 +83,18 @@ public class servicesviewController {
 
     private void fetchServices(){
 
-        Task<List<Sherbimet>> task = new Task<>(){
+        Task<Void> task = new Task<>(){
 
             @Override
-            protected List<Sherbimet> call() throws Exception {
-                return service.getAllSherbimet();
+            protected Void call() throws Exception {
+                service.getAllSherbimet();
+                return null;
             }  
         };
 
         task.setOnSucceeded((_)->{
-            SessionManager.setSherbimet(task.getValue());
-            table.setItems(FXCollections.observableList(task.getValue()));
+            
+            table.setItems(FXCollections.observableList(SessionManager.getSherbimet()));
         });
 
         task.setOnFailed((_)->{

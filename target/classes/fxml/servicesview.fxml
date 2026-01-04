@@ -6,7 +6,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicesviewController">
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/tables.css" fx:controller="com.beautysalon.Controller.servicesviewController">
    <center>
       <TableView fx:id="table" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -16,7 +16,7 @@
    <top>
       <ToolBar prefHeight="40.0" BorderPane.alignment="CENTER">
         <items>
-          <Button fx:id="refreshbtn" mnemonicParsing="false" text="Refresh" />
+          <Button fx:id="refreshbtn" mnemonicParsing="false" prefWidth="100.0" text="Refresh"/>
         </items>
          <BorderPane.margin>
             <Insets left="50.0" right="50.0" top="20.0" />

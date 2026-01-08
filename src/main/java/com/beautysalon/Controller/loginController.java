@@ -6,6 +6,7 @@ import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.Authentication.AuthService;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
+import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.User;
 import com.beautysalon.gate.responses.loginResponse;
 
@@ -47,44 +48,17 @@ public class loginController{
 
             authService.login(username, password);
          
-           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Welcome");
             alert.setHeaderText("Welcome " + SessionManager.getUser().getEmri());
             alert.showAndWait();
 
-            ((Stage) submitButton.getScene().getWindow()).close();
+          //  ((Stage) submitButton.getScene().getWindow()).close();
+            StageManager.getStage().close();
             StageManager.MainWindow();
 
-        } 
-        catch (ServerErrorException e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error 500");
-        alert.setHeaderText("Server unreachable");
-        alert.setContentText(e.getMessage());
-        alert.showAndWait();
-    }
-         catch (AuthenticationException e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Login failed");
-        alert.setHeaderText("Invalid credentials");
-        alert.setContentText("Username or password is incorrect.");
-        alert.showAndWait();
-    }
-        catch(RuntimeException e){
-         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Connection error");
-        alert.setHeaderText("Server unreachable!");
-        alert.setContentText("Please check your internet connection.");
-        alert.setContentText(e.getMessage());
-        alert.showAndWait();
-        }
-        catch (Exception e) {
-        e.printStackTrace();
-         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Unexpected error");
-        alert.setContentText(e.getMessage());
-        alert.showAndWait();
+        } catch(Exception e){
+            APIErrorHandler.handle(e);
         }
     }
 }

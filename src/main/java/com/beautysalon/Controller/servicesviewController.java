@@ -4,19 +4,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.beautysalon.gate.API.Services.ServicesService;
-import com.beautysalon.gate.Configuration.ExpiredToken;
 import com.beautysalon.gate.Configuration.SessionManager;
+import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
-
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -98,7 +95,7 @@ public class servicesviewController {
         });
 
         task.setOnFailed((_)->{
-            Throwable e = task.getException();
+        /*     Throwable e = task.getException();
               e.printStackTrace();
               Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -107,7 +104,9 @@ public class servicesviewController {
                 alert.setContentText(e.getMessage());
                 alert.showAndWait();
                 ExpiredToken.RedirectAfterExpire(); //(Stage) refreshbtn.getScene().getWindow()
-            });
+            }); */
+
+            APIErrorHandler.handle(task.getException());
         }); 
 
         Thread th = new Thread(task);

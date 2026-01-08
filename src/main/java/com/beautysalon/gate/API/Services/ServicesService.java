@@ -13,6 +13,7 @@ import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
+import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Model.services.Sherbimet;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +26,7 @@ public class ServicesService {
           DotEnv.getDotEnv().get("API_SERVICES_ALL")
     };
 
-    public void getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException{
+    public void getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException, TokenException{
 
         String token = SessionManager.getToken();
 
@@ -39,7 +40,7 @@ public class ServicesService {
         .GET().build(), HttpResponse.BodyHandlers.ofString());
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
-        throw new  AuthenticationException("Invalid token");
+        throw new  TokenException();
     }
 
     if (response.statusCode() == 500) {

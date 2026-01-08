@@ -2,7 +2,7 @@ package com.beautysalon.Controller;
 
 import java.util.Optional;
 
-import com.beautysalon.gate.Configuration.ExpiredToken;
+import com.beautysalon.StageManager;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Model.User;
 
@@ -50,8 +50,9 @@ public class profileviewController {
         Optional<ButtonType> result = alert.showAndWait();
          
          if (result.isPresent() && result.get() == ButtonType.OK) {
-            ExpiredToken.RedirectAfterExpire();
-
+            SessionManager.ClearToken();
+            StageManager.getStage().close();
+            StageManager.login();
          }
 
         });

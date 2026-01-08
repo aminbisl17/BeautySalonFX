@@ -4,26 +4,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.beautysalon.gate.API.Clients.ClientsService;
-import com.beautysalon.gate.Configuration.ExpiredToken;
 import com.beautysalon.gate.Configuration.SessionManager;
+import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
 
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -38,6 +35,8 @@ public class clientsviewController {
     @FXML
     private TableView<Client> table;
 
+    private TableView<ClientHistory> historyTable = new TableView<>();
+
     private ClientsService clientsService = new ClientsService();
 
     @FXML
@@ -46,6 +45,8 @@ public class clientsviewController {
         refreshbutton.setOnAction((_) ->{ table.getItems().clear(); fetchClientsAsync(); });
 
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+
+          historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
             TableColumn<Client, Long> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -116,16 +117,7 @@ public class clientsviewController {
         });
 
         task.setOnFailed(event -> {
-            Throwable ex = task.getException();
-            ex.printStackTrace();
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error fetching clients");
-                alert.setHeaderText(ex.getClass().getSimpleName());
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
-                ExpiredToken.RedirectAfterExpire();
-            });
+                APIErrorHandler.handle(task.getException()); 
         });
 
         Thread thread = new Thread(task);
@@ -133,10 +125,46 @@ public class clientsviewController {
         thread.start();
     }
 
-    private void ClientProfile(Client client){
-       TableView<ClientHistory> historyTable = new TableView<>();
+    private void fetchClientHistory(Client client){
+      Task<List<ClientHistory>> task = new Task<>(){
 
-       historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        @Override
+        protected List<ClientHistory> call() throws Exception {
+           return clientsService.getClientHistory(client.getID());
+        }
+      };
+
+         task.setOnSucceeded((_)->{
+            
+                List<ClientHistory> history = task.getValue();
+                client.setClientHistory(history);
+                historyTable.setItems(FXCollections.observableArrayList(history));
+        });
+
+           task.setOnFailed((_)->{
+        /*      Throwable ex = task.getException();
+            ex.printStackTrace();
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error fetching clients history");
+                alert.setHeaderText(ex.getClass().getSimpleName());
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
+              //  ExpiredToken.RedirectAfterExpire();
+            }); */
+            APIErrorHandler.handle(task.getException());
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
+    }
+
+    private void ClientProfile(Client client){
+//       TableView<ClientHistory> historyTable = new TableView<>();
+
+  //     historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
        
     TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Sherbimi");
     eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
@@ -175,8 +203,14 @@ kohezgjatjaCol.setCellValueFactory(cd ->
 
     historyTable.getColumns().setAll(List.of(dateCol,eshCol, atrCol, pershkrimiCol, kohezgjatjaCol, qmimiBazik, zbrCol, qmimiFinal));
 
-    historyTable.getItems().addAll(client.getClientHistory());
+    historyTable.getItems().clear();
 
+    if(client.getClientHistory() == null){
+        fetchClientHistory(client);
+    } else{
+    historyTable.setItems(FXCollections.observableArrayList(client.getClientHistory()));
+    }
+ 
     Label title = new Label(
         "History for " + client.getEmri() + " " + client.getMbiemri()
     );

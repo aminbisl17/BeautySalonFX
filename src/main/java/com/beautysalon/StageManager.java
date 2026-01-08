@@ -31,7 +31,7 @@ public class StageManager {
             ps.show();
         
         }catch(IOException e){
-               Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Loading Error");
             alert.setHeaderText("Unable to load Login screen");
             alert.setContentText("The login screen could not be loaded.\n"

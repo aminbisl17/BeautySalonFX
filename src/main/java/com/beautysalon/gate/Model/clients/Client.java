@@ -68,12 +68,12 @@ public class Client {
     public void setUsername(String username) {
         this.username = username;
     }
-    public List<ClientHistory> getClientHistory() {
+   public List<ClientHistory> getClientHistory() {
         return clientHistory;
     }
     public void setClientHistory(List<ClientHistory> clientHistory) {
         this.clientHistory = clientHistory;
     }
-   
+    
 
 }

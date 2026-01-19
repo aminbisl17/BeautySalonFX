@@ -17,7 +17,6 @@ import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
-import com.beautysalon.gate.Model.services.Sherbimet;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

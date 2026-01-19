@@ -8,6 +8,7 @@ import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
+import com.beautysalon.gate.Model.clients.Historiku_detajet;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -162,36 +163,12 @@ public class clientsviewController {
     }
 
     private void ClientProfile(Client client){
-//       TableView<ClientHistory> historyTable = new TableView<>();
-
-  //     historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
        
-    TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Sherbimi");
-    eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
+    TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Klienti");
+    eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_klientit"));
 
-        TableColumn<ClientHistory, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
-    pershkrimiCol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
-
-    TableColumn<ClientHistory, String> atrCol = new TableColumn<>("Atributi i sherbimit");
-    atrCol.setCellValueFactory(new PropertyValueFactory<>("emri_atributit"));
-
-    TableColumn<ClientHistory, Double> qmimiBazik = new TableColumn<>("Qmimi fillestar");
-    qmimiBazik.setCellValueFactory(new PropertyValueFactory<>("qmimiBazik"));
-
-    TableColumn<ClientHistory, Double> qmimiFinal = new TableColumn<>("Qmimi final");
-    qmimiFinal.setCellValueFactory(new PropertyValueFactory<>("pagesa"));
-
-    TableColumn<ClientHistory, String> kohezgjatjaCol = new TableColumn<>("Kohëzgjatja");
-
-      TableColumn<ClientHistory, Integer> zbrCol = new TableColumn<>("Zbritja");
-    zbrCol.setCellValueFactory(new PropertyValueFactory<>("zbritja"));
-
-kohezgjatjaCol.setCellValueFactory(cd ->
-    new SimpleStringProperty(
-        cd.getValue().getKohezgjatja()
-            .format(DateTimeFormatter.ofPattern("HH:mm"))
-    )
-);
+        TableColumn<ClientHistory, String> atrCol = new TableColumn<>("Puntori");
+    atrCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_puntorit"));
 
     TableColumn<ClientHistory, String> dateCol = new TableColumn<>("Data e sherbimit");
     dateCol.setCellValueFactory(cd ->
@@ -201,7 +178,7 @@ kohezgjatjaCol.setCellValueFactory(cd ->
         )
     );
 
-    historyTable.getColumns().setAll(List.of(dateCol,eshCol, atrCol, pershkrimiCol, kohezgjatjaCol, qmimiBazik, zbrCol, qmimiFinal));
+    historyTable.getColumns().setAll(List.of(dateCol,eshCol, atrCol));
 
     historyTable.getItems().clear();
 
@@ -214,6 +191,22 @@ kohezgjatjaCol.setCellValueFactory(cd ->
     Label title = new Label(
         "History for " + client.getEmri() + " " + client.getMbiemri()
     );
+
+    historyTable.setRowFactory((_) -> {
+    TableRow<ClientHistory> row = new TableRow<>();
+
+    row.setOnMouseClicked(event -> {
+        if (!row.isEmpty() && event.getClickCount() == 2) {
+            for(ClientHistory h : client.getClientHistory()){
+                for(Historiku_detajet d : h.getDetajet()){
+                     System.out.println(d.getEmri_sherbimit() + " " + d.getEmri_atributit() + " " + d.getPershkrimi() + " " + d.getPagesa());
+                }
+            }
+        }
+    });
+
+    return row;
+});
 
     VBox root = new VBox(10, title, historyTable);
     root.setPadding(new Insets(10));

@@ -1,75 +1,54 @@
 package com.beautysalon.gate.Model.clients;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.List;
 
 public class ClientHistory {
     
-    private int id_historiku;
-    private String emri_sherbimit;
-    private String emri_atributit;
+    private String emri_mbiemri_klientit, emri_mbiemri_puntorit;
     private LocalDateTime data_sherbimit;
-    private Double pagesa;
-    private Double qmimiBazik;
-    private int zbritja;
-    private String pershkrimi;
-    private LocalTime kohezgjatja;
+    private List<Historiku_detajet> detajet;
 
+
+
+    public List<Historiku_detajet> getDetajet() {
+        return detajet;
+    }
+
+
+    public void setDetajet(List<Historiku_detajet> detajet) {
+        this.detajet = detajet;
+    }
+
+
+    public String getEmri_mbiemri_klientit() {
+        return emri_mbiemri_klientit;
+    }
+
+
+    public void setEmri_mbiemri_klientit(String emri_mbiemri_klientit) {
+        this.emri_mbiemri_klientit = emri_mbiemri_klientit;
+    }
+
+
+    public String getEmri_mbiemri_puntorit() {
+        return emri_mbiemri_puntorit;
+    }
+
+
+    public void setEmri_mbiemri_puntorit(String emri_mbiemri_puntorit) {
+        this.emri_mbiemri_puntorit = emri_mbiemri_puntorit;
+    }
+   
     public ClientHistory(){}
 
-    public int getId_historiku() {
-        return id_historiku;
-    }
-    public void setId_historiku(int id_historiku) {
-        this.id_historiku = id_historiku;
-    }
-    public String getEmri_sherbimit() {
-        return emri_sherbimit;
-    }
-    public void setEmri_sherbimit(String emri_sherbimit) {
-        this.emri_sherbimit = emri_sherbimit;
-    }
 
-     public String getEmri_atributit() {
-        return emri_atributit;
-    }
-    public void setEmri_atributit(String emri_atributit) {
-        this.emri_atributit = emri_atributit;
-    }
     public LocalDateTime getData_sherbimit() {
         return data_sherbimit;
     }
     public void setData_sherbimit(LocalDateTime data_sherbimit) {
         this.data_sherbimit = data_sherbimit;
     }
-    public Double getPagesa() {
-        return pagesa;
-    }
-    public void setPagesa(Double pagesa) {
-        this.pagesa = pagesa;
-    }
-    public Double getQmimiBazik() {
-        return qmimiBazik;
-    }
-    public void setQmimiBazik(Double qmimiBazik) {
-        this.qmimiBazik = qmimiBazik;
-    }
-    public int getZbritja() {
-        return zbritja;
-    }
-    public void setZbritja(int zbritja) {
-        this.zbritja = zbritja;
-    }
-    public String getPershkrimi() {
-        return pershkrimi;
-    }
-    public void setPershkrimi(String pershkrimi) {
-        this.pershkrimi = pershkrimi;
-    }
-    public LocalTime getKohezgjatja() {
-        return kohezgjatja;
-    }
-    public void setKohezgjatja(LocalTime kohezgjatja) {
-        this.kohezgjatja = kohezgjatja;
-    }
+   
 }
+ 

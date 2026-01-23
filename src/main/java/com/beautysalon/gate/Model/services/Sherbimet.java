@@ -3,8 +3,11 @@ package com.beautysalon.gate.Model.services;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Sherbimet {
   
     @JsonProperty("ID")
@@ -50,24 +53,6 @@ public class Sherbimet {
     public void setQmimi_baze(Double qmimi_baze) {
         this.qmimi_baze = qmimi_baze;
     }
-   /*  public Boolean getIs_active() {
-        return is_active;
-    }
-     public void setIs_active(Boolean is_active) {
-        this.is_active = is_active;
-    }
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
-    }
-    public LocalDateTime getUpdate_at() {
-        return update_at;
-    }
-    public void setUpdate_at(LocalDateTime update_at) {
-        this.update_at = update_at;
-    } */
     public int getZbritja() {
         return zbritja;
     }

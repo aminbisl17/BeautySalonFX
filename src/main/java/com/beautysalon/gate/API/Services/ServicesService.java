@@ -30,9 +30,12 @@ public class ServicesService {
 
         String token = SessionManager.getToken();
 
+        System.out.println("test 1");
         if(token == null || token.isEmpty()){
-              throw new AuthenticationException("Access token expired");
+              throw new TokenException(); //AuthenticationException("Access token expired");
         }
+        
+        System.out.println("test 2");
 
         HttpResponse<String> response = APIClient.getClient().send(
             HttpRequest.newBuilder().uri(URI.create(api_services[0]))

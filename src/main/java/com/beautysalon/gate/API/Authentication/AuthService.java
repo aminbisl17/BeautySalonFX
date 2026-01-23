@@ -51,6 +51,8 @@ public class AuthService {
     SessionManager.setToken(data.getToken());
     SessionManager.setUser(data.getUser());
 
+    System.out.println(SessionManager.getToken());
+
    // return MAPPER.readValue(response.body(), loginResponse.class);
 }
 }

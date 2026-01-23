@@ -1,7 +1,5 @@
 package com.beautysalon.gate.Model;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {

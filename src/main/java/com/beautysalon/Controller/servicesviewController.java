@@ -33,6 +33,8 @@ public class servicesviewController {
     @FXML
     private TableView<Sherbimet> table;
 
+    private TableView<Atributet_sherbimeve> t = new TableView<>();
+
     @FXML
     private void initialize(){
          
@@ -115,9 +117,30 @@ public class servicesviewController {
 
     }
 
-    private void atributetSherbimeve(Sherbimet s){
+    private void fetchAtributetSherbimeve(Long ID){
+        Task<List<Atributet_sherbimeve>> task = new Task<>(){
 
-        TableView<Atributet_sherbimeve> t = new TableView<>();
+            @Override
+            protected List<Atributet_sherbimeve> call() throws Exception {
+                return service.getAtributet_sherbimit(ID);
+            }
+
+        };
+
+        task.setOnFailed((_) ->{
+           APIErrorHandler.handle(task.getException());
+        });
+
+        task.setOnSucceeded((_)->{
+           t.setItems(FXCollections.observableArrayList(task.getValue()));
+        });
+
+        Thread th = new Thread(task);
+         th.setDaemon(true);
+        th.start();
+    }
+
+    private void atributetSherbimeve(Sherbimet s){
 
         t.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
@@ -147,7 +170,10 @@ public class servicesviewController {
 
          t.getColumns().setAll(List.of(idcol, opcol, pscol, kzcol, zcol, qcol));
 
-         t.getItems().addAll(s.getAtributet());
+      //   t.getItems().addAll(FXCollections.observableList(s.getAtributet()));
+        t.getItems().clear();
+
+        fetchAtributetSherbimeve(s.getID());
 
          Label title = new Label(
         "Atributet e sherbimeve " + s.getEmri_sherbimit()
@@ -157,7 +183,7 @@ public class servicesviewController {
     root.setPadding(new Insets(10));
 
     Stage stage = new Stage();
-    stage.setTitle("Client History");
+    stage.setTitle("Kategorite");
     stage.setScene(new Scene(root, 600, 400));
     stage.showAndWait();
     }

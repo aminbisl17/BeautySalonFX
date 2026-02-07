@@ -2,6 +2,7 @@ package com.beautysalon.gate.API;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.TokenException;
@@ -22,5 +23,7 @@ public abstract class HttpMethods {
         }
     }
 
-     public abstract HttpResponse<String> getMethod() throws TokenException, InterruptedException, IOException ;
+     public abstract HttpResponse<String> getMethod() throws TokenException, InterruptedException, IOException;
+
+     public abstract HttpResponse<String> postMethod(boolean auth, Map<String,String> values) throws TokenException, InterruptedException, IOException;
 }

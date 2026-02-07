@@ -1,21 +1,16 @@
 package com.beautysalon.Controller;
 
-import javax.naming.AuthenticationException;
 
 import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.Authentication.AuthService;
 import com.beautysalon.gate.Configuration.SessionManager;
-import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
-import com.beautysalon.gate.Model.User;
-import com.beautysalon.gate.responses.loginResponse;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class loginController{
 

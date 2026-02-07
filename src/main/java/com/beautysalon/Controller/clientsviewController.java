@@ -137,9 +137,9 @@ public class clientsviewController {
 
          task.setOnSucceeded((_)->{
             
-                List<ClientHistory> history = task.getValue();
-                client.setClientHistory(history);
-                historyTable.setItems(FXCollections.observableArrayList(history));
+                //List<ClientHistory> history = task.getValue();
+               // client.setClientHistory(history);
+                historyTable.setItems(FXCollections.observableArrayList(task.getValue()));
         });
 
            task.setOnFailed((_)->{
@@ -182,11 +182,11 @@ public class clientsviewController {
 
     historyTable.getItems().clear();
 
-    if(client.getClientHistory() == null){
+   // if(client.getClientHistory() == null){
         fetchClientHistory(client);
-    } else{
-    historyTable.setItems(FXCollections.observableArrayList(client.getClientHistory()));
-    }
+   // } else{
+   // historyTable.setItems(FXCollections.observableArrayList(client.getClientHistory()));
+    //}
  
     Label title = new Label(
         "History for " + client.getEmri() + " " + client.getMbiemri()

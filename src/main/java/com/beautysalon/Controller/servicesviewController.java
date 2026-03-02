@@ -1,6 +1,9 @@
 package com.beautysalon.Controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 
 import com.beautysalon.gate.API.Services.ServicesService;
@@ -8,6 +11,8 @@ import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
+import com.beautysalon.gate.responses.ServiceInfoResponse;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -20,6 +25,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -34,6 +41,8 @@ public class servicesviewController {
     private TableView<Sherbimet> table;
 
     private TableView<Atributet_sherbimeve> t = new TableView<>();
+
+    private ImageView imageView = new ImageView();
 
     @FXML
     private void initialize(){
@@ -97,16 +106,6 @@ public class servicesviewController {
         });
 
         task.setOnFailed((_)->{
-        /*     Throwable e = task.getException();
-              e.printStackTrace();
-              Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error fetching Services");
-                alert.setHeaderText(e.getClass().getSimpleName());
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
-                ExpiredToken.RedirectAfterExpire(); //(Stage) refreshbtn.getScene().getWindow()
-            }); */
 
             APIErrorHandler.handle(task.getException());
         }); 
@@ -118,10 +117,11 @@ public class servicesviewController {
     }
 
     private void fetchAtributetSherbimeve(Long ID){
-        Task<List<Atributet_sherbimeve>> task = new Task<>(){
+
+        Task<ServiceInfoResponse> task = new Task<>(){
 
             @Override
-            protected List<Atributet_sherbimeve> call() throws Exception {
+            protected ServiceInfoResponse call() throws Exception {
                 return service.getAtributet_sherbimit(ID);
             }
 
@@ -131,9 +131,24 @@ public class servicesviewController {
            APIErrorHandler.handle(task.getException());
         });
 
-        task.setOnSucceeded((_)->{
-           t.setItems(FXCollections.observableArrayList(task.getValue()));
-        });
+    
+            task.setOnSucceeded((_)->{
+         
+                ServiceInfoResponse response = task.getValue();
+    
+        t.setItems(FXCollections.observableArrayList(response.getAtributet()));
+
+
+        if (response.getImagePath() != null && !response.getImagePath().isBlank()) {
+            byte[] imageBytes = Base64.getDecoder().decode(response.getImagePath());
+            InputStream is = new ByteArrayInputStream(imageBytes);
+            Image image = new Image(is);
+            imageView.setImage(image);
+            return;
+        }
+
+          imageView.setImage(null);
+    });
 
         Thread th = new Thread(task);
          th.setDaemon(true);
@@ -170,16 +185,21 @@ public class servicesviewController {
 
          t.getColumns().setAll(List.of(idcol, opcol, pscol, kzcol, zcol, qcol));
 
-      //   t.getItems().addAll(FXCollections.observableList(s.getAtributet()));
+        
+          imageView.setFitWidth(300);  // adjust width
+          imageView.setPreserveRatio(true);
+
+
         t.getItems().clear();
 
         fetchAtributetSherbimeve(s.getID());
+
 
          Label title = new Label(
         "Atributet e sherbimeve " + s.getEmri_sherbimit()
     );
 
-    VBox root = new VBox(10, title, t);
+    VBox root = new VBox(10, title, imageView, t);
     root.setPadding(new Insets(10));
 
     Stage stage = new Stage();

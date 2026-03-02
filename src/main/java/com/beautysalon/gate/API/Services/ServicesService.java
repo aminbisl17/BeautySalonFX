@@ -15,6 +15,7 @@ import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
+import com.beautysalon.gate.responses.ServiceInfoResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,7 +52,7 @@ public class ServicesService{
 
     }
 
-    public List<Atributet_sherbimeve> getAtributet_sherbimit(Long id)throws ServerErrorException, IOException, InterruptedException, AuthenticationException, TokenException{
+    public ServiceInfoResponse getAtributet_sherbimit(Long id)throws ServerErrorException, IOException, InterruptedException, AuthenticationException, TokenException{
    
        HttpResponse<String> response = (new APIGenericCalls(URL[1] + id)).getMethod();
         
@@ -66,8 +67,8 @@ public class ServicesService{
     if (response.statusCode() != 200) {
         throw new RuntimeException("Fetch failed");
     }
+ 
 
-
-     return MAPPER.readValue(response.body(),new TypeReference<List<Atributet_sherbimeve>>() {});
+     return  MAPPER.readValue(response.body(), ServiceInfoResponse.class);
     }
 }

@@ -1,6 +1,4 @@
 package com.beautysalon.gate.Configuration;
-
-
 import java.net.http.HttpClient;
 import java.time.Duration;
 

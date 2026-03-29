@@ -1,6 +1,6 @@
 package com.beautysalon.APITests;
 
-import com.beautysalon.gate.API.Clients.ClientsService;
+import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Model.clients.Client;
 
@@ -15,11 +15,11 @@ import javax.naming.AuthenticationException;
 
 public class ApiTests {
 
-    private ClientsService clients;
+    private ClientsAPI clients;
 
     @BeforeEach
     void setup() {
-        clients = new ClientsService();
+        clients = new ClientsAPI();
 
         // IMPORTANT: token must exist for API calls
         SessionManager.setToken("PUT_A_VALID_TEST_TOKEN_HERE");

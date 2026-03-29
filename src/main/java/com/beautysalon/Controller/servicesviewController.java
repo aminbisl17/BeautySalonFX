@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
-import com.beautysalon.gate.API.Services.ServicesService;
+import com.beautysalon.gate.API.ServicesAPI;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 
 public class servicesviewController {
 
-    private ServicesService service = new ServicesService();
+    private ServicesAPI service = new ServicesAPI();
 
     @FXML
     private Button refreshbtn;

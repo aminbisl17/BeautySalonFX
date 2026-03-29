@@ -15,6 +15,25 @@ public class SessionManager {
     private static List<Sherbimet> sherbimet;
     private static List<Client> clients;
 
+
+    public static String[][] URL = {
+        {
+            DotEnv.getDotEnv().get("API_SERVICES_ALL"),
+            DotEnv.getDotEnv().get("API_SERVICES_ATRIBUTE")
+        },
+        {
+            DotEnv.getDotEnv().get("API_CLIENTS_ALL"),
+            DotEnv.getDotEnv().get("API_CLIENTS_HISTORY")
+        },
+        {
+            DotEnv.getDotEnv().get("API_USER_DATA")
+        },
+        {
+            DotEnv.getDotEnv().get("API_AUTHENTICATION_ATTENDANCE_GENERATE"),
+            DotEnv.getDotEnv().get("API_AUTHENTICATION_ATTENDANCE_VALIDATE")
+        }
+    };
+
     
     public static List<Client> getClients() {
         return clients;

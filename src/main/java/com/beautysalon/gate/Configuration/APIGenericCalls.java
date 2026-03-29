@@ -1,4 +1,4 @@
-package com.beautysalon.gate.API;
+package com.beautysalon.gate.Configuration;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,7 +6,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
-import com.beautysalon.gate.Configuration.APIClient;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

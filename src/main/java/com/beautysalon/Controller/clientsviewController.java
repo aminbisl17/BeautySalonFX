@@ -3,7 +3,7 @@ package com.beautysalon.Controller;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.beautysalon.gate.API.Clients.ClientsService;
+import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
@@ -38,7 +38,7 @@ public class clientsviewController {
 
     private TableView<ClientHistory> historyTable = new TableView<>();
 
-    private ClientsService clientsService = new ClientsService();
+    private ClientsAPI clientsService = new ClientsAPI();
 
     @FXML
     public void initialize(){

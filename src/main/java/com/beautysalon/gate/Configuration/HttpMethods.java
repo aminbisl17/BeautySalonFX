@@ -1,10 +1,9 @@
-package com.beautysalon.gate.API;
+package com.beautysalon.gate.Configuration;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.TokenException;
 
 public abstract class HttpMethods {

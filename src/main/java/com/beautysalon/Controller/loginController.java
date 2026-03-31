@@ -11,6 +11,7 @@ import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.AttendanceAPI;
 import com.beautysalon.gate.API.AuthAPI;
 import com.beautysalon.gate.API.UserAPI;
+import com.beautysalon.gate.API.WebSocketService;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.User;
@@ -36,11 +37,14 @@ import javafx.util.Duration;
 
 public class loginController{
 
-     private AttendanceAPI attendanceService = new AttendanceAPI();
+     private AttendanceAPI attendanceService = new AttendanceAPI(); 
+     private WebSocketService webSocketService = new WebSocketService();
+
 
     @FXML
     private ImageView qrcode;
     
+    /* 
     @FXML
     private Button submitButton;
 
@@ -50,17 +54,19 @@ public class loginController{
     @FXML
     private PasswordField userpasswordField;
 
+    */
     private AuthAPI authService = new AuthAPI();
+
     private UserAPI userService = new UserAPI(); 
 
     @FXML
     public void initialize() {
        
-        submitButton.setOnAction(e -> handleLogin());
-    }
+      //  submitButton.setOnAction(e -> handleLogin());
+    //}
 
-    private void handleLogin() {
-        String username = usernameField.getText();
+    //private void handleLogin() {
+     /*    String username = usernameField.getText();
         String password = userpasswordField.getText();
 
           if(username.isEmpty() || password.isEmpty()){
@@ -100,7 +106,8 @@ public class loginController{
         } catch(Exception e){
             APIErrorHandler.handle(e);
         }
-
+ */
+     fetchQRCode();
         Timeline timeline = new Timeline(
     new KeyFrame(Duration.seconds(60), event -> {
         fetchQRCode();
@@ -149,9 +156,19 @@ private void fetchQRCode(){
 
     task.setOnSucceeded((_)->{
  
-        System.out.println(task.getValue());
-  Image qrImage = generateQRCode(task.getValue(), 250, 250);
-  qrcode.setImage(qrImage);
+     //   System.out.println(task.getValue());
+
+       String code = task.getValue();
+
+    Image qrImage = generateQRCode(code, 250, 250);
+    qrcode.setImage(qrImage);
+
+    // ✅ disconnect old subscription
+    webSocketService.disconnect();
+
+    // ✅ connect with new QR code
+    webSocketService.connect(code);
+
 
     });
 

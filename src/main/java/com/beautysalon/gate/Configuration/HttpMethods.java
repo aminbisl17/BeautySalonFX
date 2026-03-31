@@ -22,7 +22,7 @@ public abstract class HttpMethods {
         }
     }
 
-     public abstract HttpResponse<String> getMethod() throws TokenException, InterruptedException, IOException;
+     public abstract HttpResponse<String> getMethod(boolean auth) throws TokenException, InterruptedException, IOException;
 
      public abstract HttpResponse<String> postMethod(boolean auth, Map<String,String> values) throws TokenException, InterruptedException, IOException;
 }

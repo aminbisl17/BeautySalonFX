@@ -17,9 +17,12 @@ public class AttendanceAPI {
 
 public String GenerateAttendaceCode() throws TokenException, IOException, InterruptedException, ServerErrorException {
 
-    HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[3][0])).getMethod();
+    System.out.println("1");
+    HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[3][0])).getMethod(false);
     
       if (response.statusCode() == 401 || response.statusCode() == 403) {
+        
+    System.out.println("2");
         throw new TokenException();
     }
 

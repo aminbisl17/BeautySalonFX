@@ -20,7 +20,7 @@ public class WebSocketService {
             stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
             session = stompClient
-                    .connect("ws://localhost:8080/ws", new StompSessionHandlerAdapter() {})
+                    .connect("ws://localhost:8000/ws", new StompSessionHandlerAdapter() {})
                     .get();
 
             System.out.println("Connected to WebSocket");
@@ -54,4 +54,14 @@ public class WebSocketService {
             }
         });
     }
+    public void disconnect() {
+    try {
+        if (session != null && session.isConnected()) {
+            session.disconnect();
+            System.out.println("Disconnected old session");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

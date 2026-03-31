@@ -23,7 +23,7 @@ public class ServicesAPI{
     public void getAllSherbimet()throws ServerErrorException, IOException, InterruptedException, AuthenticationException, TokenException{
 
    
-       HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[0][0])).getMethod();
+       HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[0][0])).getMethod(true);
         
     if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();
@@ -44,7 +44,7 @@ public class ServicesAPI{
 
     public ServiceInfoResponse getAtributet_sherbimit(Long id)throws ServerErrorException, IOException, InterruptedException, AuthenticationException, TokenException{
    
-       HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[0][1] + id)).getMethod();
+       HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[0][1] + id)).getMethod(true);
         
     if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();

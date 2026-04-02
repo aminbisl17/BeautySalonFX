@@ -106,7 +106,7 @@ public class loginController{
         } catch(Exception e){
             APIErrorHandler.handle(e);
         }
- */
+*/
      fetchQRCode();
         Timeline timeline = new Timeline(
     new KeyFrame(Duration.seconds(60), event -> {
@@ -158,17 +158,14 @@ private void fetchQRCode(){
  
      //   System.out.println(task.getValue());
 
-       String code = task.getValue();
-
-    Image qrImage = generateQRCode(code, 250, 250);
-    qrcode.setImage(qrImage);
-
-    // ✅ disconnect old subscription
-    webSocketService.disconnect();
+      String code = task.getValue();
+      Image qrImage = generateQRCode(code, 250, 250);
+      qrcode.setImage(qrImage);
+    
+      webSocketService.disconnect();
 
     // ✅ connect with new QR code
     webSocketService.connect(code);
-
 
     });
 

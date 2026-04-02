@@ -39,6 +39,6 @@ public class AuthAPI {
     }
     loginResponse data = MAPPER.readValue(response.body(), loginResponse.class);
     SessionManager.setToken(data.getToken());
-    SessionManager.setUser(data.getUser());
+    //SessionManager.setUser(data.getUser());
 }
 }

@@ -4,6 +4,8 @@ import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import com.beautysalon.StageManager;
+import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.responses.loginResponse;
 
 import java.lang.reflect.Type;
@@ -19,7 +21,7 @@ public class WebSocketService {
 
             stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-            session = stompClient
+                  session = stompClient
                     .connect("ws://localhost:8000/ws", new StompSessionHandlerAdapter() {})
                     .get();
 
@@ -27,15 +29,20 @@ public class WebSocketService {
 
             subscribeToQr(qrCode);
 
+           // subscribeToQr(qrCode);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     private void subscribeToQr(String code) {
+
+            System.out.println("Subscribed to: /topic/qr/" + code);
         session.subscribe("/topic/qr/" + code, new StompFrameHandler() {
 
-            @Override
+             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return loginResponse.class;
             }
@@ -44,15 +51,21 @@ public class WebSocketService {
             public void handleFrame(StompHeaders headers, Object payload) {
                 loginResponse response = (loginResponse) payload;
 
-                System.out.println("✅ Login received!");
-                System.out.println("Token: " + response.getToken());
+                SessionManager.setToken(response.getToken());
+             
+                System.out.println("SESSION NULL? " + (session == null));
+                 System.out.println("CONNECTED? " + session.isConnected());
 
-                // ⚠️ IMPORTANT: update UI on JavaFX thread
                 javafx.application.Platform.runLater(() -> {
                     // login user / switch scene
+                     StageManager.getStage().close();
+                     StageManager.MainWindow();
                 });
             }
-        });
+        }); 
+    
+
+
     }
     public void disconnect() {
     try {

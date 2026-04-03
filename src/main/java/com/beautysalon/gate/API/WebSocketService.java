@@ -22,7 +22,7 @@ public class WebSocketService {
             stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
                   session = stompClient
-                    .connect("ws://10.123.13.106:8000/ws", new StompSessionHandlerAdapter() {})
+                    .connect("ws://192.168.1.141:8000/ws", new StompSessionHandlerAdapter() {})
                     .get();
 
             System.out.println("Connected to WebSocket");
@@ -39,7 +39,7 @@ public class WebSocketService {
 
     private void subscribeToQr(String code) {
 
-            System.out.println("Subscribed to: /topic/qr/" + code);
+         System.out.println("code: " + code);
         session.subscribe("/topic/qr/" + code, new StompFrameHandler() {
 
              @Override
@@ -52,9 +52,6 @@ public class WebSocketService {
                 loginResponse response = (loginResponse) payload;
 
                 SessionManager.setToken(response.getToken());
-             
-                System.out.println("SESSION NULL? " + (session == null));
-                 System.out.println("CONNECTED? " + session.isConnected());
 
                 javafx.application.Platform.runLater(() -> {
                     // login user / switch scene

@@ -22,7 +22,7 @@ public class WebSocketService {
             stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
                   session = stompClient
-                    .connect("ws://localhost:8000/ws", new StompSessionHandlerAdapter() {})
+                    .connect("ws://10.123.13.106:8000/ws", new StompSessionHandlerAdapter() {})
                     .get();
 
             System.out.println("Connected to WebSocket");

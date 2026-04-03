@@ -8,11 +8,11 @@ import com.beautysalon.gate.Exceptions.TokenException;
 
 public abstract class HttpMethods {
 
-    protected String URL;
+  //  protected String URL;
     protected String token = SessionManager.getToken();
 
-    public HttpMethods(String URL){
-            this.URL = URL;
+    public HttpMethods(){
+       //     this.URL = URL;
     }
 
      

@@ -163,8 +163,6 @@ private void fetchQRCode(){
       qrcode.setImage(qrImage);
     
       webSocketService.disconnect();
-
-    // ✅ connect with new QR code
     webSocketService.connect(code);
 
     });

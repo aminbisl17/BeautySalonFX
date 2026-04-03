@@ -47,7 +47,7 @@ public class StageManager {
 
             Parent root = FXMLLoader.load(StageManager.class.getResource("/fxml/MainWindow.fxml"));
 
-            ps.setTitle(SessionManager.getUser().getEmri());
+         //   ps.setTitle(SessionManager.getUser().getEmri());
             ps.setScene(new Scene(root));
             ps.setMaximized(true);
             ps.setResizable(true);

@@ -12,8 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class APIGenericCalls extends HttpMethods{
 
+    public String URL;
+
     public APIGenericCalls(String URL) {
-        super(URL);
+        this.URL = URL;
+        //super(URL);
     }
 
     @Override

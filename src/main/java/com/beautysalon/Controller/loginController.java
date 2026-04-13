@@ -3,18 +3,12 @@ package com.beautysalon.Controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.Optional;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import com.beautysalon.StageManager;
-import com.beautysalon.gate.API.AttendanceAPI;
-import com.beautysalon.gate.API.AuthAPI;
-import com.beautysalon.gate.API.UserAPI;
+import com.beautysalon.gate.API.QRCode;
+
 import com.beautysalon.gate.API.WebSocketService;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
-import com.beautysalon.gate.Model.User;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -22,28 +16,29 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 public class loginController{
 
-     private AttendanceAPI attendanceService = new AttendanceAPI(); 
+     private QRCode qrcodeService = new QRCode(); 
      private WebSocketService webSocketService = new WebSocketService();
 
 
     @FXML
     private ImageView qrcode;
-    
+
+    @FXML
+private AnchorPane root;
+
+@FXML
+private Label loadingLabel;
+
     /* 
     @FXML
     private Button submitButton;
@@ -55,68 +50,51 @@ public class loginController{
     private PasswordField userpasswordField;
 
     */
-    private AuthAPI authService = new AuthAPI();
 
-    private UserAPI userService = new UserAPI(); 
+    private Timeline serverCheckTimeline;
+    private boolean qrLoaded = false;
 
     @FXML
     public void initialize() {
-       
-      //  submitButton.setOnAction(e -> handleLogin());
-    //}
 
-    //private void handleLogin() {
-     /*    String username = usernameField.getText();
-        String password = userpasswordField.getText();
+  startLoadingAnimation();
 
-          if(username.isEmpty() || password.isEmpty()){
-                return;
+    serverCheckTimeline = new Timeline(
+        new KeyFrame(Duration.seconds(3), event -> {
+
+            if (qrLoaded) return;
+
+            boolean reachable = webSocketService.isServerReachable();
+
+            if (reachable) {
+                System.out.println("Server reachable ✅");
+
+                serverCheckTimeline.stop(); // stop retry loop
+                fetchQRCode();              // now fetch QR
+            } else {
+                System.out.println("Server not reachable ❌ retrying...");
+                loadingLabel.setText("Waiting for server...");
             }
+        })
+    );
 
-        try {
-
-               Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                authService.login(username, password);
-                userService.getUserData();
-                return null;
-            }
-        };
-
-        task.setOnSucceeded((_) -> {
-    
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Welcome");
-            alert.setHeaderText("Welcome " + SessionManager.getUser().getEmri());
-            alert.showAndWait();
-
-            StageManager.getStage().close();
-            StageManager.MainWindow();
-        });
-
-        task.setOnFailed(event -> {
-                APIErrorHandler.handle(task.getException()); 
-        });
-
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
-
-        } catch(Exception e){
-            APIErrorHandler.handle(e);
-        }
-*/
-     fetchQRCode();
-        Timeline timeline = new Timeline(
-    new KeyFrame(Duration.seconds(60), event -> {
-        fetchQRCode();
-    })
-);
-timeline.setCycleCount(Animation.INDEFINITE);
-timeline.play();
+    serverCheckTimeline.setCycleCount(Animation.INDEFINITE);
+    serverCheckTimeline.play();
 
     }
+
+    private Timeline loadingAnimation;
+
+private void startLoadingAnimation() {
+    loadingAnimation = new Timeline(
+        new KeyFrame(Duration.seconds(0), e -> loadingLabel.setText("Loading")),
+        new KeyFrame(Duration.seconds(0.5), e -> loadingLabel.setText("Loading.")),
+        new KeyFrame(Duration.seconds(1), e -> loadingLabel.setText("Loading..")),
+        new KeyFrame(Duration.seconds(1.5), e -> loadingLabel.setText("Loading..."))
+    );
+    loadingAnimation.setCycleCount(Animation.INDEFINITE);
+    loadingAnimation.play();
+}
 
 
     private Image generateQRCode(String text, int width, int height) {
@@ -146,7 +124,7 @@ private void fetchQRCode(){
 
     Task<String> task = new Task<>(){
        protected String call() throws Exception{
-            return attendanceService.GenerateAttendaceCode();
+            return qrcodeService.GenerateAttendaceCode();
        }
     };
 
@@ -155,16 +133,23 @@ private void fetchQRCode(){
     });
 
     task.setOnSucceeded((_)->{
- 
-     //   System.out.println(task.getValue());
 
-      String code = task.getValue();
-      Image qrImage = generateQRCode(code, 250, 250);
-      qrcode.setImage(qrImage);
-    
-      webSocketService.disconnect();
+      qrLoaded = true; 
+
+    String code = task.getValue();
+    Image qrImage = generateQRCode(code, 250, 250);
+
+    qrcode.setImage(qrImage);
+
+    if (loadingAnimation != null) {
+        loadingAnimation.stop();
+    }
+
+    loadingLabel.setVisible(false);
+    qrcode.setVisible(true);
+
+    webSocketService.disconnect();
     webSocketService.connect(code);
-
     });
 
         Thread th = new Thread(task);

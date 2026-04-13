@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 
 import com.beautysalon.StageManager;
-import com.beautysalon.gate.API.AttendanceAPI;
+import com.beautysalon.gate.API.QRCode;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.User;
@@ -32,7 +32,7 @@ import javafx.util.Duration;
 
 public class profileviewController {
 
-    private AttendanceAPI attendanceService = new AttendanceAPI();
+    private QRCode attendanceService = new QRCode();
 
     @FXML
     private TextField emailField;

@@ -11,7 +11,7 @@ import com.beautysalon.gate.Exceptions.TokenException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class AttendanceAPI {
+public class QRCode {
     
     private ObjectMapper MAPPER = MapperProvider.getMapper();
 

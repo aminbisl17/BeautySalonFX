@@ -25,8 +25,6 @@ public class WebSocketService {
                     .connect("ws://192.168.100.116:8000/ws", new StompSessionHandlerAdapter() {})
                     .get();
 
-            System.out.println("Connected to WebSocket");
-
             subscribeToQr(qrCode);
 
            // subscribeToQr(qrCode);
@@ -37,6 +35,27 @@ public class WebSocketService {
     }
 
 
+    public boolean isServerReachable() {
+    try {
+        WebSocketStompClient stompClient =
+                new WebSocketStompClient(new StandardWebSocketClient());
+
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+        StompSession testSession = stompClient
+                .connect("ws://192.168.100.116:8000/ws",
+                        new StompSessionHandlerAdapter() {})
+                .get(2, java.util.concurrent.TimeUnit.SECONDS); // timeout!
+
+        boolean ok = testSession.isConnected();
+        testSession.disconnect();
+
+        return ok;
+
+    } catch (Exception e) {
+        return false;
+    }
+}
     private void subscribeToQr(String code) {
 
          System.out.println("code: " + code);

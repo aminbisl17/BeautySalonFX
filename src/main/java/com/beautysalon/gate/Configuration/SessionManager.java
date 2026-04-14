@@ -31,6 +31,9 @@ public class SessionManager {
         {
             DotEnv.getDotEnv().get("API_AUTHENTICATION_ATTENDANCE_GENERATE"),
             DotEnv.getDotEnv().get("API_AUTHENTICATION_ATTENDANCE_VALIDATE")
+        },
+        {
+             DotEnv.getDotEnv().get("API_SERVER_HEALTH")
         }
     };
 

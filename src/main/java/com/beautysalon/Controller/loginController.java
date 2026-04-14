@@ -3,11 +3,14 @@ package com.beautysalon.Controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import com.beautysalon.gate.API.QRCode;
-
+import com.beautysalon.gate.API.ServerAPI;
 import com.beautysalon.gate.API.WebSocketService;
+import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
@@ -28,6 +31,7 @@ public class loginController{
 
      private QRCode qrcodeService = new QRCode(); 
      private WebSocketService webSocketService = new WebSocketService();
+     private ServerAPI server = new ServerAPI();
 
 
     @FXML
@@ -64,7 +68,12 @@ private Label loadingLabel;
 
             if (qrLoaded) return;
 
-            boolean reachable = webSocketService.isServerReachable();
+            boolean reachable = false;
+            try {
+                reachable = server.isActive();
+            } catch (IOException | InterruptedException | TokenException e) {
+             APIErrorHandler.handle(e);
+            }
 
             if (reachable) {
                 System.out.println("Server reachable ✅");

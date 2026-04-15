@@ -22,7 +22,7 @@ public class ClientsAPI {
 
     public void fetchAllClients() throws ServerErrorException, IOException, InterruptedException, TokenException{
 
-        HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[1][0])).getMethod(true);
+        HttpResponse<String> response =  APIGenericCalls.getMethod(true, SessionManager.URL[1][0]);
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();
@@ -43,7 +43,7 @@ public class ClientsAPI {
 
     public List<ClientHistory> getClientHistory(Long ID) throws InterruptedException, AuthenticationException, ServerErrorException, IOException, TokenException{
  
-        HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[1][1] + ID)).getMethod(true);
+        HttpResponse<String> response = APIGenericCalls.getMethod(true, SessionManager.URL[1][1] + ID);
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();

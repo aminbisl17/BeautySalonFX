@@ -18,7 +18,7 @@ public class QRCode {
 public String GenerateAttendaceCode() throws TokenException, IOException, InterruptedException, ServerErrorException {
 
 
-    HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[3][0])).getMethod(false);
+    HttpResponse<String> response = APIGenericCalls.getMethod(false, SessionManager.URL[3][0]);
     
       if (response.statusCode() == 401 || response.statusCode() == 403) {
 

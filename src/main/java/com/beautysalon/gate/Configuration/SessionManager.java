@@ -34,6 +34,9 @@ public class SessionManager {
         },
         {
              DotEnv.getDotEnv().get("API_SERVER_HEALTH")
+        },
+        {
+          DotEnv.getDotEnv().get("WS_AUTHENTICATION")
         }
     };
 

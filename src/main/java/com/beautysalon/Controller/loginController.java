@@ -68,22 +68,7 @@ private Label loadingLabel;
 
             if (qrLoaded) return;
 
-            boolean reachable = false;
-            try {
-                reachable = server.isActive();
-            } catch (IOException | InterruptedException | TokenException e) {
-             APIErrorHandler.handle(e);
-            }
-
-            if (reachable) {
-                System.out.println("Server reachable ✅");
-
-                serverCheckTimeline.stop(); // stop retry loop
-                fetchQRCode();              // now fetch QR
-            } else {
-                System.out.println("Server not reachable ❌ retrying...");
-                loadingLabel.setText("Waiting for server...");
-            }
+            fetchHealth();
         })
     );
 
@@ -127,6 +112,36 @@ private void startLoadingAnimation() {
     } catch (Exception e) {
         throw new RuntimeException("QR generation failed", e);
     }
+}
+
+private void fetchHealth(){
+
+    Task<Boolean> task = new Task<>() {
+         protected Boolean call() throws Exception {
+            return server.isActive();
+         }
+    };
+
+    task.setOnFailed((_)->{
+     //   loadingLabel.setText("Waiting for server...");
+     System.out.println("failed..");
+    });
+
+    task.setOnSucceeded((_) -> {
+
+         if(task.getValue()){
+             serverCheckTimeline.stop(); // stop retry loop
+                fetchQRCode(); 
+                return;
+         }
+
+         APIErrorHandler.handle(task.getException());
+            
+         });
+
+         Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
 }
 
 private void fetchQRCode(){

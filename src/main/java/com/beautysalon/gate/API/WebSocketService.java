@@ -1,4 +1,5 @@
 package com.beautysalon.gate.API;
+
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -8,89 +9,82 @@ import com.beautysalon.StageManager;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.responses.loginResponse;
 
+import javafx.application.Platform;
+
 import java.lang.reflect.Type;
+import java.net.URI;
 
 public class WebSocketService {
 
+    private final WebSocketStompClient stompClient;
     private StompSession session;
 
+    public WebSocketService() {
+        this.stompClient = new WebSocketStompClient(new StandardWebSocketClient());
+        this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+    }
+
     public void connect(String qrCode) {
+
         try {
-            WebSocketStompClient stompClient =
-                    new WebSocketStompClient(new StandardWebSocketClient());
+         //   URI uri = URI.create(SessionManager.URL[5][0]);
 
-            stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-                  session = stompClient
-                    .connect("ws://192.168.100.116:8000/ws", new StompSessionHandlerAdapter() {})
-                    .get();
-
-            subscribeToQr(qrCode);
-
-           // subscribeToQr(qrCode);
+      
+            stompClient.connectAsync(
+        SessionManager.URL[5][0],
+        new StompSessionHandlerAdapter() {}
+).thenAccept(session -> {
+    this.session = session;
+    subscribeToQr(qrCode);
+    System.out.println("Connected");
+}).exceptionally(ex -> {
+    System.out.println("Connection failed");
+    ex.printStackTrace();
+    return null;
+});
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    public boolean isServerReachable() {
-    try {
-        WebSocketStompClient stompClient =
-                new WebSocketStompClient(new StandardWebSocketClient());
-
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        StompSession testSession = stompClient
-                .connect("ws://192.168.100.116:8000/ws",
-                        new StompSessionHandlerAdapter() {})
-                .get(2, java.util.concurrent.TimeUnit.SECONDS); // timeout!
-
-        boolean ok = testSession.isConnected();
-        testSession.disconnect();
-
-        return ok;
-
-    } catch (Exception e) {
-        return false;
-    }
-}
     private void subscribeToQr(String code) {
 
-         System.out.println("code: " + code);
+        if (session == null || !session.isConnected()) {
+            System.out.println("Session not ready");
+            return;
+        }
+
         session.subscribe("/topic/qr/" + code, new StompFrameHandler() {
 
-             @Override
+            @Override
             public Type getPayloadType(StompHeaders headers) {
                 return loginResponse.class;
             }
 
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
+
                 loginResponse response = (loginResponse) payload;
 
                 SessionManager.setToken(response.getToken());
 
-                javafx.application.Platform.runLater(() -> {
-                    // login user / switch scene
-                     StageManager.getStage().close();
-                     StageManager.MainWindow();
+                Platform.runLater(() -> {
+                    StageManager.getStage().close();
+                    StageManager.MainWindow();
                 });
             }
-        }); 
-    
-
-
+        });
     }
+
     public void disconnect() {
-    try {
-        if (session != null && session.isConnected()) {
-            session.disconnect();
-            System.out.println("Disconnected old session");
+        try {
+            if (session != null && session.isConnected()) {
+                session.disconnect();
+                System.out.println("Disconnected");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-}
 }

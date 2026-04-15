@@ -2,25 +2,23 @@ package com.beautysalon.gate.Configuration;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.util.Map;
+import java.time.Duration;
 
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class APIGenericCalls extends HttpMethods{
+public class APIGenericCalls {
 
-    public String URL;
-
-    public APIGenericCalls(String URL) {
-        this.URL = URL;
-        //super(URL);
-    }
-
-    @Override
-public HttpResponse<String> getMethod(boolean auth)
+ private static HttpClient CLIENT = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+    
+public static HttpResponse<String> getMethod(boolean auth, String URL)
         throws IOException, InterruptedException, TokenException {
 
     if (auth) validateToken();
@@ -30,17 +28,16 @@ public HttpResponse<String> getMethod(boolean auth)
             .GET();
 
     if (auth) {
-        requestBuilder.header("Authorization", "Bearer " + token);
+        requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
     }
 
-    return APIClient.getClient().send(
+    return CLIENT.send(
             requestBuilder.build(),
             HttpResponse.BodyHandlers.ofString()
     );
 }
 
-@Override
-public HttpResponse<String> postMethod(boolean auth, Map<String, String> values)
+public static HttpResponse<String> postMethod(boolean auth, String URL, Map<String, String> values)
         throws TokenException, InterruptedException, IOException {
 
    if(auth)validateToken(); 
@@ -51,10 +48,17 @@ public HttpResponse<String> postMethod(boolean auth, Map<String, String> values)
 
              requestBuilder.header("Content-Type", "application/json");
     if (auth) {
-        requestBuilder.header("Authorization", "Bearer " + token);
+        requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
     } 
 
-    return APIClient.getClient().send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
+    return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
 }
+
+private static void validateToken() throws TokenException {
+    String token = SessionManager.getToken();
+        if (token == null || token.isEmpty()) {
+            throw new TokenException();
+        }
+    }
     
 }

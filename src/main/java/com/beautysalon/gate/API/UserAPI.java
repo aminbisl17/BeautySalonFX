@@ -19,7 +19,7 @@ public class UserAPI {
 
       public void getUserData()throws ServerErrorException, IOException, InterruptedException, AuthenticationException, TokenException{
    
-       HttpResponse<String> response = (new APIGenericCalls(SessionManager.URL[2][0])).getMethod(true);
+       HttpResponse<String> response = APIGenericCalls.getMethod(true, SessionManager.URL[2][0]);
         
     if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();

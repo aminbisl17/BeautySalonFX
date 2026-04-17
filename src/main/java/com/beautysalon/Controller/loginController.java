@@ -3,14 +3,13 @@ package com.beautysalon.Controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import com.beautysalon.gate.API.QRCode;
 import com.beautysalon.gate.API.ServerAPI;
-import com.beautysalon.gate.API.WebSocketService;
-import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
@@ -21,6 +20,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,9 +30,8 @@ import javafx.util.Duration;
 public class loginController{
 
      private QRCode qrcodeService = new QRCode(); 
-     private WebSocketService webSocketService = new WebSocketService();
      private ServerAPI server = new ServerAPI();
-
+     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @FXML
     private ImageView qrcode;
@@ -43,30 +42,25 @@ private AnchorPane root;
 @FXML
 private Label loadingLabel;
 
-    /* 
-    @FXML
-    private Button submitButton;
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField userpasswordField;
-
-    */
 
     private Timeline serverCheckTimeline;
-    private boolean qrLoaded = false;
-
+    private boolean qrLoaded = false, serverActivity = false;
+ 
     @FXML
     public void initialize() {
 
-  startLoadingAnimation();
+     primary();
 
+    }
+
+    public void primary(){
+        
+  startLoadingAnimation();
+   
     serverCheckTimeline = new Timeline(
         new KeyFrame(Duration.seconds(3), event -> {
 
-            if (qrLoaded) return;
+          //  if (qrLoaded) return;
 
             fetchHealth();
         })
@@ -74,12 +68,12 @@ private Label loadingLabel;
 
     serverCheckTimeline.setCycleCount(Animation.INDEFINITE);
     serverCheckTimeline.play();
-
     }
 
     private Timeline loadingAnimation;
 
 private void startLoadingAnimation() {
+
     loadingAnimation = new Timeline(
         new KeyFrame(Duration.seconds(0), e -> loadingLabel.setText("Loading")),
         new KeyFrame(Duration.seconds(0.5), e -> loadingLabel.setText("Loading.")),
@@ -114,6 +108,8 @@ private void startLoadingAnimation() {
     }
 }
 
+
+
 private void fetchHealth(){
 
     Task<Boolean> task = new Task<>() {
@@ -125,23 +121,35 @@ private void fetchHealth(){
     task.setOnFailed((_)->{
      //   loadingLabel.setText("Waiting for server...");
      System.out.println("failed..");
+     loadingLabel.setVisible(true);
+     qrcode.setVisible(false);
+
+     if(serverActivity){
+        startLoadingAnimation();
+        APIErrorHandler.handle(task.getException());
+     }
+     serverActivity = false;
     });
 
     task.setOnSucceeded((_) -> {
 
-         if(task.getValue()){
-             serverCheckTimeline.stop(); // stop retry loop
+         if(task.getValue() && !serverActivity){
+       //      serverCheckTimeline.stop(); // stop retry loop
                 fetchQRCode(); 
+         serverActivity = true;
                 return;
          }
 
-         APIErrorHandler.handle(task.getException());
+        // serverActivity = false;
+        // APIErrorHandler.handle(task.getException());
             
          });
 
-         Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
+         executor.submit(task);
+
+       //  Thread th = new Thread(task);
+        //th.setDaemon(true);
+        //th.start();
 }
 
 private void fetchQRCode(){
@@ -172,14 +180,28 @@ private void fetchQRCode(){
     loadingLabel.setVisible(false);
     qrcode.setVisible(true);
 
-    webSocketService.disconnect();
-    webSocketService.connect(code);
+    qrcodeService.disconnect();
+    qrcodeService.connect(code);
     });
 
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
+}
+
+public void shutdown() {
+    if (executor != null && !executor.isShutdown()) {
+        executor.shutdownNow();
+    }
+
+    if (serverCheckTimeline != null) {
+        serverCheckTimeline.stop();
+    }
+
+    if (loadingAnimation != null) {
+        loadingAnimation.stop();
+    }
 }
 
 }

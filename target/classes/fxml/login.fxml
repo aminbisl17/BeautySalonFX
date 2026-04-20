@@ -6,47 +6,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root"
-            prefHeight="400.0"
-            prefWidth="327.0"
-            stylesheets="@../css/authentication.css"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.beautysalon.Controller.loginController"
-            styleClass="root">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="327.0" styleClass="root" stylesheets="@../css/authentication.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.loginController">
 
    <children>
 
       <!-- CENTER CONTAINER -->
-      <VBox layoutX="0" layoutY="0"
-            prefWidth="327.0"
-            prefHeight="400.0"
-            spacing="20"
-            alignment="CENTER"
-            styleClass="card">
-
-         <!-- TITLE -->
-         <Label text="Authenticate"
-                textFill="WHITE">
-            <font>
-               <Font size="32.0"/>
-            </font>
-         </Label>
+      <VBox alignment="CENTER" layoutX="0" layoutY="0" prefHeight="400.0" prefWidth="327.0" spacing="20" styleClass="card">
 
          <!-- LOADING TEXT -->
-         <Label fx:id="loadingLabel"
-                text="Loading..."
-                styleClass="label"
-                id="loadingLabel"/>
+         <Label id="loadingLabel" fx:id="loadingLabel" alignment="CENTER" prefHeight="40.0" prefWidth="138.0" styleClass="label" text="Loading..." textAlignment="CENTER">
+            <font>
+               <Font size="24.0" />
+            </font></Label>
 
          <!-- QR CODE -->
-         <ImageView fx:id="qrcode"
-                    fitHeight="220.0"
-                    fitWidth="220.0"
-                    visible="false"
-                    pickOnBounds="true"
-                    preserveRatio="true"
-                    styleClass="image-view"/>
+         <ImageView fx:id="qrcode" fitHeight="220.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view" visible="false" />
 
       </VBox>
 

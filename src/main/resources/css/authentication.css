@@ -39,8 +39,8 @@
    LOADING TEXT (SUBTLE)
 ========================= */
 #loadingLabel {
-    -fx-text-fill: #9ca3af;
-    -fx-font-size: 14px;
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 22px;
     -fx-opacity: 0.8;
 }
 

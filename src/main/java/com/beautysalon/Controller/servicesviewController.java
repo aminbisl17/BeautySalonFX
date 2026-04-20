@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.List;
 
 import com.beautysalon.gate.API.ServicesAPI;
+import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
@@ -110,9 +111,7 @@ public class servicesviewController {
             APIErrorHandler.handle(task.getException());
         }); 
 
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
+        ExecutorConfig.submit(task);
 
     }
 
@@ -150,9 +149,7 @@ public class servicesviewController {
           imageView.setImage(null);
     });
 
-        Thread th = new Thread(task);
-         th.setDaemon(true);
-        th.start();
+    ExecutorConfig.submit(task);
     }
 
     private void atributetSherbimeve(Sherbimet s){

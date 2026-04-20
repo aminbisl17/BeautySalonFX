@@ -9,8 +9,10 @@ import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.QRCode;
 import com.beautysalon.gate.API.ServerAPI;
+import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.google.zxing.BarcodeFormat;
@@ -33,7 +35,7 @@ public class loginController {
     private final QRCode qrcodeService = new QRCode();
     private final ServerAPI server = new ServerAPI();
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+//    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @FXML
     private ImageView qrcode;
@@ -47,26 +49,23 @@ public class loginController {
     private Timeline serverCheckTimeline;
     private Timeline loadingAnimation;
 
-    private boolean qrLoaded = false;
-    private boolean serverActivity = false;
+    private boolean serverActivity = false, b = true;
 
-    // =========================
-    // INIT
-    // =========================
 
     @FXML
     public void initialize() {
+
+        StageManager.getStage().setOnCloseRequest((_)->{
+             shutdown();
+        });
         start();
     }
 
     private void start() {
+        qrcodeService.disconnect();
         startLoadingAnimation();
         startServerPolling();
     }
-
-    // =========================
-    // SERVER POLLING
-    // =========================
 
     private void startServerPolling() {
 
@@ -88,11 +87,11 @@ public class loginController {
         };
 
         task.setOnFailed(e -> {
-            loadingLabel.setVisible(true);
+          //  loadingLabel.setVisible(true);
             qrcode.setVisible(false);
-
+            b = true;
             if (serverActivity) {
-                startLoadingAnimation();
+                //startLoadingAnimation(true);
                 APIErrorHandler.handle(task.getException());
             }
 
@@ -106,21 +105,19 @@ public class loginController {
             if (isActive && !serverActivity) {
                 fetchQRCode();
                 serverActivity = true;
+                b= false;
             }
 
             if (!isActive) {
                 serverActivity = false;
-                loadingLabel.setVisible(true);
+                b = true;
+               // loadingLabel.setVisible(true);
                 qrcode.setVisible(false);
             }
         });
 
-        executor.submit(task);
+       ExecutorConfig.submit(task);
     }
-
-    // =========================
-    // QR CODE
-    // =========================
 
     private void fetchQRCode() {
 
@@ -135,28 +132,26 @@ public class loginController {
 
         task.setOnSucceeded(e -> {
 
-            qrLoaded = true;
-
             String code = task.getValue();
             Image qrImage = generateQRCode(code, 250, 250);
 
             qrcode.setImage(qrImage);
 
-            stopLoadingAnimation();
+          //  stopLoadingAnimation();
 
-            loadingLabel.setVisible(false);
+        //   startLoadingAnimation(false);
+            b = false;
+            //loadingLabel.setVisible(false);
             qrcode.setVisible(true);
 
             qrcodeService.disconnect();
             qrcodeService.connect(code);
         });
 
-        executor.submit(task);
+        ExecutorConfig.submit(task);
     }
 
-    // =========================
-    // QR GENERATION
-    // =========================
+  
 
     private Image generateQRCode(String text, int width, int height) {
         try {
@@ -181,10 +176,6 @@ public class loginController {
         }
     }
 
-    // =========================
-    // LOADING ANIMATION
-    // =========================
-
     private void startLoadingAnimation() {
 
         if (loadingAnimation != null &&
@@ -193,10 +184,10 @@ public class loginController {
         }
 
         loadingAnimation = new Timeline(
-            new KeyFrame(Duration.seconds(0), e -> loadingLabel.setText("Loading")),
-            new KeyFrame(Duration.seconds(0.5), e -> loadingLabel.setText("Loading.")),
-            new KeyFrame(Duration.seconds(1), e -> loadingLabel.setText("Loading..")),
-            new KeyFrame(Duration.seconds(1.5), e -> loadingLabel.setText("Loading..."))
+            new KeyFrame(Duration.seconds(0), e -> loadingLabel.setText(b  ? "Loading" : "Authenticate")),
+            new KeyFrame(Duration.seconds(0.5), e -> loadingLabel.setText(b ? "Loading.":"Authenticate.")),
+            new KeyFrame(Duration.seconds(1), e -> loadingLabel.setText(b ? "Loading.." : "Authenticate..")),
+            new KeyFrame(Duration.seconds(1.5), e -> loadingLabel.setText(b ? "Loading..." : "Authenticate..."))
         );
 
         loadingAnimation.setCycleCount(Animation.INDEFINITE);
@@ -209,15 +200,10 @@ public class loginController {
         }
     }
 
-    // =========================
-    // CLEANUP
-    // =========================
 
     public void shutdown() {
 
-        if (!executor.isShutdown()) {
-            executor.shutdownNow();
-        }
+        ExecutorConfig.close();
 
         if (serverCheckTimeline != null) {
             serverCheckTimeline.stop();

@@ -2,8 +2,10 @@ package com.beautysalon.Controller;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import com.beautysalon.gate.API.ClientsAPI;
+import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
@@ -121,9 +123,7 @@ public class clientsviewController {
                 APIErrorHandler.handle(task.getException()); 
         });
 
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
+        ExecutorConfig.submit(task);
     }
 
     private void fetchClientHistory(Client client){
@@ -156,9 +156,7 @@ public class clientsviewController {
             APIErrorHandler.handle(task.getException());
         });
 
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
+       ExecutorConfig.submit(task);
 
     }
 

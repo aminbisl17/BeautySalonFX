@@ -62,7 +62,7 @@ public class mainController {
 
         clientsbutton.setOnAction(e -> loadCenterContent("/fxml/clientsview.fxml"));
         servicesbutton.setOnAction(e -> loadCenterContent("/fxml/servicesview.fxml"));
-     //   profilebutton.setOnAction(e -> loadCenterContent("/fxml/profileview.fxml"));
+        profilebutton.setOnAction(e -> loadCenterContent("/fxml/profileview.fxml"));
 
     }
 

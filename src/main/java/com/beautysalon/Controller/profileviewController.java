@@ -32,7 +32,7 @@ import javafx.util.Duration;
 
 public class profileviewController {
 
-    private QRCode attendanceService = new QRCode();
+
 
     @FXML
     private TextField emailField;
@@ -49,20 +49,9 @@ public class profileviewController {
      @FXML
     private Button logoutbtn;
 
-    
-    @FXML
-    private ImageView qrcode;
-
     @FXML
     private void initialize(){
 
-        User user = SessionManager.getUser();
-        fetchQRCode();
-
-        emriField.setText(user.getEmri());
-        mbiemriField.setText(user.getMbiemri());
-        numriTelField.setText(user.getNumri_telefonit());
-        emailField.setText(user.getEmail());
 
         logoutbtn.setOnAction((_) ->{ 
 
@@ -81,62 +70,7 @@ public class profileviewController {
 
         });
 
-        Timeline timeline = new Timeline(
-    new KeyFrame(Duration.seconds(60), event -> {
-        fetchQRCode();
-    })
-);
-timeline.setCycleCount(Animation.INDEFINITE);
-timeline.play();
-
     }
 
-    private Image generateQRCode(String text, int width, int height) {
-    try {
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
 
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                bufferedImage.setRGB(x, y, bitMatrix.get(x, y) ? 0x000000 : 0xFFFFFF);
-            }
-        }
-
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", os);
-
-        return new Image(new ByteArrayInputStream(os.toByteArray()));
-
-    } catch (Exception e) {
-        throw new RuntimeException("QR generation failed", e);
-    }
-}
-
-private void fetchQRCode(){
-
-    Task<String> task = new Task<>(){
-       protected String call() throws Exception{
-            return attendanceService.GenerateAttendaceCode();
-       }
-    };
-
-    task.setOnFailed((_)->{
-          APIErrorHandler.handle(task.getException());
-    });
-
-    task.setOnSucceeded((_)->{
- 
-        System.out.println(task.getValue());
-  Image qrImage = generateQRCode(task.getValue(), 250, 250);
-  qrcode.setImage(qrImage);
-
-    });
-
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
-
-}
 }

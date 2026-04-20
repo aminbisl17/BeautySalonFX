@@ -1,9 +1,6 @@
 package com.beautysalon;
 
 import java.io.IOException;
-
-import com.beautysalon.gate.Configuration.SessionManager;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

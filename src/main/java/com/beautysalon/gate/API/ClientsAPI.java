@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
 import com.beautysalon.gate.Configuration.MapperProvider;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Model.clients.Client;

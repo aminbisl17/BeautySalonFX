@@ -12,11 +12,12 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import com.beautysalon.StageManager;
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
 import com.beautysalon.gate.Configuration.MapperProvider;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.TokenException;
+import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.responses.loginResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,7 +89,7 @@ public String GenerateAttendaceCode() throws TokenException, IOException, Interr
     private void subscribeToQr(String code) {
 
         if (session == null || !session.isConnected()) {
-            System.out.println("Session not ready");
+            APIErrorHandler.handle(new Exception("Session failed to connect!"));
             return;
         }
 

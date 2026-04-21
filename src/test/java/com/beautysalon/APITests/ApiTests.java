@@ -1,7 +1,7 @@
 package com.beautysalon.APITests;
 
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientsAPI;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Model.clients.Client;
 
 import org.junit.jupiter.api.BeforeEach;

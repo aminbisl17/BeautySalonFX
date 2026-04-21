@@ -133,15 +133,13 @@ public class loginController {
         task.setOnSucceeded(e -> {
 
             String code = task.getValue();
+    
             Image qrImage = generateQRCode(code, 250, 250);
 
             qrcode.setImage(qrImage);
-
-          //  stopLoadingAnimation();
-
-        //   startLoadingAnimation(false);
+          
             b = false;
-            //loadingLabel.setVisible(false);
+       
             qrcode.setVisible(true);
 
             qrcodeService.disconnect();

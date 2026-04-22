@@ -44,7 +44,7 @@ public class StageManager {
     }
 
     public static void MainWindow(){ 
-        createStage("login", "/fxml/MainWindow.fxml", false);
+        createStage("login", "/fxml/MainWindow.fxml", true);
      }
 
 public static Stage getStage() {

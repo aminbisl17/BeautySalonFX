@@ -97,7 +97,6 @@ public class loginController {
 
             serverActivity = false;
         });
-
         task.setOnSucceeded(e -> {
 
             boolean isActive = task.getValue();
@@ -105,7 +104,7 @@ public class loginController {
             if (isActive && !serverActivity) {
                 fetchQRCode();
                 serverActivity = true;
-                b= false;
+                b = false;
             }
 
             if (!isActive) {

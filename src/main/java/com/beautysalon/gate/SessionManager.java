@@ -1,8 +1,8 @@
-package com.beautysalon.gate.Configuration;
+package com.beautysalon.gate;
 
 import java.util.List;
 
-import com.beautysalon.gate.Model.User;
+import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.services.Sherbimet;
 import com.beautysalon.gate.responses.loginResponse;
@@ -12,7 +12,6 @@ public class SessionManager {
     private SessionManager() {}
 
     private static String token;
-    private static User currentUser;
     private static List<Sherbimet> sherbimet;
     private static List<Client> clients;
     private static loginResponse primaryResponse;
@@ -70,16 +69,8 @@ public class SessionManager {
          token = null;
     }
 
-    public static void setUser(User user) {
-        currentUser = user;
-    }
-
-    public static User getUser() {
-        return currentUser;
-    }
-
     public static boolean isAuthenticated() {
-        return token != null && currentUser != null;
+        return token != null;
     }
 
     
@@ -95,7 +86,6 @@ public class SessionManager {
     public static void clear() {
         primaryResponse = null;
         token = null;
-        currentUser = null;
         sherbimet = null;
         clients = null;
     }

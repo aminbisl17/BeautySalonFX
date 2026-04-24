@@ -1,7 +1,7 @@
 package com.beautysalon.gate.Exceptions.Handler;
 
 import com.beautysalon.StageManager;
-import com.beautysalon.gate.Configuration.SessionManager;
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Exceptions.TokenException;
 
 import javafx.application.Platform;

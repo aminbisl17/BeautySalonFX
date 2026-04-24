@@ -1,8 +1,9 @@
 package com.beautysalon.gate.API;
 
 import java.io.IOException;
+
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.TokenException;
 
 public class ServerAPI {

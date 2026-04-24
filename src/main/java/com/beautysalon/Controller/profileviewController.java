@@ -1,19 +1,17 @@
 package com.beautysalon.Controller;
 
-
 import java.util.Optional;
 import com.beautysalon.StageManager;
-import com.beautysalon.gate.Configuration.SessionManager;
+import com.beautysalon.gate.SessionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
 
 public class profileviewController {
-
 
 @FXML
 private Label roleField;

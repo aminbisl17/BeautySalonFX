@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ServicesAPI;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;

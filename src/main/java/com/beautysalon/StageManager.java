@@ -15,52 +15,37 @@ public class StageManager {
         ps = stage;
     }
     
-    public static void login(){
+    private static void createStage(String title, String FXMLSourcePath, boolean border){
 
-        try{
+      try{
 
-            Parent root = FXMLLoader.load(StageManager.class.getResource("/fxml/login.fxml"));
+            Parent root = FXMLLoader.load(StageManager.class.getResource(FXMLSourcePath));
 
-            ps.setTitle("login");
+            ps.setTitle(title);
             ps.setScene(new Scene(root));
-            ps.setMaximized(false);
-            ps.setResizable(false);
+            ps.setMaximized(border);
+            ps.setResizable(border);
             ps.show();
         
         }catch(IOException e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Loading Error");
-            alert.setHeaderText("Unable to load Login screen");
-            alert.setContentText("The login screen could not be loaded.\n"
+            alert.setHeaderText("Unable to load " + title +  " screen");
+            alert.setContentText("The  " + title +  " screen could not be loaded.\n"
                                + "Please contact support.");
 
             alert.showAndWait();
             e.printStackTrace();
         }
+
+    }
+    public static void login(){
+       createStage("login", "/fxml/login.fxml", false);
     }
 
-    public static void MainWindow(){
-        try{
-
-            Parent root = FXMLLoader.load(StageManager.class.getResource("/fxml/MainWindow.fxml"));
-
-         //   ps.setTitle(SessionManager.getUser().getEmri());
-            ps.setScene(new Scene(root));
-            ps.setMaximized(true);
-            ps.setResizable(true);
-            ps.show();
-
-        } catch(IOException e){
-               Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Loading Error");
-            alert.setHeaderText("Unable to load MainWindow");
-            alert.setContentText("The login screen could not be loaded.\n"
-                               + "Please contact support.");
-
-            alert.showAndWait();
-            e.printStackTrace();
-    }
-}
+    public static void MainWindow(){ 
+        createStage("login", "/fxml/MainWindow.fxml", true);
+     }
 
 public static Stage getStage() {
         return ps;

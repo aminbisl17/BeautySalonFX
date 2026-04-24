@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 import java.time.Duration;
 
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,6 +28,7 @@ public static HttpResponse<String> getMethod(boolean auth, String URL)
             .uri(URI.create(URL))
             .GET();
 
+       requestBuilder.header("Content-Type", "application/json");
     if (auth) {
         requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
     }

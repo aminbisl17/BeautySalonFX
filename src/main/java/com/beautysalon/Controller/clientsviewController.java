@@ -4,9 +4,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
-import com.beautysalon.gate.Configuration.SessionManager;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;

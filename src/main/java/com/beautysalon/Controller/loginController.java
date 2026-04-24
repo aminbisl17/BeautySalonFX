@@ -104,7 +104,6 @@ public class loginController {
 
             serverActivity = false;
         });
-
         task.setOnSucceeded(e -> {
 
             boolean isActive = task.getValue();
@@ -113,7 +112,6 @@ public class loginController {
                 fetchQRCode();
                 serverActivity = true;
                 b = false;
-                System.out.println("fetched");
             }
 
             if (!isActive) {
@@ -142,7 +140,7 @@ public class loginController {
         task.setOnSucceeded(e -> {
 
             String code = task.getValue();
-            Image qrImage = generateQRCode(code, 220, 220);
+           Image qrImage = generateQRCode(code, 220, 220);
 
             qrcode.setImage(qrImage);
 
@@ -150,6 +148,7 @@ public class loginController {
             qrCard.setManaged(true);
 
             b = false;
+    
             qrcode.setVisible(true);
 
             qrcodeService.disconnect();

@@ -102,9 +102,11 @@ public String GenerateAttendaceCode() throws TokenException, IOException, Interr
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
 
-                loginResponse response = (loginResponse) payload;
+                // loginResponse response = (loginResponse) payload;
 
-                SessionManager.setToken(response.getToken());
+                SessionManager.setPrimaryResponse((MapperProvider.getMapper()).convertValue(payload, loginResponse.class)); // (loginResponse) payload; 
+
+            //    SessionManager.setToken(response.getToken());
 
                 Platform.runLater(() -> {
                     StageManager.getStage().close();

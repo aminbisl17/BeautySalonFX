@@ -1,100 +1,99 @@
 /* =========================
-   ROOT (SOFT DARK MODE)
+   ROOT (LUXURY DARK)
 ========================= */
 .root {
-    -fx-background-color: #0b1220;
-    -fx-font-family: "Segoe UI", "Inter", Arial;
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, #1e1b2e);
+    -fx-font-family: "Inter", "Segoe UI", Arial;
 }
 
 /* =========================
-   CENTER CARD
+   MAIN CARD (GLASS LUXURY)
 ========================= */
 .card {
-    -fx-background-color: rgba(255, 255, 255, 0.04);
-    -fx-background-radius: 24;
-    -fx-padding: 40;
-    -fx-spacing: 20;
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-background-radius: 26;
+    -fx-padding: 44;
+    -fx-spacing: 26;
     -fx-alignment: center;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 40, 0.2, 0, 12);
-    -fx-border-color: rgba(255,255,255,0.06);
-    -fx-border-radius: 24;
+     -fx-max-width: 360;
+    -fx-pref-width: 360;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 35, 0.2, 0, 12);
+
+    -fx-border-color: rgba(255,255,255,0.08);
+    -fx-border-radius: 26;
 }
 
 /* =========================
-   TITLE (MODERN CLEAN)
+   TITLE (ELEGANT)
+========================= */
+.label.title {
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-text-fill: linear-gradient(to right, #f9a8d4, #c084fc);
+}
+
+/* =========================
+   TEXT
 ========================= */
 .label {
-    -fx-text-fill: #e5e7eb;
+    -fx-text-fill: #e9e9ef;
     -fx-font-size: 15px;
+    -fx-opacity: 0.92;
+}
+
+#loadingLabel {
+    -fx-text-fill: #d8b4fe;
+    -fx-font-size: 20px;
     -fx-opacity: 0.9;
 }
 
-.label.title {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
 /* =========================
-   LOADING TEXT (SUBTLE)
+   QR CARD (FOCUS ELEMENT)
 ========================= */
-#loadingLabel {
-    -fx-text-fill: #e5e7eb;
-    -fx-font-size: 22px;
-    -fx-opacity: 0.8;
+.qr-card {
+    -fx-background-color: white;
+    -fx-padding: 5;
+    -fx-background-radius: 20;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 25, 0.18, 0, 10);
+
+    -fx-border-color: rgba(0,0,0,0.05);
+    -fx-border-radius: 20;
+}
+
+/* Hover glow (salon accent) */
+.qr-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(236,72,153,0.35), 35, 0.25, 0, 12);
 }
 
 /* =========================
-   QR CODE (MODERN FRAME)
-========================= */
-.image-view {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 25, 0.3, 0, 8);
-    -fx-background-radius: 18;
-    -fx-border-radius: 18;
-    -fx-border-color: rgba(255,255,255,0.08);
-    -fx-border-width: 1.5;
-}
-
-.image-view:hover {
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.08), 30, 0.2, 0, 10);
-}
-
-/* =========================
-   LOADING DOT STYLE (OPTIONAL USE)
-========================= */
-.loading {
-    -fx-text-fill: #9ca3af;
-    -fx-font-size: 13px;
-    -fx-letter-spacing: 1px;
-}
-
-/* =========================
-   BUTTON (MODERN FLAT STYLE)
+   BUTTON (SALON STYLE)
 ========================= */
 .button {
-    -fx-background-color: #2563eb;
+    -fx-background-color: linear-gradient(to right, #ec4899, #c084fc);
     -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: 600;
-    -fx-background-radius: 12;
-    -fx-padding: 10 18;
+    -fx-background-radius: 14;
+    -fx-padding: 10 20;
     -fx-cursor: hand;
+
+    -fx-effect: dropshadow(gaussian, rgba(236,72,153,0.4), 12, 0.25, 0, 4);
 }
 
 .button:hover {
-    -fx-background-color: #1d4ed8;
+    -fx-background-color: linear-gradient(to right, #db2777, #a855f7);
 }
 
 .button:pressed {
-    -fx-background-color: #1e40af;
+    -fx-background-color: linear-gradient(to right, #be185d, #9333ea);
 }
 
 /* =========================
-   CLEAN GLASS PANEL (SOFT)
+   SECONDARY TEXT
 ========================= */
-.glass {
-    -fx-background-color: rgba(255, 255, 255, 0.03);
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
-    -fx-border-color: rgba(255,255,255,0.05);
+.loading {
+    -fx-text-fill: #a1a1aa;
+    -fx-font-size: 13px;
+    -fx-letter-spacing: 1px;
 }

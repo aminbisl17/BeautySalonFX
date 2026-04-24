@@ -2,35 +2,46 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.profileviewController">
-   <center>
-      <VBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
-         <children>
-            <TextField fx:id="emriField" editable="false" />
-            <TextField fx:id="mbiemriField" editable="false" />
-            <TextField fx:id="numriTelField" editable="false" />
-            <TextField fx:id="emailField" editable="false" />
-            <ImageView fx:id="qrcode" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-         </BorderPane.margin>
-      </VBox>
-   </center>
-   <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button fx:id="logoutbtn" mnemonicParsing="false" text="Log out" />
-        </items>
-         <BorderPane.margin>
-            <Insets left="50.0" right="50.0" top="20.0" />
-         </BorderPane.margin>
-      </ToolBar>
-   </top>
+<BorderPane stylesheets="@../css/profile.css"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.beautysalon.Controller.profileviewController">
+
+    <!-- TOP BAR -->
+    <top>
+        <ToolBar styleClass="top-bar">
+            <items>
+                <Label text="Beauty Salon" styleClass="app-title"/>
+                <Button fx:id="logoutbtn" text="Logout" styleClass="logout-btn"/>
+            </items>
+        </ToolBar>
+    </top>
+
+    <!-- CENTER PROFILE -->
+    <center>
+        <StackPane alignment="CENTER">
+            <children>
+
+                <VBox styleClass="profile-card" alignment="CENTER" spacing="16">
+
+                    <Label text="Profile" styleClass="title"/>
+
+                    <Label text="Username" styleClass="label"/>
+                    <Label fx:id="emriField" styleClass="profile-value"/>
+
+                    <Label text="Role" styleClass="label"/>
+                    <Label fx:id="roleField" styleClass="role-badge"/>
+
+                </VBox>
+
+            </children>
+        </StackPane>
+    </center>
+
 </BorderPane>

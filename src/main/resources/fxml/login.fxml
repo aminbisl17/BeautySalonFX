@@ -20,7 +20,16 @@
             </font></Label>
 
          <!-- QR CODE -->
-         <ImageView fx:id="qrcode" fitHeight="220.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view" visible="false" />
+
+         <VBox styleClass="qr-card" fx:id="qrCard"    AnchorPane.topAnchor="0.0"
+      AnchorPane.bottomAnchor="0.0"
+      AnchorPane.leftAnchor="0.0"
+      AnchorPane.rightAnchor="0.0"
+      alignment="CENTER">
+      
+    <ImageView fx:id="qrcode" fitWidth="220" fitHeight="220"/>
+             </VBox>   
+  <!--         <ImageView fx:id="qrcode" fitHeight="220.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view" visible="false" />-->
 
       </VBox>
 

@@ -1,0 +1,103 @@
+/* =========================
+   ROOT (MODERN DARK LUXURY)
+========================= */
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #0b1220, #111827);
+    -fx-font-family: "Inter", "Segoe UI", Arial;
+}
+
+/* =========================
+   PROFILE CARD (MAIN FOCUS)
+========================= */
+.profile-card {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 28;
+    -fx-padding: 40;
+    -fx-spacing: 18;
+    -fx-alignment: center;
+
+    /* softer, deeper shadow */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0.25, 0, 14);
+
+    -fx-border-color: rgba(255,255,255,0.06);
+    -fx-border-radius: 28;
+
+    /* FIXED WIDTH = prevents ugly stretching */
+    -fx-max-width: 340;
+}
+
+/* =========================
+   TITLE (PROFILE HEADER)
+========================= */
+.title {
+    -fx-font-size: 26px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+}
+
+/* =========================
+   LABELS (DESCRIPTORS)
+========================= */
+.label {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 12px;
+    -fx-letter-spacing: 1px;
+}
+
+/* =========================
+   VALUES (USERNAME DISPLAY)
+========================= */
+.profile-value {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+
+    -fx-padding: 6 0 10 0;
+}
+
+/* =========================
+   ROLE BADGE (MODERN CHIP)
+/* =========================
+   LOGOUT BUTTON (SOFT DANGER)
+========================= */
+
+.role-badge {
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-padding: 6 16;
+    -fx-background-radius: 999;
+    -fx-font-size: 12px;
+}
+
+/* admin modifier */
+.role-badge.role-admin {
+    -fx-background-color: linear-gradient(to right, #f59e0b, #f97316);
+    -fx-effect: dropshadow(gaussian, rgba(245,158,11,0.3), 10, 0.2, 0, 3);
+}
+
+/* employee modifier */
+.role-badge.role-employee {
+    -fx-background-color: linear-gradient(to right, #10b981, #22c55e);
+    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.3), 10, 0.2, 0, 3);
+}
+
+.logout-btn {
+    -fx-background-color: linear-gradient(to right, #ef4444, #dc2626);
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+
+    -fx-background-radius: 14;
+    -fx-padding: 10 18;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(gaussian, rgba(239,68,68,0.35), 12, 0.25, 0, 6);
+}
+
+.logout-btn:hover {
+    -fx-background-color: linear-gradient(to right, #dc2626, #b91c1c);
+}
+
+.logout-btn:pressed {
+    -fx-background-color: #991b1b;
+    -fx-translate-y: 1;
+}

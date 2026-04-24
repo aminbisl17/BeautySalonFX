@@ -5,6 +5,7 @@ import java.util.List;
 import com.beautysalon.gate.Model.User;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.services.Sherbimet;
+import com.beautysalon.gate.responses.loginResponse;
 
 public class SessionManager {
 
@@ -14,7 +15,7 @@ public class SessionManager {
     private static User currentUser;
     private static List<Sherbimet> sherbimet;
     private static List<Client> clients;
-
+    private static loginResponse primaryResponse;
 
     public static String[][] URL = {
         {
@@ -81,7 +82,18 @@ public class SessionManager {
         return token != null && currentUser != null;
     }
 
+    
+    public static loginResponse getPrimaryResponse() {
+        return primaryResponse;
+    }
+
+    public static void setPrimaryResponse(loginResponse primaryresponse) {
+         primaryResponse = primaryresponse;
+         token = primaryresponse.getToken();
+    }
+
     public static void clear() {
+        primaryResponse = null;
         token = null;
         currentUser = null;
         sherbimet = null;

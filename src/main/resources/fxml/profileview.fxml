@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane stylesheets="@../css/profile.css"
@@ -17,31 +16,32 @@
     <top>
         <ToolBar styleClass="top-bar">
             <items>
-                <Label text="Beauty Salon" styleClass="app-title"/>
                 <Button fx:id="logoutbtn" text="Logout" styleClass="logout-btn"/>
             </items>
         </ToolBar>
     </top>
 
-    <!-- CENTER PROFILE -->
+    <!-- CENTER PROFILE (LEFT ALIGNED) -->
     <center>
-        <StackPane alignment="CENTER">
-            <children>
+        <VBox alignment="TOP_LEFT" spacing="15">
 
-                <VBox styleClass="profile-card" alignment="CENTER" spacing="16">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
 
-                    <Label text="Profile" styleClass="title"/>
+            <VBox styleClass="profile-card" spacing="10">
 
-                    <Label text="Username" styleClass="label"/>
-                    <Label fx:id="emriField" styleClass="profile-value"/>
+                <Label text="Profile" styleClass="title"/>
 
-                    <Label text="Role" styleClass="label"/>
-                    <Label fx:id="roleField" styleClass="role-badge"/>
+                <Label text="Username" styleClass="label"/>
+                <Label fx:id="emriField" styleClass="profile-value"/>
 
-                </VBox>
+                <Label text="Role" styleClass="label"/>
+                <Label fx:id="roleField" styleClass="role-badge"/>
 
-            </children>
-        </StackPane>
+            </VBox>
+
+        </VBox>
     </center>
 
 </BorderPane>

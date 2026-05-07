@@ -46,6 +46,7 @@ public class ClientsAPI {
         HttpResponse<String> response = APIGenericCalls.getMethod(true, SessionManager.URL[1][1] + ID);
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
+            System.out.println(response);
         throw new TokenException();
     }
 

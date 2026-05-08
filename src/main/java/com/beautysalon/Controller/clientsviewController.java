@@ -138,7 +138,7 @@ public class clientsviewController {
          task.setOnSucceeded((_)->{
             
                 //List<ClientHistory> history = task.getValue();
-               // client.setClientHistory(history);
+                client.setClientHistory(task.getValue());
                 historyTable.setItems(FXCollections.observableArrayList(task.getValue()));
         });
 
@@ -162,11 +162,12 @@ public class clientsviewController {
 
     private void ClientProfile(Client client){
        
+    client.setClientHistory(null);
     TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Klienti");
     eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_klientit"));
 
         TableColumn<ClientHistory, String> atrCol = new TableColumn<>("Puntori");
-    atrCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_puntorit"));
+    atrCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_punonjesit"));
 
     TableColumn<ClientHistory, String> dateCol = new TableColumn<>("Data e sherbimit");
     dateCol.setCellValueFactory(cd ->

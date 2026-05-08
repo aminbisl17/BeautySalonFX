@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ClientHistory {
     
-    private String emri_mbiemri_klientit, emri_mbiemri_puntorit;
+    private String emri_mbiemri_klientit, emri_mbiemri_punonjesit;
     private LocalDateTime data_sherbimit;
     private List<Historiku_detajet> detajet;
 
@@ -31,13 +31,13 @@ public class ClientHistory {
     }
 
 
-    public String getEmri_mbiemri_puntorit() {
-        return emri_mbiemri_puntorit;
+    public String getEmri_mbiemri_punonjesit() {
+        return emri_mbiemri_punonjesit;
     }
 
 
-    public void setEmri_mbiemri_puntorit(String emri_mbiemri_puntorit) {
-        this.emri_mbiemri_puntorit = emri_mbiemri_puntorit;
+    public void setEmri_mbiemri_punonjesit(String emri_mbiemri_punonjesit) {
+        this.emri_mbiemri_punonjesit = emri_mbiemri_punonjesit;
     }
    
     public ClientHistory(){}

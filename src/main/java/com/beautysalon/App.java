@@ -17,7 +17,8 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, AuthenticationException, ServerErrorException, InterruptedException {
          DotEnv.init();
          StageManager.init(stage);
-         StageManager.login();
+      //   StageManager.login();
+        StageManager.MainWindow(); 
     }
 
     public static void main(String[] args) {

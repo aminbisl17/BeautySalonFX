@@ -159,14 +159,7 @@ public class servicesviewController {
         TableColumn<Atributet_sherbimeve, Integer> idcol = new TableColumn<>("ID");
          idcol.setCellValueFactory(new PropertyValueFactory<>("id_atributit"));
 
-         TableColumn<Atributet_sherbimeve, String> kzcol = new TableColumn<>("Kohëzgjatja");
-         kzcol.setCellValueFactory(cd ->
-    new SimpleStringProperty(
-        cd.getValue().getKohezgjatja()
-            .format(DateTimeFormatter.ofPattern("HH:mm"))
-    ));
-
-
+    
          TableColumn<Atributet_sherbimeve, String> opcol = new TableColumn<>("Emri");
          opcol.setCellValueFactory(new PropertyValueFactory<>("opsioni"));
 
@@ -176,6 +169,20 @@ public class servicesviewController {
          TableColumn<Atributet_sherbimeve, Double> qcol = new TableColumn<>("Qmimi");
          qcol.setCellValueFactory(new PropertyValueFactory<>("qmimi"));
 
+TableColumn<Atributet_sherbimeve, String> kzcol = new TableColumn<>("Kohëzgjatja");
+
+kzcol.setCellValueFactory(cellData -> {
+    int minutes = cellData.getValue().getKohezgjatja();
+
+    int hours = minutes / 60;
+    int mins = minutes % 60;
+
+    String formatted = (hours > 0)
+            ? hours + "h " + mins + "m"
+            : mins + "m";
+
+    return new SimpleStringProperty(formatted);
+});
 
          TableColumn<Atributet_sherbimeve, Integer> zcol = new TableColumn<>("Zbritja");
          zcol.setCellValueFactory(new PropertyValueFactory<>("zbritja"));

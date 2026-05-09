@@ -1,15 +1,12 @@
 package com.beautysalon.gate.Model.services;
 
-import java.time.LocalTime;
-
 public class Atributet_sherbimeve {
         
     private Long id_atributit;
     private String opsioni;
     private String pershkrimi;
     private Double qmimi;
-    private Integer zbritja;
-    private LocalTime kohezgjatja;
+    private Integer zbritja, kohezgjatja;
 
     public Atributet_sherbimeve(){}
     
@@ -44,10 +41,10 @@ public class Atributet_sherbimeve {
     public void setZbritja(Integer zbritja) {
         this.zbritja = zbritja;
     }
-    public LocalTime getKohezgjatja() {
+    public int getKohezgjatja() {
         return kohezgjatja;
     }
-    public void setKohezgjatja(LocalTime kohezgjatja) {
+    public void setKohezgjatja(int kohezgjatja) {
         this.kohezgjatja = kohezgjatja;
     }
 }

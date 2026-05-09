@@ -32,7 +32,8 @@ public class mainController {
     @FXML
     public void initialize(){
 
-        loadCenterContent("/fxml/clientsview.fxml");
+        CenterController.setMainpane(mainpane);
+        CenterController.loadCenterContent("clientsview.fxml");
 
         Button[] buttons = new Button[]{profilebutton, terminetbutton, clientsbutton, servicesbutton};
 
@@ -60,19 +61,9 @@ public class mainController {
            }
         });
 
-        clientsbutton.setOnAction(e -> loadCenterContent("/fxml/clientsview.fxml"));
-        servicesbutton.setOnAction(e -> loadCenterContent("/fxml/servicesview.fxml"));
-        profilebutton.setOnAction(e -> loadCenterContent("/fxml/profileview.fxml"));
+        clientsbutton.setOnAction(e -> CenterController.loadCenterContent("clientsview.fxml"));
+        servicesbutton.setOnAction(e -> CenterController.loadCenterContent("servicesview.fxml"));
+        profilebutton.setOnAction(e -> CenterController.loadCenterContent("profileview.fxml"));
 
     }
-
-      private void loadCenterContent(String fxmlPath) {
-        try {
-            BorderPane node = FXMLLoader.load(getClass().getResource(fxmlPath));
-            mainpane.setCenter(node);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

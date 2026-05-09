@@ -1,6 +1,5 @@
 package com.beautysalon.gate.Model.services;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,8 +15,7 @@ public class Sherbimet {
     private String emri_sherbimit;
     private String pershkrimi;
     private Double qmimi_baze;
-    private int zbritja;
-    private LocalTime kohezgjatja;
+    private int zbritja, kohezgjatja;
 
     private List<Atributet_sherbimeve> atributet;
 
@@ -59,10 +57,10 @@ public class Sherbimet {
     public void setZbritja(int zbritja) {
         this.zbritja = zbritja;
     }
-    public LocalTime getKohezgjatja() {
+    public int getKohezgjatja() {
         return kohezgjatja;
     }
-    public void setKohezgjatja(LocalTime kohezgjatja) {
+    public void setKohezgjatja(int kohezgjatja) {
         this.kohezgjatja = kohezgjatja;
     }
 }

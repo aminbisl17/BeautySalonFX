@@ -126,44 +126,12 @@ public class clientsviewController {
         ExecutorConfig.submit(task);
     }
 
-    private void fetchClientHistory(Client client){
-      Task<List<ClientHistory>> task = new Task<>(){
-
-        @Override
-        protected List<ClientHistory> call() throws Exception {
-           return clientsService.getClientHistory(client.getID());
-        }
-      };
-
-         task.setOnSucceeded((_)->{
-            
-                //List<ClientHistory> history = task.getValue();
-                client.setClientHistory(task.getValue());
-                historyTable.setItems(FXCollections.observableArrayList(task.getValue()));
-        });
-
-           task.setOnFailed((_)->{
-        /*      Throwable ex = task.getException();
-            ex.printStackTrace();
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error fetching clients history");
-                alert.setHeaderText(ex.getClass().getSimpleName());
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
-              //  ExpiredToken.RedirectAfterExpire();
-            }); */
-            APIErrorHandler.handle(task.getException());
-        });
-
-       ExecutorConfig.submit(task);
-
-    }
-
     private void ClientProfile(Client client){
-       
-    client.setClientHistory(null);
-    TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Klienti");
+    
+
+    SessionManager.setClient(client);
+    CenterController.loadCenterContent("ClientProfile.fxml");
+/*     TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Klienti");
     eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_klientit"));
 
         TableColumn<ClientHistory, String> atrCol = new TableColumn<>("Puntori");
@@ -215,5 +183,7 @@ public class clientsviewController {
     stage.setScene(new Scene(root, 600, 400));
     stage.showAndWait();
     }
+    */
+}
 }
 

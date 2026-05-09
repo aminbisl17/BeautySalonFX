@@ -1,6 +1,8 @@
 package com.beautysalon;
 
 import java.io.IOException;
+
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +15,10 @@ public class StageManager {
 
     public static void init(Stage stage) {
         ps = stage;
+        ps.setOnCloseRequest(e -> {
+         Platform.exit();
+           System.exit(0);
+        });
     }
     
     private static void createStage(String title, String FXMLSourcePath, boolean border){

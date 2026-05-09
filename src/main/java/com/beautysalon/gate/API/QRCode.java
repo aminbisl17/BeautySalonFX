@@ -112,6 +112,7 @@ public String GenerateAttendaceCode() throws TokenException, IOException, Interr
                 Platform.runLater(() -> {
                     StageManager.getStage().close();
                     StageManager.MainWindow();
+                    disconnect();
                 });
             }
         });

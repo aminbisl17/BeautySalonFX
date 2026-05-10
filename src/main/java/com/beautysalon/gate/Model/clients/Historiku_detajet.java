@@ -2,8 +2,17 @@ package com.beautysalon.gate.Model.clients;
 
 public class Historiku_detajet {
 
+        private Long id_historikut_detajet;
         private String emri_sherbimit, emri_atributit, pershkrimi;
         private Double pagesa;
+
+            public Long getId_historikut_detajet() {
+            return id_historikut_detajet;
+        }
+
+        public void setId_historikut_detajet(Long id_historikut_detajet) {
+            this.id_historikut_detajet = id_historikut_detajet;
+        }
 
         public String getEmri_sherbimit() {
             return emri_sherbimit;

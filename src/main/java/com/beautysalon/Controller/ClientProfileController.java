@@ -9,15 +9,21 @@ import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
+import com.beautysalon.gate.Model.clients.Historiku_detajet;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class ClientProfileController {
     
@@ -27,11 +33,16 @@ public class ClientProfileController {
     @FXML
     private TableView<ClientHistory> historyField;
 
+    private TableView<Historiku_detajet> historikuDetajetTable = new TableView<>();
+
     @FXML
     private TextField mbiemriField;
 
     @FXML
     private TextField numriTelField;
+
+     @FXML
+    private TableColumn<ClientHistory, Long> idCol;
 
     @FXML
     private TableColumn<ClientHistory, String> emriPunonjesitCol;
@@ -40,6 +51,11 @@ public class ClientProfileController {
     private TableColumn<ClientHistory, String> dataSherbimitCol;
 
     private ClientsAPI clientsService = new ClientsAPI();
+
+    private TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
+private TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
+private TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
+private TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
 
     @FXML
     public void initialize(){
@@ -51,11 +67,13 @@ public class ClientProfileController {
         return;
     }
 
+  historikuDetajetTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         emriField.setText(client.getEmri());
         mbiemriField.setText(client.getMbiemri());
         numriTelField.setText(client.getNumri_telefonit());
 
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id_historikut"));
         emriPunonjesitCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_punonjesit"));
 
         dataSherbimitCol.setCellValueFactory(cd ->
@@ -69,6 +87,24 @@ public class ClientProfileController {
    // if (history == null) {
        // historyField.getItems().setAll(history);
        fetchClientHistory(client);
+
+       historyField.setRowFactory(tv -> {
+    TableRow<ClientHistory> row = new TableRow<>();
+
+    row.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 2 && !row.isEmpty()) { // double click (recommended)
+            
+            ClientHistory selected = row.getItem();
+
+            List<Historiku_detajet> details =
+                    selected.getDetajet(); // adjust if your getter name differs
+
+            HistorikuDetajet(details); // open popup
+        }
+    });
+
+    return row;
+});
     //}
     
     //historyField.getColumns().setAll(List.of(emriField, dataSherbimitCol));
@@ -109,4 +145,33 @@ public class ClientProfileController {
 
     }
 
+  private void HistorikuDetajet(List<Historiku_detajet> data){
+
+    // columns
+     TableColumn<Historiku_detajet, Long> idCol = new TableColumn<>("ID");
+    TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
+    TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
+    TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
+    TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
+
+    // bindings
+    idCol.setCellValueFactory(new PropertyValueFactory<>("id_historikut_detajet"));
+    sherbimiCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
+    atributiCol.setCellValueFactory(new PropertyValueFactory<>("emri_atributit"));
+    pershkrimiCol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
+    pagesaCol.setCellValueFactory(new PropertyValueFactory<>("pagesa"));
+
+    TableView<Historiku_detajet> table = new TableView<>();
+    table.getColumns().setAll(List.of(idCol, sherbimiCol, atributiCol, pershkrimiCol, pagesaCol));
+
+    table.setItems(FXCollections.observableArrayList(data));
+
+    VBox root = new VBox(10, table);
+    root.setPadding(new Insets(10));
+
+    Stage stage = new Stage();
+    stage.setTitle("Detajet e Historise");
+    stage.setScene(new Scene(root, 600, 400));
+     stage.showAndWait();
+}
 }

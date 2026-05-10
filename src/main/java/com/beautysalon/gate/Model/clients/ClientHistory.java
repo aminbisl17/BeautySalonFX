@@ -5,10 +5,20 @@ import java.util.List;
 
 public class ClientHistory {
     
+    private Long id_historikut;
     private String emri_mbiemri_klientit, emri_mbiemri_punonjesit;
     private LocalDateTime data_sherbimit;
     private List<Historiku_detajet> detajet;
 
+
+        public Long getId_historikut() {
+        return id_historikut;
+    }
+
+
+    public void setId_historikut(Long id_historikut) {
+        this.id_historikut = id_historikut;
+    }
 
 
     public List<Historiku_detajet> getDetajet() {

@@ -19,6 +19,7 @@
    <bottom>
       <TableView fx:id="historyField" BorderPane.alignment="CENTER">
          <columns>
+            <TableColumn fx:id="idCol" editable="false" prefWidth="75.0" sortable="false" text="ID" />
             <TableColumn fx:id="emriPunonjesitCol" editable="false" prefWidth="75.0" text="Punonjesi" />
             <TableColumn fx:id="dataSherbimitCol" editable="false" prefWidth="75.0" sortable="false" text="Data e sherbimit" />
          </columns>

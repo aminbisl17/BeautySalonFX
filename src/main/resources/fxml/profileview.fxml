@@ -3,45 +3,92 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane stylesheets="@../css/profile.css"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.beautysalon.Controller.profileviewController">
+            fx:controller="com.beautysalon.Controller.profileviewController"
+            styleClass="root">
 
-    <!-- TOP BAR -->
-    <top>
-        <ToolBar styleClass="top-bar">
-            <items>
-                <Button fx:id="logoutbtn" text="Logout" styleClass="logout-btn"/>
-            </items>
-        </ToolBar>
-    </top>
-
-    <!-- CENTER PROFILE (LEFT ALIGNED) -->
     <center>
-        <VBox alignment="TOP_LEFT" spacing="15">
 
-            <padding>
-                <Insets top="30" right="30" bottom="30" left="30"/>
-            </padding>
+        <!-- CENTER COLUMN CONTAINER -->
+        <HBox alignment="CENTER">
 
-            <VBox styleClass="profile-card" spacing="10">
+            <!-- VERTICAL PANEL -->
+            <VBox styleClass="profile-panel" spacing="25">
 
-                <Label text="Profile" styleClass="title"/>
+                <padding>
+                    <Insets top="40" right="50" bottom="40" left="50"/>
+                </padding>
 
-                <Label text="Username" styleClass="label"/>
-                <Label fx:id="emriField" styleClass="profile-value"/>
+                <!-- HEADER -->
+                <VBox spacing="6">
+                    <Label text="Profile" styleClass="page-title"/>
+                    <Label text="Account settings and personal information"
+                           styleClass="page-subtitle"/>
+                </VBox>
 
-                <Label text="Role" styleClass="label"/>
-                <Label fx:id="roleField" styleClass="role-badge"/>
+                <!-- USER HEADER -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+
+                    <ImageView fx:id="avatar"
+                               fitWidth="80"
+                               fitHeight="80"
+                               styleClass="avatar"/>
+
+                    <VBox spacing="4">
+                        <Label fx:id="emriField" styleClass="username"/>
+                        <Label fx:id="roleField" styleClass="role-text"/>
+                        <Label text="Active account" styleClass="muted-text"/>
+                    </VBox>
+
+                </HBox>
+
+                <!-- DIVIDER -->
+                <VBox styleClass="divider"/>
+
+                <!-- INFO -->
+                <VBox spacing="12">
+
+                    <Label text="Account Information" styleClass="section-title"/>
+
+                    <Label text="Username" styleClass="label"/>
+                    <Label fx:id="usernameField" styleClass="value"/>
+
+                    <Label text="Phone" styleClass="label"/>
+                    <Label fx:id="phoneField" styleClass="value"/>
+
+                    <Label text="Registration Date" styleClass="label"/>
+                    <Label fx:id="dataField" styleClass="value"/>
+
+                </VBox>
+
+                <!-- DIVIDER -->
+                <VBox styleClass="divider"/>
+
+                <!-- ACTIONS -->
+                <HBox spacing="10">
+
+                    <Button text="Edit Profile"
+                            styleClass="primary-btn"/>
+
+                    <HBox HBox.hgrow="ALWAYS"/>
+
+                    <Button fx:id="logoutbtn"
+                            text="Logout"
+                            styleClass="logout-btn"/>
+
+                </HBox>
 
             </VBox>
 
-        </VBox>
+        </HBox>
+
     </center>
 
 </BorderPane>

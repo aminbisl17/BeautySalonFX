@@ -11,7 +11,7 @@ public class SessionManager {
 
     private SessionManager() {}
 
-    private static String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjM09EUTVNelUwTUN3aVpYaHdJam94TnpjNE5USTVOVFF3ZlEuMkY4SnRDZGlNb0dYSzQ0bS1yNUYwNHUtSkxfblpqalJFS0tyMnVvOHgzNCIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc3ODQ5MzYxNywiZXhwIjoxNzc4NTI5NjE3fQ.ntSpCC-C-e6Z1LoTGfbHJ1Z-eykhCefQi-dJ49fWu-M";
+    private static String token;
     private static List<Sherbimet> sherbimet;
     private static List<Client> clients;
     private static Client client;

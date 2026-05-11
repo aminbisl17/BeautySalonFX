@@ -15,6 +15,15 @@ public class mainController {
     private BorderPane mainpane;
 
     @FXML
+    private VBox sidebar;
+
+    @FXML
+    private VBox sidebarContent;
+
+    @FXML
+    private Button toggleBtn;
+
+    @FXML
     private Button clientsbutton;
 
     @FXML
@@ -25,54 +34,60 @@ public class mainController {
 
     @FXML
     private Button terminetbutton;
-@FXML
-private VBox sidebar;
 
-@FXML
-private Button toggleBtn;
+    private boolean expanded = false;
 
-private boolean pinned = false;
-@FXML
-public void initialize() {
+    @FXML
+    public void initialize() {
 
-    CenterController.setMainpane(mainpane);
-    CenterController.loadCenterContent("clientsview.fxml");
+        CenterController.setMainpane(mainpane);
+        CenterController.loadCenterContent("clientsview.fxml");
 
-    // START COLLAPSED
-    sidebar.getStyleClass().add("collapsed");
+        // START COLLAPSED
+        sidebar.setPrefWidth(70);
+        sidebarContent.setVisible(false);
+        sidebarContent.setManaged(false);
 
-    toggleBtn.setOnAction(e -> {
-        pinned = !pinned;
+        toggleBtn.setOnAction(e -> toggleSidebar());
 
-        if (pinned) {
-            sidebar.getStyleClass().remove("collapsed");
-        } else {
-            sidebar.getStyleClass().add("collapsed");
+        clientsbutton.setOnAction(e ->
+                CenterController.loadCenterContent("clientsview.fxml"));
+
+        servicesbutton.setOnAction(e ->
+                CenterController.loadCenterContent("servicesview.fxml"));
+
+        profilebutton.setOnAction(e ->
+                CenterController.loadCenterContent("profileview.fxml"));
+    }
+
+    private void toggleSidebar() {
+
+        double start = expanded ? 220 : 70;
+        double end = expanded ? 70 : 220;
+
+        Timeline timeline = new Timeline();
+
+        KeyValue kv = new KeyValue(sidebar.prefWidthProperty(), end);
+
+        KeyFrame kf = new KeyFrame(Duration.millis(250), kv);
+
+        timeline.getKeyFrames().add(kf);
+
+        if (!expanded) {
+            sidebarContent.setVisible(true);
+            sidebarContent.setManaged(true);
         }
 
-        refreshLayout();
-    });
+        timeline.setOnFinished(event -> {
 
-    sidebar.setOnMouseEntered(e -> {
-        if (!pinned) {
-            sidebar.getStyleClass().remove("collapsed");
-            refreshLayout();
-        }
-    });
+            if (expanded) {
+                sidebarContent.setVisible(false);
+                sidebarContent.setManaged(false);
+            }
 
-    sidebar.setOnMouseExited(e -> {
-        if (!pinned) {
-            sidebar.getStyleClass().add("collapsed");
-            refreshLayout();
-        }
-    });
+            expanded = !expanded;
+        });
 
-    clientsbutton.setOnAction(e -> CenterController.loadCenterContent("clientsview.fxml"));
-    servicesbutton.setOnAction(e -> CenterController.loadCenterContent("servicesview.fxml"));
-    profilebutton.setOnAction(e -> CenterController.loadCenterContent("profileview.fxml"));
-}
-private void refreshLayout() {
-    sidebar.applyCss();
-    sidebar.layout();
-}
+        timeline.play();
+    }
 }

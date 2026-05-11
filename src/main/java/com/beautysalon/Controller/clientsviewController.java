@@ -18,6 +18,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.scene.control.TextField;
+
 
 
 public class clientsviewController {
@@ -36,9 +40,12 @@ public class clientsviewController {
     private ClientsAPI clientsService = new ClientsAPI();
 
     @FXML
+private TextField searchField;
+
+    @FXML
     public void initialize(){
 
-        refreshbutton.setOnAction((_) ->{ table.getItems().clear(); fetchClientsAsync(); });
+        refreshbutton.setOnAction((_) ->{ fetchClientsAsync(); });
 
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
@@ -94,7 +101,8 @@ public class clientsviewController {
         fetchClientsAsync();
         return;
    }
-   table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
+  // table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
+  setupSearch(SessionManager.getClients());
 
     }
     private void fetchClientsAsync() {
@@ -109,8 +117,8 @@ public class clientsviewController {
 
         task.setOnSucceeded((_) -> {
     
-            table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
-            
+           // table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
+            setupSearch(SessionManager.getClients());
         });
 
         task.setOnFailed(event -> {
@@ -119,5 +127,44 @@ public class clientsviewController {
 
         ExecutorConfig.submit(task);
     }
+
+    private void setupSearch(List<Client> clients) {
+
+    FilteredList<Client> filteredData =
+            new FilteredList<>(
+                    FXCollections.observableArrayList(clients),
+                    b -> true
+            );
+
+    searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+
+        filteredData.setPredicate(client -> {
+
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String keyword = newValue.toLowerCase();
+
+            if (client.getEmri() != null &&
+                    client.getEmri().toLowerCase().contains(keyword)) {
+                return true;
+            }
+
+            if (client.getMbiemri() != null &&
+                    client.getMbiemri().toLowerCase().contains(keyword)) {
+                return true;
+            }
+
+            return false;
+        });
+    });
+
+    SortedList<Client> sortedData = new SortedList<>(filteredData);
+
+    sortedData.comparatorProperty().bind(table.comparatorProperty());
+
+    table.setItems(sortedData);
+}
 }
 

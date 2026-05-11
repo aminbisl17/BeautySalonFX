@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
@@ -22,6 +24,7 @@
 
     <!-- TOP BAR -->
     <top>
+
         <HBox spacing="15"
               alignment="CENTER_LEFT"
               styleClass="top-bar">
@@ -33,24 +36,53 @@
             <children>
 
                 <VBox spacing="4">
+
                     <children>
-                        <Label text="Client Profile"
+
+                        <Label text="Profili i klientit"
                                styleClass="title-label"/>
 
-                        <Label text="Manage client information and service history"
+                        <Label text="Menaxhoni informacionin e klientit dhe historikun e shërbimit"
                                styleClass="subtitle-label"/>
+
                     </children>
+
                 </VBox>
 
                 <HBox HBox.hgrow="ALWAYS"/>
 
-                <Button
-                        fx:id="rollbackBtn"
-                        text="← Back to Clients"
-                        styleClass="rollback-btn"/>
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+
+    <Button fx:id="editBtn"
+            text="Ndrysho të dhënat"
+            styleClass="action-btn"/>
+
+    <Button fx:id="saveBtn"
+            text="Ruaj ndryshimet"
+            visible="false"
+            managed="false"
+            styleClass="save-btn"/>
+
+    <Button fx:id="cancelBtn"
+            text="Anulo ndryshimet"
+            visible="false"
+            managed="false"
+            styleClass="cancel-btn"/>
+
+    <Button fx:id="deleteBtn"
+            text="Fshi"
+            styleClass="delete-btn"/>
+
+    <Button fx:id="rollbackBtn"
+            text="← Kthehu"
+            styleClass="rollback-btn"/>
+
+</HBox>
 
             </children>
+
         </HBox>
+
     </top>
 
     <!-- CENTER CONTENT -->
@@ -71,46 +103,137 @@
 
                     <children>
 
-                        <Label text="Client Information"
+                        <Label text="Informacioni i Klientit"
                                styleClass="section-title"/>
 
-                        <HBox spacing="15">
+                        <GridPane hgap="18"
+                                  vgap="18">
 
-                            <children>
+                            <columnConstraints>
 
-                                <VBox spacing="8" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="First Name"
-                                               styleClass="field-label"/>
+                                <ColumnConstraints percentWidth="33"/>
+                                <ColumnConstraints percentWidth="33"/>
+                                <ColumnConstraints percentWidth="34"/>
 
-                                        <TextField fx:id="emriField"
-                                                   promptText="Client first name"/>
-                                    </children>
-                                </VBox>
+                            </columnConstraints>
 
-                                <VBox spacing="8" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="Last Name"
-                                               styleClass="field-label"/>
+                            <!-- ROW 1 -->
 
-                                        <TextField fx:id="mbiemriField"
-                                                   promptText="Client last name"/>
-                                    </children>
-                                </VBox>
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="0"
+                                  GridPane.columnIndex="0">
 
-                                <VBox spacing="8" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="Phone Number"
-                                               styleClass="field-label"/>
+                                <children>
 
-                                        <TextField fx:id="numriTelField"
-                                                   promptText="+383 XX XXX XXX"/>
-                                    </children>
-                                </VBox>
+                                    <Label text="ID"
+                                           styleClass="field-label"/>
 
-                            </children>
+                                    <TextField fx:id="idField"
+                                               editable="false"/>
 
-                        </HBox>
+                                </children>
+
+                            </VBox>
+
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="0"
+                                  GridPane.columnIndex="1">
+
+                                <children>
+
+                                    <Label text="Emri"
+                                           styleClass="field-label"/>
+
+                                    <TextField fx:id="emriField"/>
+
+                                </children>
+
+                            </VBox>
+
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="0"
+                                  GridPane.columnIndex="2">
+
+                                <children>
+
+                                    <Label text="Mbiemri"
+                                           styleClass="field-label"/>
+
+                                    <TextField fx:id="mbiemriField"/>
+
+                                </children>
+
+                            </VBox>
+
+                            <!-- ROW 2 -->
+
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="0">
+
+                                <children>
+
+                                    <Label text="Gjinia"
+                                           styleClass="field-label"/>
+
+                                    <TextField fx:id="gjiniaField"
+                                               editable="false"/>
+
+                                </children>
+
+                            </VBox>
+
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="1">
+
+                                <children>
+
+                                    <Label text="Numri Telefonit"
+                                           styleClass="field-label"/>
+
+                                    <TextField fx:id="numriTelField"/>
+
+                                </children>
+
+                            </VBox>
+
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="2">
+
+                                <children>
+
+                                    <Label text="Username"
+                                           styleClass="field-label"/>
+
+                                    <TextField fx:id="usernameField"
+                                               editable="false"/>
+
+                                </children>
+
+                            </VBox>
+
+                            <!-- ROW 3 -->
+
+                            <VBox spacing="8"
+                                  GridPane.rowIndex="2"
+                                  GridPane.columnIndex="0"
+                                  GridPane.columnSpan="3">
+
+                                <children>
+
+                                    <Label text="Data Regjistrimit"
+                                           styleClass="field-label"/>
+
+                                    <TextField fx:id="dataRegjistrimitField"
+                                               editable="false"/>
+
+                                </children>
+
+                            </VBox>
+
+                        </GridPane>
 
                     </children>
 
@@ -128,13 +251,17 @@
                             <children>
 
                                 <VBox spacing="3">
+
                                     <children>
-                                        <Label text="Service History"
+
+                                        <Label text="Historia e Shërbimeve"
                                                styleClass="section-title"/>
 
-                                        <Label text="Double click a row to view details"
+                                        <Label text="Klikoni dy herë në një rresht për të parë detajet"
                                                styleClass="subtitle-label"/>
+
                                     </children>
+
                                 </VBox>
 
                             </children>
@@ -153,12 +280,12 @@
                                              sortable="false"/>
 
                                 <TableColumn fx:id="emriPunonjesitCol"
-                                             text="Employee"
+                                             text="Punonjësi"
                                              prefWidth="250"
                                              editable="false"/>
 
                                 <TableColumn fx:id="dataSherbimitCol"
-                                             text="Service Date"
+                                             text="Data e shërbimit"
                                              prefWidth="350"
                                              editable="false"
                                              sortable="false"/>

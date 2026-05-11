@@ -16,7 +16,8 @@
         fx:controller="com.beautysalon.Controller.servicesviewController"
         stylesheets="@../css/tables.css"
         prefWidth="1200"
-        prefHeight="750">
+        prefHeight="750"
+        styleClass="root">
 
     <!-- TOP HEADER -->
     <top>

@@ -4,14 +4,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class mainController {
 
-     @FXML
+    @FXML
     private BorderPane mainpane;
 
     @FXML
@@ -24,46 +24,55 @@ public class mainController {
     private Button servicesbutton;
 
     @FXML
-    private BorderPane sidebar;
-
-    @FXML
     private Button terminetbutton;
+@FXML
+private VBox sidebar;
 
-    @FXML
-    public void initialize(){
+@FXML
+private Button toggleBtn;
 
-        CenterController.setMainpane(mainpane);
-        CenterController.loadCenterContent("clientsview.fxml");
+private boolean pinned = false;
+@FXML
+public void initialize() {
 
-        Button[] buttons = new Button[]{profilebutton, terminetbutton, clientsbutton, servicesbutton};
+    CenterController.setMainpane(mainpane);
+    CenterController.loadCenterContent("clientsview.fxml");
 
-        sidebar.setOnMouseEntered(e -> {
-            Timeline expand = new Timeline(
-                    new KeyFrame(Duration.millis(200),
-                            new KeyValue(sidebar.prefWidthProperty(), 200))
-            );
-            expand.play();
+    // START COLLAPSED
+    sidebar.getStyleClass().add("collapsed");
 
-           for(Button b : buttons){
-              b.setVisible(true);
-           }
-        });
+    toggleBtn.setOnAction(e -> {
+        pinned = !pinned;
 
-        sidebar.setOnMouseExited(e -> {
-            Timeline collapse = new Timeline(
-                    new KeyFrame(Duration.millis(200),
-                            new KeyValue(sidebar.prefWidthProperty(), 50))
-            );
-            collapse.play();
+        if (pinned) {
+            sidebar.getStyleClass().remove("collapsed");
+        } else {
+            sidebar.getStyleClass().add("collapsed");
+        }
 
-             for(Button b : buttons){
-              b.setVisible(false);
-           }
-        });
+        refreshLayout();
+    });
 
-        clientsbutton.setOnAction(e -> CenterController.loadCenterContent("clientsview.fxml"));
-        servicesbutton.setOnAction(e -> CenterController.loadCenterContent("servicesview.fxml"));
-        profilebutton.setOnAction(e -> CenterController.loadCenterContent("profileview.fxml"));
+    sidebar.setOnMouseEntered(e -> {
+        if (!pinned) {
+            sidebar.getStyleClass().remove("collapsed");
+            refreshLayout();
+        }
+    });
 
-    }
+    sidebar.setOnMouseExited(e -> {
+        if (!pinned) {
+            sidebar.getStyleClass().add("collapsed");
+            refreshLayout();
+        }
+    });
+
+    clientsbutton.setOnAction(e -> CenterController.loadCenterContent("clientsview.fxml"));
+    servicesbutton.setOnAction(e -> CenterController.loadCenterContent("servicesview.fxml"));
+    profilebutton.setOnAction(e -> CenterController.loadCenterContent("profileview.fxml"));
+}
+private void refreshLayout() {
+    sidebar.applyCss();
+    sidebar.layout();
+}
 }

@@ -17,6 +17,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -49,6 +50,9 @@ public class ClientProfileController {
 
     @FXML
     private TableColumn<ClientHistory, String> dataSherbimitCol;
+
+    @FXML
+    private Button rollbackBtn;
 
     private ClientsAPI clientsService = new ClientsAPI();
 

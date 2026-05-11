@@ -1,11 +1,197 @@
-.button {
-    -fx-border-color: white; 
-    -fx-border-width: 1px;     
-    -fx-border-radius: 5px; 
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
+
+/* =========================
+   ROOT / APP BACKGROUND
+   ========================= */
+
+.root{
+    -fx-background-color: linear-gradient(to bottom right, #f8fafc, #eef2ff);
+    -fx-font-family: "Inter";
 }
 
-.button:hover {
-    -fx-background-color: rgba(50, 205, 50, 0.2);
+/* =========================
+   SIDEBAR CONTAINER
+   ========================= */
+
+.sidebar{
+    -fx-background-color: #2f3542;
+
+    -fx-pref-width: 220;
+    -fx-min-width: 220;
+    -fx-max-width: 220;
+
+    -fx-alignment: TOP_CENTER;
+    -fx-padding: 12;
+}
+
+/* COLLAPSED STATE MUST ACTUALLY CHANGE WIDTH */
+.sidebar.collapsed{
+    -fx-pref-width: 70;
+    -fx-min-width: 70;
+    -fx-max-width: 70;
+}
+
+/* =========================
+   TOGGLE BUTTON (☰)
+   ========================= */
+
+.sidebar-toggle{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-padding: 10 12 10 12;
+
+    -fx-cursor: hand;
+
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-radius: 8;
+}
+
+.sidebar-toggle:hover{
+    -fx-background-color: rgba(255,255,255,0.08);
+}
+
+/* =========================
+   SIDEBAR BUTTONS
+   ========================= */
+
+.sidebar-btn{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+
+    -fx-padding: 10 12 10 12;
+
+    -fx-background-radius: 10;
+
+    -fx-cursor: hand;
+}
+
+/* hover effect */
+.sidebar-btn:hover{
+    -fx-background-color: rgba(255,255,255,0.08);
+}
+
+/* active click effect */
+.sidebar-btn:pressed{
+    -fx-background-color: rgba(255,255,255,0.15);
+}
+
+/* =========================
+   COLLAPSED MODE (SAFE)
+   ========================= */
+
+/* keep buttons visible but compact */
+.sidebar.collapsed .sidebar-btn{
+    -fx-font-size: 12px;
+    -fx-padding: 8 8 8 8;
+}
+
+/* optional: slightly dim when collapsed */
+.sidebar.collapsed .sidebar-btn{
+    -fx-opacity: 0.85;
+}
+
+/* =========================
+   TEXT FIELDS (for your other views)
+   ========================= */
+
+.text-field{
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #dbe4f0;
+    -fx-padding: 10 14 10 14;
+    -fx-font-size: 14px;
+    -fx-text-fill: #0f172a;
+}
+
+.text-field:focused{
+    -fx-border-color: #6366f1;
+    -fx-border-width: 1.5;
+}
+
+/* =========================
+   CARDS (dashboard style)
+   ========================= */
+
+.card{
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 24;
+
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 18, 0.2, 0, 4);
+}
+
+/* =========================
+   TABLEVIEW (SaaS STYLE)
+   ========================= */
+
+.table-view{
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 18;
+
+    -fx-padding: 10;
+}
+
+/* header */
+.table-view .column-header-background{
+    -fx-background-color: #2f3542;
+    -fx-background-radius: 18 18 0 0;
+}
+
+.table-view .column-header{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* rows */
+.table-row-cell{
+    -fx-background-color: white;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: #f8fafc;
+}
+
+.table-row-cell:hover{
+    -fx-background-color: #eef2ff;
+}
+
+.table-row-cell:selected{
+    -fx-background-color: #e0e7ff;
+}
+
+/* =========================
+   PRIMARY BUTTON (REFRESH ETC)
+   ========================= */
+
+.button{
+    -fx-background-color: linear-gradient(to right, #6366f1, #8b5cf6);
+    -fx-text-fill: white;
+
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+
+    -fx-padding: 10 16 10 16;
+    -fx-background-radius: 12;
+
+    -fx-cursor: hand;
+}
+
+.button:hover{
+    -fx-opacity: 0.92;
+}
+
+.button:pressed{
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
 }

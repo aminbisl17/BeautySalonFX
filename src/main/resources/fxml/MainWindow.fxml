@@ -6,21 +6,21 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1050.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.mainController">
-   <left> 
-      <BorderPane fx:id="sidebar" prefWidth="50.0" style="-fx-background-color: rgb(42, 43, 46);" BorderPane.alignment="CENTER">
-         <top>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="profilebutton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Profili" visible="false" />
-                  <Button fx:id="terminetbutton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Terminet" visible="false" />
-                  <Button fx:id="clientsbutton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Klientët" visible="false" />
-                  <Button fx:id="servicesbutton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Shërbimet" visible="false" />
-               </children>
-               <BorderPane.margin>
-                  <Insets left="30.0" right="30.0" />
-               </BorderPane.margin>
-            </VBox>
-         </top>
-      </BorderPane>
-   </left>
+ <left>
+    <VBox fx:id="sidebar" styleClass="sidebar">
+    <Button fx:id="toggleBtn"
+        text="☰"
+        styleClass="sidebar-toggle"/>
+
+        <VBox fx:id="sidebarContent" styleClass="sidebar-content">
+
+            <Button fx:id="profilebutton" text="Profili" styleClass="sidebar-btn"/>
+            <Button fx:id="terminetbutton" text="Terminet" styleClass="sidebar-btn"/>
+            <Button fx:id="clientsbutton" text="Klientët" styleClass="sidebar-btn"/>
+            <Button fx:id="servicesbutton" text="Shërbimet" styleClass="sidebar-btn"/>
+
+        </VBox>
+
+    </VBox>
+</left>
 </BorderPane>

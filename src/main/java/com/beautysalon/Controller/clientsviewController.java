@@ -10,22 +10,15 @@ import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
-import com.beautysalon.gate.Model.clients.Historiku_detajet;
-
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 public class clientsviewController {
 
@@ -88,7 +81,8 @@ public class clientsviewController {
 
     row.setOnMouseClicked(event -> {
         if (!row.isEmpty() && event.getClickCount() == 2) {
-            ClientProfile(row.getItem());
+              SessionManager.setClient(row.getItem());
+              CenterController.loadCenterContent("ClientProfile.fxml");
         }
     });
 
@@ -125,65 +119,5 @@ public class clientsviewController {
 
         ExecutorConfig.submit(task);
     }
-
-    private void ClientProfile(Client client){
-    
-
-    SessionManager.setClient(client);
-    CenterController.loadCenterContent("ClientProfile.fxml");
-/*     TableColumn<ClientHistory, String> eshCol = new TableColumn<>("Klienti");
-    eshCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_klientit"));
-
-        TableColumn<ClientHistory, String> atrCol = new TableColumn<>("Puntori");
-    atrCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_punonjesit"));
-
-    TableColumn<ClientHistory, String> dateCol = new TableColumn<>("Data e sherbimit");
-    dateCol.setCellValueFactory(cd ->
-        new SimpleStringProperty(
-            cd.getValue().getData_sherbimit()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-        )
-    );
-
-    historyTable.getColumns().setAll(List.of(dateCol,eshCol, atrCol));
-
-    historyTable.getItems().clear();
-
-   // if(client.getClientHistory() == null){
-        fetchClientHistory(client);
-   // } else{
-   // historyTable.setItems(FXCollections.observableArrayList(client.getClientHistory()));
-    //}
- 
-    Label title = new Label(
-        "History for " + client.getEmri() + " " + client.getMbiemri()
-    );
-
-    historyTable.setRowFactory((_) -> {
-    TableRow<ClientHistory> row = new TableRow<>();
-
-    row.setOnMouseClicked(event -> {
-        if (!row.isEmpty() && event.getClickCount() == 2) {
-            for(ClientHistory h : client.getClientHistory()){
-                for(Historiku_detajet d : h.getDetajet()){
-                     System.out.println(d.getEmri_sherbimit() + " " + d.getEmri_atributit() + " " + d.getPershkrimi() + " " + d.getPagesa());
-                }
-            }
-        }
-    });
-
-    return row;
-});
-
-    VBox root = new VBox(10, title, historyTable);
-    root.setPadding(new Insets(10));
-
-    Stage stage = new Stage();
-    stage.setTitle("Client History");
-    stage.setScene(new Scene(root, 600, 400));
-    stage.showAndWait();
-    }
-    */
-}
 }
 

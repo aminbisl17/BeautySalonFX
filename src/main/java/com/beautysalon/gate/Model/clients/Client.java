@@ -19,6 +19,7 @@ public class Client {
     private LocalDateTime data_regjistrimit;
     private String pershkrimi;
     private String username;
+    private String email;
     private List<ClientHistory> clientHistory;
     public Long getID() {
         return ID;
@@ -44,6 +45,13 @@ public class Client {
     public void setGjinia(String gjinia) {
         this.gjinia = gjinia;
     }
+     public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
      public LocalDateTime getData_regjistrimit() {
         return data_regjistrimit;
     }

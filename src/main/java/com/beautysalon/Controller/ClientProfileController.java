@@ -29,7 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ClientProfileController {
-    
+
     @FXML
     private TextField emriField;
 
@@ -45,18 +45,21 @@ public class ClientProfileController {
     private TextField numriTelField;
 
     @FXML
-private TextField idField;
+    private TextField idField;
 
-@FXML
-private TextField gjiniaField;
+    @FXML
+    private TextField gjiniaField;
 
-@FXML
-private TextField usernameField;
+    @FXML
+    private TextField usernameField;
 
-@FXML
-private TextField dataRegjistrimitField;
+    @FXML
+    private TextField dataRegjistrimitField;
 
-     @FXML
+    @FXML
+    private TextField emailField;
+
+    @FXML
     private TableColumn<ClientHistory, Long> idCol;
 
     @FXML
@@ -68,257 +71,252 @@ private TextField dataRegjistrimitField;
     @FXML
     private Button rollbackBtn;
 
-    @FXML private Button editBtn;
-@FXML private Button saveBtn;
-@FXML private Button deleteBtn;
-@FXML private Button cancelBtn;
+    @FXML
+    private Button editBtn;
+    @FXML
+    private Button saveBtn;
+    @FXML
+    private Button deleteBtn;
+    @FXML
+    private Button cancelBtn;
 
-private Client originalClient;
-private boolean editMode = false;
+    private Client originalClient;
+    private boolean editMode = false;
 
     private ClientsAPI clientsService = new ClientsAPI();
 
-    private TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
-private TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
-private TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
-private TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
+//    private TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
+  //  private TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
+   // private TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
+   // private TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
 
     @FXML
-    public void initialize(){
+    public void initialize() {
 
         Client client = SessionManager.getClient();
 
-         if (client == null) {
-        System.err.println("No client in session!");
-        return;
-    }
+        if (client == null) {
+            System.err.println("No client in session!");
+            return;
+        }
 
-  historikuDetajetTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        historikuDetajetTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         emriField.setText(client.getEmri());
         mbiemriField.setText(client.getMbiemri());
         numriTelField.setText(client.getNumri_telefonit());
 
+        emailField.setText(client.getEmail());
+
         idField.setText(String.valueOf(client.getID()));
 
-gjiniaField.setText(client.getGjinia());
+        gjiniaField.setText(client.getGjinia());
 
-usernameField.setText(client.getUsername());
+        usernameField.setText(client.getUsername());
 
-if(client.getData_regjistrimit() != null){
-    dataRegjistrimitField.setText(
-            client.getData_regjistrimit()
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-    );
-}
+        if (client.getData_regjistrimit() != null) {
+            dataRegjistrimitField.setText(
+                    client.getData_regjistrimit()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        }
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("id_historikut"));
         emriPunonjesitCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_punonjesit"));
 
-        dataSherbimitCol.setCellValueFactory(cd ->
-        new SimpleStringProperty(
-            cd.getValue().getData_sherbimit()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-        )
-    );
-    setEditMode(false);
+        dataSherbimitCol.setCellValueFactory(cd -> new SimpleStringProperty(
+                cd.getValue().getData_sherbimit()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
+        setEditMode(false);
 
-editBtn.setOnAction(e -> setEditMode(true));
+        editBtn.setOnAction(e -> setEditMode(true));
 
-saveBtn.setOnAction(e -> saveChanges());
+        saveBtn.setOnAction(e -> saveChanges());
 
-deleteBtn.setOnAction(e -> deleteClient());
+        deleteBtn.setOnAction(e -> deleteClient());
 
-cancelBtn.setOnAction(e -> cancelEdit());
+        cancelBtn.setOnAction(e -> cancelEdit());
 
-       fetchClientHistory(client);
+        fetchClientHistory(client);
 
-       historyField.setRowFactory(tv -> {
-    TableRow<ClientHistory> row = new TableRow<>();
+        historyField.setRowFactory(tv -> {
+            TableRow<ClientHistory> row = new TableRow<>();
 
-    row.setOnMouseClicked(event -> {
-        if (event.getClickCount() == 2 && !row.isEmpty()) { // double click (recommended)
-            
-            ClientHistory selected = row.getItem();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) { // double click (recommended)
 
-            List<Historiku_detajet> details =
-                    selected.getDetajet(); // adjust if your getter name differs
+                    ClientHistory selected = row.getItem();
 
-            HistorikuDetajet(details); // open popup
-        }
-    });
+                    List<Historiku_detajet> details = selected.getDetajet(); // adjust if your getter name differs
 
-    return row;
-});
-    //}
-    
-    //historyField.getColumns().setAll(List.of(emriField, dataSherbimitCol));
+                    HistorikuDetajet(details); // open popup
+                }
+            });
+
+            return row;
+        });
+        // }
+
+        // historyField.getColumns().setAll(List.of(emriField, dataSherbimitCol));
 
     }
-
-    private void enterEditMode() {
-
-    originalClient = SessionManager.getClient(); // backup
-
-    setEditMode(true);
-}
 
     private void setEditMode(boolean enable) {
 
-    editMode = enable;
+        editMode = enable;
 
-    // editable only in edit mode
-    emriField.setEditable(enable);
-    mbiemriField.setEditable(enable);
-    numriTelField.setEditable(enable);
+        // editable only in edit mode
+        emriField.setEditable(enable);
+        mbiemriField.setEditable(enable);
+        numriTelField.setEditable(enable);
 
-    // disable focus when NOT editing
-    emriField.setFocusTraversable(enable);
-    mbiemriField.setFocusTraversable(enable);
-    numriTelField.setFocusTraversable(enable);
+        // disable focus when NOT editing
+        emriField.setFocusTraversable(enable);
+        mbiemriField.setFocusTraversable(enable);
+        numriTelField.setFocusTraversable(enable);
 
-    editBtn.setVisible(!enable);
-    editBtn.setManaged(!enable);
+        editBtn.setVisible(!enable);
+        editBtn.setManaged(!enable);
 
-    saveBtn.setVisible(enable);
-    saveBtn.setManaged(enable);
+        saveBtn.setVisible(enable);
+        saveBtn.setManaged(enable);
 
-    cancelBtn.setVisible(enable);
-    cancelBtn.setManaged(enable);
+        cancelBtn.setVisible(enable);
+        cancelBtn.setManaged(enable);
 
-    // visual mode class (IMPORTANT)
-    if (enable) {
-        emriField.getStyleClass().add("edit-mode");
-        mbiemriField.getStyleClass().add("edit-mode");
-        numriTelField.getStyleClass().add("edit-mode");
-    } else {
-        emriField.getStyleClass().remove("edit-mode");
-        mbiemriField.getStyleClass().remove("edit-mode");
-        numriTelField.getStyleClass().remove("edit-mode");
+        // visual mode class (IMPORTANT)
+        if (enable) {
+            emriField.getStyleClass().add("edit-mode");
+            mbiemriField.getStyleClass().add("edit-mode");
+            numriTelField.getStyleClass().add("edit-mode");
+        } else {
+            emriField.getStyleClass().remove("edit-mode");
+            mbiemriField.getStyleClass().remove("edit-mode");
+            numriTelField.getStyleClass().remove("edit-mode");
+        }
     }
-}
 
-private void saveChanges() {
+    private void saveChanges() {
 
-    Client client = SessionManager.getClient();
+        Client client = SessionManager.getClient();
 
-    client.setEmri(emriField.getText());
-    client.setMbiemri(mbiemriField.getText());
-    client.setNumri_telefonit(numriTelField.getText());
+        client.setEmri(emriField.getText());
+        client.setMbiemri(mbiemriField.getText());
+        client.setNumri_telefonit(numriTelField.getText());
 
-   // clientsService.updateClient(client);
+        // clientsService.updateClient(client);
 
-    setEditMode(false);
-}
+        setEditMode(false);
+    }
 
-private void cancelEdit() {
+    private void cancelEdit() {
 
-    Client client = SessionManager.getClient();
+        Client client = SessionManager.getClient();
 
-    emriField.setText(client.getEmri());
-    mbiemriField.setText(client.getMbiemri());
-    numriTelField.setText(client.getNumri_telefonit());
+        emriField.setText(client.getEmri());
+        mbiemriField.setText(client.getMbiemri());
+        numriTelField.setText(client.getNumri_telefonit());
 
-    setEditMode(false);
-}
+        setEditMode(false);
+    }
 
-private void deleteClient() {
+    private void deleteClient() {
 
-    Client client = SessionManager.getClient();
+        Client client = SessionManager.getClient();
 
-    // optional confirmation dialog
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    alert.setTitle("Delete Client");
-    alert.setHeaderText("Are you sure?");
-    alert.setContentText("This action cannot be undone.");
+        // optional confirmation dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Client");
+        alert.setHeaderText("Are you sure?");
+        alert.setContentText("This action cannot be undone.");
 
-    alert.showAndWait().ifPresent(response -> {
+        alert.showAndWait().ifPresent(response -> {
 
-        if (response == ButtonType.OK) {
+            if (response == ButtonType.OK) {
 
-       //     clientsService.deleteClient(client.getID());
+                // clientsService.deleteClient(client.getID());
 
-            CenterController.loadCenterContent("clientsview.fxml");
-        }
-    });
-}
+                CenterController.loadCenterContent("clientsview.fxml");
+            }
+        });
+    }
 
-     private void fetchClientHistory(Client client){
-      Task<List<ClientHistory>> task = new Task<>(){
+    private void fetchClientHistory(Client client) {
+        Task<List<ClientHistory>> task = new Task<>() {
 
-        @Override
-        protected List<ClientHistory> call() throws Exception {
-           return clientsService.getClientHistory(client.getID());
-        }
-      };
+            @Override
+            protected List<ClientHistory> call() throws Exception {
+                return clientsService.getClientHistory(client.getID());
+            }
+        };
 
-         task.setOnSucceeded((_)->{
-            
-                //List<ClientHistory> history = task.getValue();
-             //   client.setClientHistory(task.getValue());
-                historyField.setItems(FXCollections.observableArrayList(task.getValue()));
+        task.setOnSucceeded((_) -> {
+
+            // List<ClientHistory> history = task.getValue();
+            // client.setClientHistory(task.getValue());
+            historyField.setItems(FXCollections.observableArrayList(task.getValue()));
         });
 
-           task.setOnFailed((_)->{
-        /*      Throwable ex = task.getException();
-            ex.printStackTrace();
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error fetching clients history");
-                alert.setHeaderText(ex.getClass().getSimpleName());
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
-              //  ExpiredToken.RedirectAfterExpire();
-            }); */
+        task.setOnFailed((_) -> {
+            /*
+             * Throwable ex = task.getException();
+             * ex.printStackTrace();
+             * Platform.runLater(() -> {
+             * Alert alert = new Alert(Alert.AlertType.ERROR);
+             * alert.setTitle("Error fetching clients history");
+             * alert.setHeaderText(ex.getClass().getSimpleName());
+             * alert.setContentText(ex.getMessage());
+             * alert.showAndWait();
+             * // ExpiredToken.RedirectAfterExpire();
+             * });
+             */
             APIErrorHandler.handle(task.getException());
         });
 
-       ExecutorConfig.submit(task);
+        ExecutorConfig.submit(task);
 
     }
 
-  private void HistorikuDetajet(List<Historiku_detajet> data){
+    private void HistorikuDetajet(List<Historiku_detajet> data) {
 
-    // columns
-     TableColumn<Historiku_detajet, Long> idCol = new TableColumn<>("ID");
-    TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
-    TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
-    TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
-    TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
+        // columns
+        TableColumn<Historiku_detajet, Long> idCol = new TableColumn<>("ID");
+        TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
+        TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
+        TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
+        TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
 
-    // bindings
-    idCol.setCellValueFactory(new PropertyValueFactory<>("id_historikut_detajet"));
-    sherbimiCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
-    atributiCol.setCellValueFactory(new PropertyValueFactory<>("emri_atributit"));
-    pershkrimiCol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
-    pagesaCol.setCellValueFactory(new PropertyValueFactory<>("pagesa"));
+        // bindings
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id_historikut_detajet"));
+        sherbimiCol.setCellValueFactory(new PropertyValueFactory<>("emri_sherbimit"));
+        atributiCol.setCellValueFactory(new PropertyValueFactory<>("emri_atributit"));
+        pershkrimiCol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
+        pagesaCol.setCellValueFactory(new PropertyValueFactory<>("pagesa"));
 
-    TableView<Historiku_detajet> table = new TableView<>();
-table.getStyleClass().add("popup-table");
-    table.getColumns().setAll(List.of(idCol, sherbimiCol, atributiCol, pershkrimiCol, pagesaCol));
+        TableView<Historiku_detajet> table = new TableView<>();
+        table.getStyleClass().add("popup-table");
+        table.getColumns().setAll(List.of(idCol, sherbimiCol, atributiCol, pershkrimiCol, pagesaCol));
 
-    table.setItems(FXCollections.observableArrayList(data));
+        table.setItems(FXCollections.observableArrayList(data));
 
-   VBox root = new VBox(15, table);
-root.getStyleClass().add("popup-root");
-root.setPadding(new Insets(15));
+        VBox root = new VBox(15, table);
+        root.getStyleClass().add("popup-root");
+        root.setPadding(new Insets(15));
 
-    Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 600, 400);
 
-scene.getStylesheets().add(
-        getClass().getResource("/css/ClientProfile.css").toExternalForm()
-);
+        scene.getStylesheets().add(
+                getClass().getResource("/css/ClientProfile.css").toExternalForm());
 
-Stage stage = new Stage();
-stage.setTitle("Detajet e Historise");
+        Stage stage = new Stage();
+        stage.setTitle("Detajet e Historise");
 
-stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
 
-stage.initOwner(historyField.getScene().getWindow());
+        stage.initOwner(historyField.getScene().getWindow());
 
-stage.setScene(scene);
-stage.setResizable(false);
+        stage.setScene(scene);
+        stage.setResizable(false);
 
-stage.showAndWait();
-}
+        stage.showAndWait();
+    }
 }

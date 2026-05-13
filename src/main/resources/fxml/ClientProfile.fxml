@@ -106,134 +106,105 @@
                         <Label text="Informacioni i Klientit"
                                styleClass="section-title"/>
 
-                        <GridPane hgap="18"
-                                  vgap="18">
+                      <GridPane hgap="18"
+          vgap="18">
 
-                            <columnConstraints>
+   <columnConstraints>
+    <ColumnConstraints percentWidth="33"/>
+    <ColumnConstraints percentWidth="33"/>
+    <ColumnConstraints percentWidth="34"/>
+</columnConstraints>
 
-                                <ColumnConstraints percentWidth="33"/>
-                                <ColumnConstraints percentWidth="33"/>
-                                <ColumnConstraints percentWidth="34"/>
+    <!-- ROW 1 -->
+    <VBox spacing="8"
+          GridPane.rowIndex="0"
+          GridPane.columnIndex="0">
+        <children>
+            <Label text="ID" styleClass="field-label"/>
+            <TextField fx:id="idField" editable="false"/>
+        </children>
+    </VBox>
 
-                            </columnConstraints>
+    <VBox spacing="8"
+          GridPane.rowIndex="0"
+          GridPane.columnIndex="1">
+        <children>
+            <Label text="Emri" styleClass="field-label"/>
+            <TextField fx:id="emriField"/>
+        </children>
+    </VBox>
 
-                            <!-- ROW 1 -->
+    <VBox spacing="8"
+          GridPane.rowIndex="0"
+          GridPane.columnIndex="2">
+        <children>
+            <Label text="Mbiemri" styleClass="field-label"/>
+            <TextField fx:id="mbiemriField"/>
+        </children>
+    </VBox>
 
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="0"
-                                  GridPane.columnIndex="0">
+    <!-- ROW 2 -->
+    <VBox spacing="8"
+          GridPane.rowIndex="1"
+          GridPane.columnIndex="0">
+        <children>
+            <Label text="Gjinia" styleClass="field-label"/>
+            <TextField fx:id="gjiniaField" editable="false"/>
+        </children>
+    </VBox>
 
-                                <children>
+    <VBox spacing="8"
+          GridPane.rowIndex="1"
+          GridPane.columnIndex="1">
+        <children>
+            <Label text="Numri Telefonit" styleClass="field-label"/>
+            <TextField fx:id="numriTelField"/>
+        </children>
+    </VBox>
 
-                                    <Label text="ID"
-                                           styleClass="field-label"/>
+    <VBox spacing="8"
+          GridPane.rowIndex="1"
+          GridPane.columnIndex="2">
+        <children>
+            <Label text="Username" styleClass="field-label"/>
+            <TextField fx:id="usernameField" editable="false"/>
+        </children>
+    </VBox>
 
-                                    <TextField fx:id="idField"
-                                               editable="false"/>
+   <!-- EMAIL (wide) -->
+<GridPane GridPane.rowIndex="2"
+          GridPane.columnIndex="0"
+          GridPane.columnSpan="3"
+          hgap="18">
 
-                                </children>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"/>
+        <ColumnConstraints percentWidth="50"/>
+    </columnConstraints>
 
-                            </VBox>
+    <!-- EMAIL -->
+    <VBox spacing="8" GridPane.columnIndex="0">
+        <children>
+            <Label text="Email" styleClass="field-label"/>
+            <TextField fx:id="emailField"
+                       editable="false"
+                       maxWidth="Infinity"/>
+        </children>
+    </VBox>
 
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="0"
-                                  GridPane.columnIndex="1">
+    <!-- DATA REGJISTRIMIT -->
+    <VBox spacing="8" GridPane.columnIndex="1">
+        <children>
+            <Label text="Data Regjistrimit" styleClass="field-label"/>
+            <TextField fx:id="dataRegjistrimitField"
+                       editable="false"
+                       maxWidth="Infinity"/>
+        </children>
+    </VBox>
 
-                                <children>
+</GridPane>
 
-                                    <Label text="Emri"
-                                           styleClass="field-label"/>
-
-                                    <TextField fx:id="emriField"/>
-
-                                </children>
-
-                            </VBox>
-
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="0"
-                                  GridPane.columnIndex="2">
-
-                                <children>
-
-                                    <Label text="Mbiemri"
-                                           styleClass="field-label"/>
-
-                                    <TextField fx:id="mbiemriField"/>
-
-                                </children>
-
-                            </VBox>
-
-                            <!-- ROW 2 -->
-
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="1"
-                                  GridPane.columnIndex="0">
-
-                                <children>
-
-                                    <Label text="Gjinia"
-                                           styleClass="field-label"/>
-
-                                    <TextField fx:id="gjiniaField"
-                                               editable="false"/>
-
-                                </children>
-
-                            </VBox>
-
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="1"
-                                  GridPane.columnIndex="1">
-
-                                <children>
-
-                                    <Label text="Numri Telefonit"
-                                           styleClass="field-label"/>
-
-                                    <TextField fx:id="numriTelField"/>
-
-                                </children>
-
-                            </VBox>
-
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="1"
-                                  GridPane.columnIndex="2">
-
-                                <children>
-
-                                    <Label text="Username"
-                                           styleClass="field-label"/>
-
-                                    <TextField fx:id="usernameField"
-                                               editable="false"/>
-
-                                </children>
-
-                            </VBox>
-
-                            <!-- ROW 3 -->
-
-                            <VBox spacing="8"
-                                  GridPane.rowIndex="2"
-                                  GridPane.columnIndex="0"
-                                  GridPane.columnSpan="3">
-
-                                <children>
-
-                                    <Label text="Data Regjistrimit"
-                                           styleClass="field-label"/>
-
-                                    <TextField fx:id="dataRegjistrimitField"
-                                               editable="false"/>
-
-                                </children>
-
-                            </VBox>
-
-                        </GridPane>
+</GridPane>
 
                     </children>
 

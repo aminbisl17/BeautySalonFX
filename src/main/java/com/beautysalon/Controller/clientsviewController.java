@@ -63,8 +63,8 @@ private TextField searchField;
         TableColumn<Client, String> gjiniaCol = new TableColumn<>("Gjinia");
         gjiniaCol.setCellValueFactory(new PropertyValueFactory<>("gjinia"));
 
-        TableColumn<Client, String> usernameCol = new TableColumn<>("Username");
-        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+    //    TableColumn<Client, String> usernameCol = new TableColumn<>("Username");
+      //  usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
         TableColumn<Client, String> numriCol = new TableColumn<>("Numri Telefonit");
         numriCol.setCellValueFactory(new PropertyValueFactory<>("numri_telefonit"));
@@ -81,7 +81,7 @@ private TextField searchField;
             }
         });
 
-    table.getColumns().setAll( List.of(idCol, emriCol, mbiemriCol, gjiniaCol, usernameCol, numriCol, dateCol));
+    table.getColumns().setAll( List.of(idCol, emriCol, mbiemriCol, numriCol, dateCol));
 
     table.setRowFactory((_) -> {
     TableRow<Client> row = new TableRow<>();

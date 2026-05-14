@@ -306,3 +306,47 @@
 .delete-btn:hover{
     -fx-background-color: #dc2626;
 }
+/* =========================
+   CLEAN TEXTAREA FIX (NO INNER BORDER)
+   ========================= */
+
+#pershkrimiField{
+    -fx-font-size: 13px;
+    -fx-text-fill: #0f172a;
+
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #e2e8f0;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    -fx-padding: 0;
+}
+
+/* remove ALL inner layers background */
+#pershkrimiField .scroll-pane{
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+    -fx-border-color: transparent;
+}
+
+#pershkrimiField .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+#pershkrimiField .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+/* THIS is the key fix: inner text area content */
+#pershkrimiField .content{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+/* focus state (outer only) */
+#pershkrimiField:focused{
+    -fx-border-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(99,102,241,0.2), 10, 0.2, 0, 2);
+}

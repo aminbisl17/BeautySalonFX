@@ -23,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -80,7 +81,9 @@ public class ClientProfileController {
     @FXML
     private Button cancelBtn;
 
-    private Client originalClient;
+    @FXML
+    private TextArea pershkrimiField;
+
     private boolean editMode = false;
 
     private ClientsAPI clientsService = new ClientsAPI();
@@ -113,6 +116,8 @@ public class ClientProfileController {
         gjiniaField.setText(client.getGjinia());
 
         usernameField.setText(client.getUsername());
+
+        pershkrimiField.setText(client.getPershkrimi());
 
         if (client.getData_regjistrimit() != null) {
             dataRegjistrimitField.setText(
@@ -168,11 +173,15 @@ public class ClientProfileController {
         emriField.setEditable(enable);
         mbiemriField.setEditable(enable);
         numriTelField.setEditable(enable);
+        emailField.setEditable(enable);
+        pershkrimiField.setEditable(enable);
 
         // disable focus when NOT editing
         emriField.setFocusTraversable(enable);
         mbiemriField.setFocusTraversable(enable);
         numriTelField.setFocusTraversable(enable);
+        emailField.setFocusTraversable(enable);
+        pershkrimiField.setFocusTraversable(enable);
 
         editBtn.setVisible(!enable);
         editBtn.setManaged(!enable);
@@ -188,23 +197,28 @@ public class ClientProfileController {
             emriField.getStyleClass().add("edit-mode");
             mbiemriField.getStyleClass().add("edit-mode");
             numriTelField.getStyleClass().add("edit-mode");
+            emailField.getStyleClass().add("edit-mode");
+            pershkrimiField.getStyleClass().add("edit-mode");
         } else {
             emriField.getStyleClass().remove("edit-mode");
             mbiemriField.getStyleClass().remove("edit-mode");
             numriTelField.getStyleClass().remove("edit-mode");
+            emailField.getStyleClass().remove("edit-mode");
+            pershkrimiField.getStyleClass().remove("edit-mode");
         }
     }
 
-    private void saveChanges() {
-
+    private void saveChanges() {    
         Client client = SessionManager.getClient();
 
         client.setEmri(emriField.getText());
         client.setMbiemri(mbiemriField.getText());
         client.setNumri_telefonit(numriTelField.getText());
+        client.setEmail(emailField.getText());
+        client.setPershkrimi(pershkrimiField.getText());
 
-        // clientsService.updateClient(client);
-
+        
+        updateClient(client);
         setEditMode(false);
     }
 
@@ -215,7 +229,8 @@ public class ClientProfileController {
         emriField.setText(client.getEmri());
         mbiemriField.setText(client.getMbiemri());
         numriTelField.setText(client.getNumri_telefonit());
-
+        emailField.setText(client.getEmail());
+        pershkrimiField.setText(client.getPershkrimi());
         setEditMode(false);
     }
 
@@ -241,6 +256,7 @@ public class ClientProfileController {
     }
 
     private void fetchClientHistory(Client client) {
+
         Task<List<ClientHistory>> task = new Task<>() {
 
             @Override
@@ -274,6 +290,29 @@ public class ClientProfileController {
 
         ExecutorConfig.submit(task);
 
+    }
+
+    private void updateClient(Client client){
+ 
+        Task<String> task = new Task<>(){
+
+            @Override
+            protected String call() throws Exception {
+                return clientsService.updateClient(client);
+            }
+      
+        };
+
+        task.setOnFailed((_)->{
+            APIErrorHandler.handle(task.getException());
+        });
+        task.setOnSucceeded((_)->{
+             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setContentText(task.getValue());
+                alert.showAndWait();
+        });
+ ExecutorConfig.submit(task);
     }
 
     private void HistorikuDetajet(List<Historiku_detajet> data) {

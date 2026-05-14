@@ -56,7 +56,48 @@ public static HttpResponse<String> postMethod(boolean auth, String URL, Map<Stri
     return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
 }
 
-private static void validateToken() throws TokenException {
+public static HttpResponse<String> putMethod(boolean auth, String URL, Object body)
+        throws TokenException, InterruptedException, IOException {
+
+    if (auth) validateToken();
+
+    String jsonBody = MapperProvider.getMapper().writeValueAsString(body);
+
+    HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+            .uri(URI.create(URL))
+            .PUT(HttpRequest.BodyPublishers.ofString(jsonBody));
+
+    requestBuilder.header("Content-Type", "application/json");
+
+    if (auth) {
+        requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+    }
+
+    return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
+}
+
+    public static HttpResponse<String> deleteMethod(boolean auth, String URL)
+            throws IOException, InterruptedException, TokenException {
+
+        if (auth) validateToken();
+
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(URI.create(URL))
+                .DELETE();
+
+        requestBuilder.header("Content-Type", "application/json");
+
+        if (auth) {
+            requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+        }
+
+        return CLIENT.send(
+                requestBuilder.build(),
+                HttpResponse.BodyHandlers.ofString()
+        );
+    }
+
+    private static void validateToken() throws TokenException {
     String token = SessionManager.getToken();
         if (token == null || token.isEmpty()) {
             throw new TokenException();

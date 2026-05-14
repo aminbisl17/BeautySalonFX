@@ -22,7 +22,7 @@ public class ClientsAPI {
 
     public void fetchAllClients() throws ServerErrorException, IOException, InterruptedException, TokenException{
 
-        HttpResponse<String> response =  APIGenericCalls.getMethod(true, SessionManager.URL[1][0]);
+        HttpResponse<String> response =  APIGenericCalls.getMethod(true, SessionManager.getAPI("API_CLIENTS_ALL"));
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();
@@ -43,7 +43,7 @@ public class ClientsAPI {
 
     public List<ClientHistory> getClientHistory(Long ID) throws InterruptedException, AuthenticationException, ServerErrorException, IOException, TokenException{
  
-        HttpResponse<String> response = APIGenericCalls.getMethod(true, SessionManager.URL[1][1] + ID);
+        HttpResponse<String> response = APIGenericCalls.getMethod(true,  SessionManager.getAPI("API_CLIENTS_HISTORY") + ID);
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
             System.out.println(response);
@@ -65,4 +65,28 @@ public class ClientsAPI {
 
         return mapper.readValue(response.body(),new TypeReference<List<ClientHistory>>() {});
     }
+public String updateClient(Client c)
+        throws TokenException, InterruptedException, IOException, ServerErrorException {
+
+    HttpResponse<String> response =
+            APIGenericCalls.putMethod(
+                    true,
+                    SessionManager.getAPI("API_CLIENTS_UPDATE"),
+                    c
+            );
+
+    int status = response.statusCode();
+
+    if (status == 500) {
+        throw new ServerErrorException("Internal server error");
+    }
+
+    if (status < 200 || status >= 300) {
+        throw new RuntimeException(
+                "Update failed. Status: " + status + ", body: " + response.body()
+        );
+    }
+
+    return response.body();
+}
 }

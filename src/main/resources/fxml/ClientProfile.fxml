@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.control.TextArea?>
 <BorderPane
         xmlns="http://javafx.com/javafx/25"
         xmlns:fx="http://javafx.com/fxml/1"
@@ -203,6 +203,29 @@
     </VBox>
 
 </GridPane>
+
+<!-- DESCRIPTION -->
+<VBox spacing="8"
+      GridPane.rowIndex="3"
+      GridPane.columnIndex="1"
+      GridPane.columnSpan="1"
+      alignment="CENTER">
+
+    <children>
+
+        <Label text="Përshkrimi"
+               styleClass="field-label"/>
+
+        <TextArea fx:id="pershkrimiField"
+          prefRowCount="8"
+          prefHeight="180"
+          maxWidth="650"
+          wrapText="true"
+          styleClass="description-area"/>
+
+    </children>
+
+</VBox>
 
 </GridPane>
 

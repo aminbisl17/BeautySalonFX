@@ -3,9 +3,12 @@ package com.beautysalon.gate;
 import java.util.List;
 
 import com.beautysalon.gate.Configuration.DotEnv;
+import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.services.Sherbimet;
 import com.beautysalon.gate.responses.loginResponse;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class SessionManager {
 
@@ -16,28 +19,40 @@ public class SessionManager {
     private static List<Client> clients;
     private static Client client;
     private static loginResponse primaryResponse;
+    private final static Dotenv dotenv = DotEnv.getDotEnv();
+
+    public static String getAPI(String path){
+        try{
+         return DotEnv.getDotEnv().get(path);
+        } catch(Exception e){
+             e.printStackTrace();
+            APIErrorHandler.handle(e);
+        }
+        return null;
+    }
 
     public static String[][] URL = {
         {
-            DotEnv.getDotEnv().get("API_SERVICES_ALL"),
-            DotEnv.getDotEnv().get("API_SERVICES_ATRIBUTE")
+            dotenv.get("API_SERVICES_ALL"),
+            dotenv.get("API_SERVICES_ATRIBUTE")
         },
         {
-            DotEnv.getDotEnv().get("API_CLIENTS_ALL"),
-            DotEnv.getDotEnv().get("API_CLIENTS_HISTORY")
+            dotenv.get("API_CLIENTS_ALL"),
+            dotenv.get("API_CLIENTS_HISTORY"),
+            dotenv.get("API_CLIENTS_UPDATE")
         },
         {
-            DotEnv.getDotEnv().get("API_USER_DATA")
+            dotenv.get("API_USER_DATA")
         },
         {
-            DotEnv.getDotEnv().get("API_AUTHENTICATION_ATTENDANCE_GENERATE"),
-            DotEnv.getDotEnv().get("API_AUTHENTICATION_ATTENDANCE_VALIDATE")
+            dotenv.get("API_AUTHENTICATION_ATTENDANCE_GENERATE"),
+            dotenv.get("API_AUTHENTICATION_ATTENDANCE_VALIDATE")
         },
         {
-             DotEnv.getDotEnv().get("API_SERVER_HEALTH")
+            dotenv.get("API_SERVER_HEALTH")
         },
         {
-          DotEnv.getDotEnv().get("WS_AUTHENTICATION")
+            dotenv.get("WS_AUTHENTICATION")
         }
     };
 

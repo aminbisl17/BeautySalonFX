@@ -87,219 +87,130 @@
 
     <!-- CENTER CONTENT -->
     <center>
+<VBox spacing="20" BorderPane.alignment="CENTER">
 
-        <VBox spacing="20"
-              BorderPane.alignment="CENTER">
+    <padding>
+        <Insets top="10" right="25" bottom="25" left="25"/>
+    </padding>
 
-            <padding>
-                <Insets top="10" right="25" bottom="25" left="25"/>
-            </padding>
+    <!-- ========================= -->
+    <!-- CLIENT CARD -->
+    <!-- ========================= -->
+    <VBox spacing="18" styleClass="card">
 
-            <children>
+        <Label text="Informacioni i Klientit" styleClass="section-title"/>
 
-                <!-- CLIENT INFO CARD -->
-                <VBox spacing="18"
-                      styleClass="card">
+        <!-- EDITABLE SECTION -->
+        <VBox spacing="14">
 
-                    <children>
+            <Label text="Të dhënat kryesore" styleClass="subtitle-label"/>
 
-                        <Label text="Informacioni i Klientit"
-                               styleClass="section-title"/>
+            <GridPane hgap="18" vgap="14">
 
-                      <GridPane hgap="18"
-          vgap="18">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33"/>
+                    <ColumnConstraints percentWidth="33"/>
+                    <ColumnConstraints percentWidth="34"/>
+                </columnConstraints>
 
-   <columnConstraints>
-    <ColumnConstraints percentWidth="33"/>
-    <ColumnConstraints percentWidth="33"/>
-    <ColumnConstraints percentWidth="34"/>
-</columnConstraints>
-
-    <!-- ROW 1 -->
-    <VBox spacing="8"
-          GridPane.rowIndex="0"
-          GridPane.columnIndex="0">
-        <children>
-            <Label text="ID" styleClass="field-label"/>
-            <TextField fx:id="idField" editable="false"/>
-        </children>
-    </VBox>
-
-    <VBox spacing="8"
-          GridPane.rowIndex="0"
-          GridPane.columnIndex="1">
-        <children>
-            <Label text="Emri" styleClass="field-label"/>
-            <TextField fx:id="emriField"/>
-        </children>
-    </VBox>
-
-    <VBox spacing="8"
-          GridPane.rowIndex="0"
-          GridPane.columnIndex="2">
-        <children>
-            <Label text="Mbiemri" styleClass="field-label"/>
-            <TextField fx:id="mbiemriField"/>
-        </children>
-    </VBox>
-
-    <!-- ROW 2 -->
-    <VBox spacing="8"
-          GridPane.rowIndex="1"
-          GridPane.columnIndex="0">
-        <children>
-            <Label text="Gjinia" styleClass="field-label"/>
-            <TextField fx:id="gjiniaField" editable="false"/>
-        </children>
-    </VBox>
-
-    <VBox spacing="8"
-          GridPane.rowIndex="1"
-          GridPane.columnIndex="1">
-        <children>
-            <Label text="Numri Telefonit" styleClass="field-label"/>
-            <TextField fx:id="numriTelField"/>
-        </children>
-    </VBox>
-
-    <VBox spacing="8"
-          GridPane.rowIndex="1"
-          GridPane.columnIndex="2">
-        <children>
-            <Label text="Username" styleClass="field-label"/>
-            <TextField fx:id="usernameField" editable="false"/>
-        </children>
-    </VBox>
-
-   <!-- EMAIL (wide) -->
-<GridPane GridPane.rowIndex="2"
-          GridPane.columnIndex="0"
-          GridPane.columnSpan="3"
-          hgap="18">
-
-    <columnConstraints>
-        <ColumnConstraints percentWidth="50"/>
-        <ColumnConstraints percentWidth="50"/>
-    </columnConstraints>
-
-    <!-- EMAIL -->
-    <VBox spacing="8" GridPane.columnIndex="0">
-        <children>
-            <Label text="Email" styleClass="field-label"/>
-            <TextField fx:id="emailField"
-                       editable="false"
-                       maxWidth="Infinity"/>
-        </children>
-    </VBox>
-
-    <!-- DATA REGJISTRIMIT -->
-    <VBox spacing="8" GridPane.columnIndex="1">
-        <children>
-            <Label text="Data Regjistrimit" styleClass="field-label"/>
-            <TextField fx:id="dataRegjistrimitField"
-                       editable="false"
-                       maxWidth="Infinity"/>
-        </children>
-    </VBox>
-
-</GridPane>
-
-<!-- DESCRIPTION -->
-<VBox spacing="8"
-      GridPane.rowIndex="3"
-      GridPane.columnIndex="1"
-      GridPane.columnSpan="1"
-      alignment="CENTER">
-
-    <children>
-
-        <Label text="Përshkrimi"
-               styleClass="field-label"/>
-
-        <TextArea fx:id="pershkrimiField"
-          prefRowCount="8"
-          prefHeight="180"
-          maxWidth="650"
-          wrapText="true"
-          styleClass="description-area"/>
-
-    </children>
-
-</VBox>
-
-</GridPane>
-
-                    </children>
-
+                <VBox spacing="6" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <Label text="Emri" styleClass="field-label"/>
+                    <TextField fx:id="emriField"/>
                 </VBox>
 
-                <!-- HISTORY TABLE CARD -->
-                <VBox spacing="15"
-                      VBox.vgrow="ALWAYS"
-                      styleClass="card">
-
-                    <children>
-
-                        <HBox alignment="CENTER_LEFT">
-
-                            <children>
-
-                                <VBox spacing="3">
-
-                                    <children>
-
-                                        <Label text="Historia e Shërbimeve"
-                                               styleClass="section-title"/>
-
-                                        <Label text="Klikoni dy herë në një rresht për të parë detajet"
-                                               styleClass="subtitle-label"/>
-
-                                    </children>
-
-                                </VBox>
-
-                            </children>
-
-                        </HBox>
-
-                        <TableView fx:id="historyField"
-                                   VBox.vgrow="ALWAYS">
-
-                            <columns>
-
-                                <TableColumn fx:id="idCol"
-                                             text="ID"
-                                             prefWidth="120"
-                                             editable="false"
-                                             sortable="false"/>
-
-                                <TableColumn fx:id="emriPunonjesitCol"
-                                             text="Punonjësi"
-                                             prefWidth="250"
-                                             editable="false"/>
-
-                                <TableColumn fx:id="dataSherbimitCol"
-                                             text="Data e shërbimit"
-                                             prefWidth="350"
-                                             editable="false"
-                                             sortable="false"/>
-
-                            </columns>
-
-                            <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                            </columnResizePolicy>
-
-                        </TableView>
-
-                    </children>
-
+                <VBox spacing="6" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <Label text="Mbiemri" styleClass="field-label"/>
+                    <TextField fx:id="mbiemriField"/>
                 </VBox>
 
-            </children>
+                <VBox spacing="6" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                    <Label text="Numri Telefonit" styleClass="field-label"/>
+                    <TextField fx:id="numriTelField"/>
+                </VBox>
 
+                <VBox spacing="6" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <Label text="Email" styleClass="field-label"/>
+                    <TextField fx:id="emailField"/>
+                </VBox>
+
+                <!-- ✅ FIXED: NO OVERLAP, PROPER SPAN -->
+                <VBox spacing="6"
+                      GridPane.rowIndex="1"
+                      GridPane.columnIndex="1"
+                      GridPane.columnSpan="2"
+                      maxWidth="500">
+
+                    <Label text="Përshkrimi" styleClass="field-label"/>
+
+                    <TextArea fx:id="pershkrimiField"
+                              prefRowCount="5"
+                              wrapText="true"
+                              maxWidth="500"
+                              styleClass="description-area"/>
+                </VBox>
+
+            </GridPane>
         </VBox>
 
-    </center>
+        <!-- READONLY SECTION -->
+        <VBox spacing="14">
+
+            <Label text="Informacione sistemi" styleClass="subtitle-label"/>
+
+            <GridPane hgap="18" vgap="12">
+
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                </columnConstraints>
+
+                <VBox spacing="4" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <Label text="ID" styleClass="field-label"/>
+                    <Label fx:id="idLabel" styleClass="readonly-label"/>
+                </VBox>
+
+                <VBox spacing="4" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <Label text="Gjinia" styleClass="field-label"/>
+                    <Label fx:id="gjiniaLabel" styleClass="readonly-label"/>
+                </VBox>
+
+                <VBox spacing="4" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                    <Label text="Username" styleClass="field-label"/>
+                    <Label fx:id="usernameLabel" styleClass="readonly-label"/>
+                </VBox>
+
+                <VBox spacing="4" GridPane.rowIndex="0" GridPane.columnIndex="3">
+                    <Label text="Regjistrimi" styleClass="field-label"/>
+                    <Label fx:id="dataRegjistrimitLabel" styleClass="readonly-label"/>
+                </VBox>
+
+            </GridPane>
+        </VBox>
+
+    </VBox>
+
+    <!-- ========================= -->
+    <!-- TABLE CARD -->
+    <!-- ========================= -->
+    <VBox spacing="15" VBox.vgrow="ALWAYS" styleClass="card">
+
+        <Label text="Historia e Shërbimeve" styleClass="section-title"/>
+
+        <TableView fx:id="historyField" VBox.vgrow="ALWAYS">
+
+            <columns>
+                <TableColumn fx:id="idCol" text="ID" prefWidth="120"/>
+                <TableColumn fx:id="emriPunonjesitCol" text="Punonjësi" prefWidth="250"/>
+                <TableColumn fx:id="dataSherbimitCol" text="Data e shërbimit" prefWidth="350"/>
+            </columns>
+
+        </TableView>
+
+    </VBox>
+
+</VBox>
+</center>
 
 </BorderPane>

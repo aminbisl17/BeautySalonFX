@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -45,20 +46,14 @@ public class ClientProfileController {
     @FXML
     private TextField numriTelField;
 
-    @FXML
-    private TextField idField;
-
-    @FXML
-    private TextField gjiniaField;
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private TextField dataRegjistrimitField;
 
     @FXML
     private TextField emailField;
+
+    @FXML private Label idLabel;
+@FXML private Label gjiniaLabel;
+@FXML private Label usernameLabel;
+@FXML private Label dataRegjistrimitLabel;
 
     @FXML
     private TableColumn<ClientHistory, Long> idCol;
@@ -102,7 +97,8 @@ public class ClientProfileController {
             System.err.println("No client in session!");
             return;
         }
-
+ 
+        historyField.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         historikuDetajetTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         emriField.setText(client.getEmri());
@@ -111,20 +107,20 @@ public class ClientProfileController {
 
         emailField.setText(client.getEmail());
 
-        idField.setText(String.valueOf(client.getID()));
-
-        gjiniaField.setText(client.getGjinia());
-
-        usernameField.setText(client.getUsername());
+        
 
         pershkrimiField.setText(client.getPershkrimi());
 
-        if (client.getData_regjistrimit() != null) {
-            dataRegjistrimitField.setText(
-                    client.getData_regjistrimit()
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-        }
+       idLabel.setText(String.valueOf(client.getID()));
+gjiniaLabel.setText(client.getGjinia());
+usernameLabel.setText(client.getUsername());
 
+if (client.getData_regjistrimit() != null) {
+    dataRegjistrimitLabel.setText(
+        client.getData_regjistrimit()
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+    );
+}
         idCol.setCellValueFactory(new PropertyValueFactory<>("id_historikut"));
         emriPunonjesitCol.setCellValueFactory(new PropertyValueFactory<>("emri_mbiemri_punonjesit"));
 
@@ -176,8 +172,7 @@ public class ClientProfileController {
         emailField.setEditable(enable);
         pershkrimiField.setEditable(enable);
 
-        // disable focus when NOT editing
-        emriField.setFocusTraversable(enable);
+       emriField.setFocusTraversable(enable);
         mbiemriField.setFocusTraversable(enable);
         numriTelField.setFocusTraversable(enable);
         emailField.setFocusTraversable(enable);
@@ -192,24 +187,17 @@ public class ClientProfileController {
         cancelBtn.setVisible(enable);
         cancelBtn.setManaged(enable);
 
-        // visual mode class (IMPORTANT)
-        if (enable) {
-            emriField.getStyleClass().add("edit-mode");
-            mbiemriField.getStyleClass().add("edit-mode");
-            numriTelField.getStyleClass().add("edit-mode");
-            emailField.getStyleClass().add("edit-mode");
-            pershkrimiField.getStyleClass().add("edit-mode");
-        } else {
-            emriField.getStyleClass().remove("edit-mode");
-            mbiemriField.getStyleClass().remove("edit-mode");
-            numriTelField.getStyleClass().remove("edit-mode");
-            emailField.getStyleClass().remove("edit-mode");
-            pershkrimiField.getStyleClass().remove("edit-mode");
-        }
+     addEditModeStyle(emriField, enable);
+addEditModeStyle(mbiemriField, enable);
+addEditModeStyle(numriTelField, enable);
+addEditModeStyle(emailField, enable);
+addEditModeStyle(pershkrimiField, enable);
     }
 
     private void saveChanges() {    
+        
         Client client = SessionManager.getClient();
+       //Client updated = new Client();
 
         client.setEmri(emriField.getText());
         client.setMbiemri(mbiemriField.getText());
@@ -254,6 +242,16 @@ public class ClientProfileController {
             }
         });
     }
+
+private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
+    if (enable) {
+        if (!node.getStyleClass().contains("edit-mode")) {
+            node.getStyleClass().add("edit-mode");
+        }
+    } else {
+        node.getStyleClass().remove("edit-mode");
+    }
+}
 
     private void fetchClientHistory(Client client) {
 

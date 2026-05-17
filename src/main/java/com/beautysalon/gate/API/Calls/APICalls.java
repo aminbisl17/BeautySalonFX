@@ -1,18 +1,19 @@
 package com.beautysalon.gate.API.Calls;
 
-import java.util.concurrent.Callable;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
-import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientsAPI;
-import com.beautysalon.gate.Configuration.ExecutorConfig;
+import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
+import com.beautysalon.gate.Model.clients.Client;
+import com.beautysalon.gate.Model.clients.ClientHistory;
 
-import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class APICalls {
+
+    private static Dotenv env = DotEnv.getDotEnv();
 
     public enum ApiCategory {
 
@@ -22,10 +23,11 @@ public class APICalls {
     ),
 
     CLIENTS(
-        System.getenv("API_CLIENTS_ALL"),
-        System.getenv("API_CLIENTS_HISTORY"),
-        System.getenv("API_CLIENTS_UPDATE"),
-        System.getenv("API_CLIENTS_DELETE")
+       // System.getenv("API_CLIENTS_ALL"),
+        env.get("API_CLIENTS_ALL"),
+        env.get("API_CLIENTS_HISTORY"),
+        env.get("API_CLIENTS_UPDATE"),
+        env.get("API_CLIENTS_DELETE")
     ),
 
     USER(
@@ -59,6 +61,7 @@ public class APICalls {
 // Clients
 static ClientsAPI clientsService = new ClientsAPI();
 
+/* 
    public static <T> void executeAsync(
         Callable<T> work,
         Consumer<T> onSuccess,
@@ -87,7 +90,7 @@ static ClientsAPI clientsService = new ClientsAPI();
     });
 
     ExecutorConfig.submit(task);
-}
+}*/
 
 public static CompletableFuture<Boolean> fetchClients() {
 
@@ -101,4 +104,47 @@ public static CompletableFuture<Boolean> fetchClients() {
         }
     });
 }
+
+
+public static CompletableFuture<List<ClientHistory>> fetchClientHistory(Long ID) {
+
+    return CompletableFuture.supplyAsync(() -> {
+        try {
+            return clientsService.getClientHistory(ID);
+        } catch (Exception ex) {
+            APIErrorHandler.handle(ex);
+            return null;
+        }
+    });
+}
+
+public static CompletableFuture<Boolean> updateClient(Client client){
+
+   return CompletableFuture.supplyAsync(() -> {
+        try {
+            clientsService.updateClient(client);
+            return true;
+        } catch (Exception ex) {
+            APIErrorHandler.handle(ex);
+            return false;
+        }
+    });
+
+}
+
+
+public static CompletableFuture<Boolean> deleteClient(Long ID){
+
+   return CompletableFuture.supplyAsync(() -> {
+        try {
+            clientsService.deleteClient(ID);
+            return true;
+        } catch (Exception ex) {
+            APIErrorHandler.handle(ex);
+            return false;
+        }
+    });
+
+}
+
 }

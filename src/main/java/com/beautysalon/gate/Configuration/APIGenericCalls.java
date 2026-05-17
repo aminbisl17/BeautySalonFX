@@ -104,4 +104,33 @@ public static HttpResponse<String> putMethod(boolean auth, String URL, Object bo
         }
     }
     
+    private static HttpResponse<String> sendRequest(
+        String method,
+        String url,
+        boolean auth,
+        String body
+) throws IOException, InterruptedException, TokenException {
+
+    if (auth) validateToken();
+
+    HttpRequest.Builder builder = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .timeout(Duration.ofSeconds(10))
+            .header("Content-Type", "application/json");
+
+    if (auth) {
+        builder.header("Authorization", "Bearer " + SessionManager.getToken());
+    }
+
+    switch (method) {
+        case "GET" -> builder.GET();
+        case "DELETE" -> builder.DELETE();
+        case "POST" -> builder.POST(HttpRequest.BodyPublishers.ofString(body == null ? "" : body));
+        case "PUT" -> builder.PUT(HttpRequest.BodyPublishers.ofString(body == null ? "" : body));
+        default -> throw new IllegalArgumentException("Invalid method: " + method);
+    }
+
+    return CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+}
+
 }

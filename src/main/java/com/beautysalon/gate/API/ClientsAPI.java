@@ -7,6 +7,7 @@ import java.util.List;
 import javax.naming.AuthenticationException;
 
 import com.beautysalon.gate.SessionManager;
+import com.beautysalon.gate.API.Calls.APICalls;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
@@ -22,7 +23,7 @@ public class ClientsAPI {
 
     public void fetchAllClients() throws ServerErrorException, IOException, InterruptedException, TokenException{
 
-        HttpResponse<String> response =  APIGenericCalls.getMethod(true, SessionManager.getAPI("API_CLIENTS_ALL"));
+        HttpResponse<String> response =  APIGenericCalls.getMethod(true, APICalls.ApiCategory.CLIENTS.getUrls()[0]);// SessionManager.getAPI("API_CLIENTS_ALL"));
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
         throw new TokenException();
@@ -46,7 +47,6 @@ public class ClientsAPI {
         HttpResponse<String> response = APIGenericCalls.getMethod(true,  SessionManager.getAPI("API_CLIENTS_HISTORY") + ID);
 
           if (response.statusCode() == 401 || response.statusCode() == 403) {
-            System.out.println(response);
         throw new TokenException();
     }
 

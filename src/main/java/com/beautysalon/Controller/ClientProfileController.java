@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientsAPI;
+import com.beautysalon.gate.API.Calls.APICalls;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
@@ -83,7 +84,7 @@ public class ClientProfileController {
 
     private boolean editMode = false;
 
-    private ClientsAPI clientsService = new ClientsAPI();
+  //  private ClientsAPI clientsService = new ClientsAPI();
 
     private Client client = SessionManager.getClient();
 
@@ -96,6 +97,10 @@ public class ClientProfileController {
         return;
        }
  
+       APICalls.fetchClientHistory(client.getID()).thenAccept(e ->{
+            historyField.setItems(FXCollections.observableArrayList(e));
+       });
+
         historyField.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         historikuDetajetTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
@@ -139,7 +144,7 @@ if (client.getData_regjistrimit() != null) {
             CenterController.loadCenterContent("clientsview.fxml");
         });
 
-        fetchClientHistory(client);
+        //fetchClientHistory(client);
 
         historyField.setRowFactory(tv -> {
             TableRow<ClientHistory> row = new TableRow<>();
@@ -202,7 +207,17 @@ private void saveChanges() {
         .ifPresent(response -> {
 
             if (response == ButtonType.OK) {
-                updateClient();
+               // updateClient();
+
+                client.setEmri(emriField.getText());
+                client.setMbiemri(mbiemriField.getText());
+                client.setNumri_telefonit(numriTelField.getText());
+                client.setEmail(emailField.getText());
+                client.setPershkrimi(pershkrimiField.getText());
+
+               APICalls.updateClient(client).thenAccept(e ->{
+                  if(!e) client = SessionManager.getClient();
+               });
                 setEditMode(false);
             }
         });
@@ -235,7 +250,14 @@ private void saveChanges() {
 
             if (response == ButtonType.OK) {
 
-                deleteClientCall();
+                //deleteClientCall();
+
+                APICalls.deleteClient(client.getID()).thenAccept(e ->{
+                  if(e){
+                      APICalls.fetchClients();
+                      CenterController.loadCenterContent("clientsview.fxml");
+                  }
+                });
             }
         });
     }
@@ -250,6 +272,7 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
     }
 }
 
+/*
     private void fetchClientHistory(Client client) {
 
         Task<List<ClientHistory>> task = new Task<>() {
@@ -271,7 +294,9 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
         ExecutorConfig.submit(task);
 
     }
+        */
 
+    /* 
     private void updateClient(){
  
         Task<String> task = new Task<>(){
@@ -296,7 +321,8 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
         });
  ExecutorConfig.submit(task);
     }
-
+*/
+/* 
     private void deleteClientCall(){
         Task<String> task = new Task<>(){
 
@@ -318,6 +344,7 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
  ExecutorConfig.submit(task);
 
     }
+  */
     private void HistorikuDetajet(List<Historiku_detajet> data) {
 
         // columns

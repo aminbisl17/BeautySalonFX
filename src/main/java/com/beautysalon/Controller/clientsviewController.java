@@ -110,30 +110,6 @@ private TextField searchField;
 
     }
 
-/* 
-    private void fetchClientsAsync() {
-
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                clientsService.fetchAllClients();
-                return null;
-            }
-        };
-
-        task.setOnSucceeded((_) -> {
-    
-           // table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
-            setupSearch(SessionManager.getClients());
-        });
-
-        task.setOnFailed(event -> {
-                APIErrorHandler.handle(task.getException()); 
-        });
-
-        ExecutorConfig.submit(task);
-    }
- */
     private void setupSearch(List<Client> clients) {
 
     FilteredList<Client> filteredData =

@@ -39,7 +39,8 @@ public class SessionManager {
         {
             dotenv.get("API_CLIENTS_ALL"),
             dotenv.get("API_CLIENTS_HISTORY"),
-            dotenv.get("API_CLIENTS_UPDATE")
+            dotenv.get("API_CLIENTS_UPDATE"),
+            dotenv.get("API_CLIENTS_DELETE")
         },
         {
             dotenv.get("API_USER_DATA")

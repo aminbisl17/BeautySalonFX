@@ -89,4 +89,19 @@ public String updateClient(Client c)
 
     return response.body();
 }
+public String deleteClient(Long ID) throws IOException, InterruptedException, TokenException, ServerErrorException{
+    HttpResponse<String> response = APIGenericCalls.deleteMethod(true, SessionManager.getAPI("API_CLIENTS_DELETE") + ID);
+     int status = response.statusCode();
+    if (status == 500) {
+        throw new ServerErrorException("Internal server error");
+    }
+
+    if (status < 200 || status >= 300) {
+        throw new RuntimeException(
+                "delete failed. Status: " + status + ", body: " + response.body()
+        );
+    }
+
+    return response.body();
+}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
+import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
@@ -20,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -83,20 +85,16 @@ public class ClientProfileController {
 
     private ClientsAPI clientsService = new ClientsAPI();
 
-//    private TableColumn<Historiku_detajet, String> sherbimiCol = new TableColumn<>("Sherbimi");
-  //  private TableColumn<Historiku_detajet, String> atributiCol = new TableColumn<>("Atributi");
-   // private TableColumn<Historiku_detajet, String> pershkrimiCol = new TableColumn<>("Pershkrimi");
-   // private TableColumn<Historiku_detajet, Double> pagesaCol = new TableColumn<>("Pagesa");
+    private Client client = SessionManager.getClient();
 
     @FXML
     public void initialize() {
 
-        Client client = SessionManager.getClient();
-
-        if (client == null) {
-            System.err.println("No client in session!");
-            return;
-        }
+       if(client == null){
+         ModernAlert.warning("Nuk ka të dhëna!", "Klienti nuk u gjet!");
+         CenterController.loadCenterContent("clientsView.fxml");
+        return;
+       }
  
         historyField.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         historikuDetajetTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
@@ -136,6 +134,10 @@ if (client.getData_regjistrimit() != null) {
         deleteBtn.setOnAction(e -> deleteClient());
 
         cancelBtn.setOnAction(e -> cancelEdit());
+
+        rollbackBtn.setOnAction(e ->{
+            CenterController.loadCenterContent("clientsview.fxml");
+        });
 
         fetchClientHistory(client);
 
@@ -194,25 +196,24 @@ addEditModeStyle(emailField, enable);
 addEditModeStyle(pershkrimiField, enable);
     }
 
-    private void saveChanges() {    
-        
-        Client client = SessionManager.getClient();
-       //Client updated = new Client();
+private void saveChanges() {
 
-        client.setEmri(emriField.getText());
-        client.setMbiemri(mbiemriField.getText());
-        client.setNumri_telefonit(numriTelField.getText());
-        client.setEmail(emailField.getText());
-        client.setPershkrimi(pershkrimiField.getText());
+    ModernAlert.confirm("Ruaj ndryshimet", "Dëshironi të bëni ndryshime?")
+        .ifPresent(response -> {
 
-        
-        updateClient(client);
-        setEditMode(false);
-    }
-
+            if (response == ButtonType.OK) {
+                updateClient();
+                setEditMode(false);
+            }
+        });
+}
     private void cancelEdit() {
 
-        Client client = SessionManager.getClient();
+        ModernAlert.warning("Kujdes", "Dëshironi të anuloni ndryshimet?").ifPresent(response -> {
+
+            if (response == ButtonType.OK) {
+
+               Client client = SessionManager.getClient();
 
         emriField.setText(client.getEmri());
         mbiemriField.setText(client.getMbiemri());
@@ -220,25 +221,21 @@ addEditModeStyle(pershkrimiField, enable);
         emailField.setText(client.getEmail());
         pershkrimiField.setText(client.getPershkrimi());
         setEditMode(false);
+
+        //        CenterController.loadCenterContent("clientsview.fxml");
+            }
+        });
+
+      
     }
 
     private void deleteClient() {
 
-        Client client = SessionManager.getClient();
-
-        // optional confirmation dialog
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Client");
-        alert.setHeaderText("Are you sure?");
-        alert.setContentText("This action cannot be undone.");
-
-        alert.showAndWait().ifPresent(response -> {
+ ModernAlert.danger("Fshirje", "A jeni i sigurt që doni të fshini klientin?").ifPresent(response -> {
 
             if (response == ButtonType.OK) {
 
-                // clientsService.deleteClient(client.getID());
-
-                CenterController.loadCenterContent("clientsview.fxml");
+                deleteClientCall();
             }
         });
     }
@@ -264,25 +261,10 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
         };
 
         task.setOnSucceeded((_) -> {
-
-            // List<ClientHistory> history = task.getValue();
-            // client.setClientHistory(task.getValue());
             historyField.setItems(FXCollections.observableArrayList(task.getValue()));
         });
 
         task.setOnFailed((_) -> {
-            /*
-             * Throwable ex = task.getException();
-             * ex.printStackTrace();
-             * Platform.runLater(() -> {
-             * Alert alert = new Alert(Alert.AlertType.ERROR);
-             * alert.setTitle("Error fetching clients history");
-             * alert.setHeaderText(ex.getClass().getSimpleName());
-             * alert.setContentText(ex.getMessage());
-             * alert.showAndWait();
-             * // ExpiredToken.RedirectAfterExpire();
-             * });
-             */
             APIErrorHandler.handle(task.getException());
         });
 
@@ -290,7 +272,7 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
 
     }
 
-    private void updateClient(Client client){
+    private void updateClient(){
  
         Task<String> task = new Task<>(){
 
@@ -305,14 +287,37 @@ private void addEditModeStyle(javafx.scene.Node node, boolean enable) {
             APIErrorHandler.handle(task.getException());
         });
         task.setOnSucceeded((_)->{
-             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setContentText(task.getValue());
-                alert.showAndWait();
+          //  ModernAlert.success("Sukses", "Të dhënat e klientit janë përditësuar");
+             client.setEmri(emriField.getText());
+                client.setMbiemri(mbiemriField.getText());
+                client.setNumri_telefonit(numriTelField.getText());
+                client.setEmail(emailField.getText());
+                client.setPershkrimi(pershkrimiField.getText());
         });
  ExecutorConfig.submit(task);
     }
 
+    private void deleteClientCall(){
+        Task<String> task = new Task<>(){
+
+            @Override
+            protected String call() throws Exception {
+                return clientsService.deleteClient(client.getID());
+            }
+         
+        };
+
+           task.setOnFailed((_)->{
+            APIErrorHandler.handle(task.getException());
+        });
+        task.setOnSucceeded((_)->{
+            ModernAlert.success("Sukses",  task.getValue());
+            CenterController.loadCenterContent("clientsview.fxml");
+          
+        });
+ ExecutorConfig.submit(task);
+
+    }
     private void HistorikuDetajet(List<Historiku_detajet> data) {
 
         // columns

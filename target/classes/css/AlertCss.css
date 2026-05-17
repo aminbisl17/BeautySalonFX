@@ -1,0 +1,130 @@
+/* =========================
+   MODERN SAAS ALERT SYSTEM
+   ========================= */
+
+/* MAIN DIALOG */
+.dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 18;
+
+    /* soft modern shadow */
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.12), 24, 0.2, 0, 8);
+}
+
+/* REMOVE DEFAULT HEADER LOOK */
+.dialog-pane .header-panel {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* CUSTOM HEADER TITLE */
+.dialog-header {
+    -fx-padding: 6 0 12 0;
+}
+
+.dialog-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+/* CONTENT TEXT */
+.dialog-pane .content.label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #475569;
+    -fx-padding: 6 0 12 0;
+}
+
+/* =========================
+   BUTTONS (MODERN SAAS)
+   ========================= */
+
+.dialog-pane .button {
+    -fx-background-radius: 10;
+    -fx-padding: 7 16;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+}
+
+/* hover effect */
+.dialog-pane .button:hover {
+    -fx-opacity: 0.92;
+}
+
+/* cancel button (neutral) */
+.dialog-pane .button:cancel {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #0f172a;
+}
+
+/* =========================
+   INFO (BLUE)
+   ========================= */
+
+.info-dialog {
+    -fx-border-color: #93c5fd;
+    -fx-border-width: 0 0 0 3;
+}
+
+.info-dialog .button:default {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+}
+
+/* =========================
+   CONFIRM (GREEN)
+   ========================= */
+
+.confirm-dialog {
+    -fx-border-color: #86efac;
+    -fx-border-width: 0 0 0 3;
+}
+
+.confirm-dialog .button:default {
+    -fx-background-color: #16a34a;
+    -fx-text-fill: white;
+}
+
+/* =========================
+   WARNING (AMBER)
+   ========================= */
+
+.warning-dialog {
+    -fx-border-color: #fcd34d;
+    -fx-border-width: 0 0 0 3;
+}
+
+.warning-dialog .button:default {
+    -fx-background-color: #f59e0b;
+    -fx-text-fill: white;
+}
+
+/* =========================
+   DANGER (RED / DELETE)
+   ========================= */
+
+.danger-dialog {
+    -fx-border-color: #fca5a5;
+    -fx-border-width: 0 0 0 3;
+}
+
+.danger-dialog .button:default {
+    -fx-background-color: #dc2626;
+    -fx-text-fill: white;
+}
+
+.danger-dialog .button:default:hover {
+    -fx-background-color: #b91c1c;
+}
+.success-dialog {
+    -fx-border-color: #4ade80;
+    -fx-border-width: 0 0 0 3;
+}
+
+.success-dialog .button:default {
+    -fx-background-color: #16a34a;
+    -fx-text-fill: white;
+}

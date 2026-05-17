@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientsAPI;
+import com.beautysalon.gate.API.Calls.APICalls;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
@@ -37,15 +38,15 @@ public class clientsviewController {
 
     private TableView<ClientHistory> historyTable = new TableView<>();
 
-    private ClientsAPI clientsService = new ClientsAPI();
-
     @FXML
 private TextField searchField;
 
     @FXML
     public void initialize(){
 
-        refreshbutton.setOnAction((_) ->{ fetchClientsAsync(); });
+        refreshbutton.setOnAction((_) ->{  APICalls.fetchClients().thenAccept(e ->{
+            if(e) setupSearch(SessionManager.getClients());
+       }); });
 
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
@@ -98,13 +99,18 @@ private TextField searchField;
 
 
    if(SessionManager.getClients() == null){
-        fetchClientsAsync();
+  
+       APICalls.fetchClients().thenAccept(e ->{
+            if(e) setupSearch(SessionManager.getClients());
+       });
         return;
    }
   // table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
   setupSearch(SessionManager.getClients());
 
     }
+
+/* 
     private void fetchClientsAsync() {
 
         Task<Void> task = new Task<>() {
@@ -127,7 +133,7 @@ private TextField searchField;
 
         ExecutorConfig.submit(task);
     }
-
+ */
     private void setupSearch(List<Client> clients) {
 
     FilteredList<Client> filteredData =

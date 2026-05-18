@@ -2,33 +2,21 @@ package com.beautysalon.Controller;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import com.beautysalon.gate.SessionManager;
-import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.API.Calls.APICalls;
-import com.beautysalon.gate.Configuration.ExecutorConfig;
-import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.scene.control.TextField;
-
-
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class clientsviewController {
-
-    //@FXML
-    //private BorderPane clientsview;
 
     @FXML
     private Button refreshbutton;
@@ -36,23 +24,54 @@ public class clientsviewController {
     @FXML
     private TableView<Client> table;
 
-    private TableView<ClientHistory> historyTable = new TableView<>();
+    @FXML
+    private TextField searchField;
+
+    private final TableView<ClientHistory> historyTable = new TableView<>();
 
     @FXML
-private TextField searchField;
+    public void initialize() {
 
-    @FXML
-    public void initialize(){
+        // ---------- TABLE CONFIG ----------
+        table.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+        );
 
-        refreshbutton.setOnAction((_) ->{  APICalls.fetchClients().thenAccept(e ->{
-            if(e) setupSearch(SessionManager.getClients());
-       }); });
+        historyTable.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+        );
 
-         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        setupColumns();
 
-          historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        setupRowClick();
 
-            TableColumn<Client, Long> idCol = new TableColumn<>("ID");
+        // ---------- BUTTON ----------
+        refreshbutton.setOnAction(e -> loadClients());
+
+        // ---------- INITIAL LOAD ----------
+        loadClients();
+    }
+
+    // ================= LOAD DATA =================
+    private void loadClients() {
+
+        APICalls.fetchClients().thenAccept(success -> {
+
+            if (success && SessionManager.getClients() != null) {
+
+                List<Client> clients = SessionManager.getClients();
+
+                Platform.runLater(() -> {
+                    setupSearch(clients);
+                });
+            }
+        });
+    }
+
+    // ================= TABLE COLUMNS =================
+    private void setupColumns() {
+
+        TableColumn<Client, Long> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
         TableColumn<Client, String> emriCol = new TableColumn<>("Emri");
@@ -64,89 +83,79 @@ private TextField searchField;
         TableColumn<Client, String> gjiniaCol = new TableColumn<>("Gjinia");
         gjiniaCol.setCellValueFactory(new PropertyValueFactory<>("gjinia"));
 
-    //    TableColumn<Client, String> usernameCol = new TableColumn<>("Username");
-      //  usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-
         TableColumn<Client, String> numriCol = new TableColumn<>("Numri Telefonit");
         numriCol.setCellValueFactory(new PropertyValueFactory<>("numri_telefonit"));
 
         TableColumn<Client, String> dateCol = new TableColumn<>("Data Regjistrimit");
         dateCol.setCellValueFactory(cellData -> {
+
             if (cellData.getValue().getData_regjistrimit() != null) {
+
                 String formatted = cellData.getValue()
                         .getData_regjistrimit()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
                 return new javafx.beans.property.SimpleStringProperty(formatted);
-            } else {
-                return new javafx.beans.property.SimpleStringProperty("");
             }
+
+            return new javafx.beans.property.SimpleStringProperty("");
         });
 
-    table.getColumns().setAll( List.of(idCol, emriCol, mbiemriCol, numriCol, dateCol));
-
-    table.setRowFactory((_) -> {
-    TableRow<Client> row = new TableRow<>();
-
-    row.setOnMouseClicked(event -> {
-        if (!row.isEmpty() && event.getClickCount() == 2) {
-              SessionManager.setClient(row.getItem());
-              CenterController.loadCenterContent("ClientProfile.fxml");
-        }
-    });
-
-    return row;
-});
-
-
-   if(SessionManager.getClients() == null){
-  
-       APICalls.fetchClients().thenAccept(e ->{
-            if(e) setupSearch(SessionManager.getClients());
-       });
-        return;
-   }
-  // table.setItems(FXCollections.observableArrayList(SessionManager.getClients()));
-  setupSearch(SessionManager.getClients());
-
+        table.getColumns().setAll(List.of(
+                idCol, emriCol, mbiemriCol, gjiniaCol, numriCol, dateCol
+        ));
     }
 
+    // ================= ROW CLICK =================
+    private void setupRowClick() {
+
+        table.setRowFactory(_ -> {
+            TableRow<Client> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getClickCount() == 2) {
+
+                    SessionManager.setClient(row.getItem());
+                    CenterController.loadCenterContent("ClientProfile.fxml");
+                }
+            });
+
+            return row;
+        });
+    }
+
+    // ================= SEARCH =================
     private void setupSearch(List<Client> clients) {
 
-    FilteredList<Client> filteredData =
-            new FilteredList<>(
-                    FXCollections.observableArrayList(clients),
-                    b -> true
-            );
+        if (clients == null) return;
 
-    searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+        FilteredList<Client> filteredData =
+                new FilteredList<>(
+                        FXCollections.observableArrayList(clients),
+                        b -> true
+                );
 
-        filteredData.setPredicate(client -> {
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
 
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
+            filteredData.setPredicate(client -> {
 
-            String keyword = newValue.toLowerCase();
+                if (newVal == null || newVal.isEmpty()) {
+                    return true;
+                }
 
-            if (client.getEmri() != null &&
-                    client.getEmri().toLowerCase().contains(keyword)) {
-                return true;
-            }
+                String keyword = newVal.toLowerCase();
 
-            if (client.getMbiemri() != null &&
-                    client.getMbiemri().toLowerCase().contains(keyword)) {
-                return true;
-            }
-
-            return false;
+                return (client.getEmri() != null &&
+                        client.getEmri().toLowerCase().contains(keyword))
+                        ||
+                        (client.getMbiemri() != null &&
+                                client.getMbiemri().toLowerCase().contains(keyword));
+            });
         });
-    });
 
-    SortedList<Client> sortedData = new SortedList<>(filteredData);
+        SortedList<Client> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
 
-    sortedData.comparatorProperty().bind(table.comparatorProperty());
-
-    table.setItems(sortedData);
+        table.setItems(sortedData);
+    }
 }
-}
-

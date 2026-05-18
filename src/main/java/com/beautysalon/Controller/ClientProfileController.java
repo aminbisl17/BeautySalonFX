@@ -4,7 +4,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.beautysalon.gate.SessionManager;
-import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.API.Calls.APICalls;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Configuration.ModernAlert;

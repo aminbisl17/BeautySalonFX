@@ -19,6 +19,7 @@ public class SessionManager {
     private static List<Client> clients;
     private static Client client;
     private static loginResponse primaryResponse;
+    
     private final static Dotenv dotenv = DotEnv.getDotEnv();
 
     public static String getAPI(String path){

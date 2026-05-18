@@ -9,10 +9,15 @@ import java.util.Map;
 import java.time.Duration;
 
 import com.beautysalon.gate.SessionManager;
+import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class APIGenericCalls {
+
+ private static ObjectMapper mapper = MapperProvider.getMapper();
 
  private static HttpClient CLIENT = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -104,13 +109,13 @@ public static HttpResponse<String> putMethod(boolean auth, String URL, Object bo
         }
     }
     
-    private static HttpResponse<String> sendRequest(
+    public static HttpResponse<String> sendRequest(
         String method,
         String url,
         boolean auth,
-        String body
-) throws IOException, InterruptedException, TokenException {
-
+        Object body
+) throws IOException, InterruptedException, TokenException, ServerErrorException {
+System.out.println("sendRequest CALLED");
     if (auth) validateToken();
 
     HttpRequest.Builder builder = HttpRequest.newBuilder()
@@ -125,12 +130,13 @@ public static HttpResponse<String> putMethod(boolean auth, String URL, Object bo
     switch (method) {
         case "GET" -> builder.GET();
         case "DELETE" -> builder.DELETE();
-        case "POST" -> builder.POST(HttpRequest.BodyPublishers.ofString(body == null ? "" : body));
-        case "PUT" -> builder.PUT(HttpRequest.BodyPublishers.ofString(body == null ? "" : body));
+        case "POST" -> builder.POST(HttpRequest.BodyPublishers.ofString(body == null ? "" : mapper.writeValueAsString(body)));
+        case "PUT" -> builder.PUT(HttpRequest.BodyPublishers.ofString(body == null ? "" : mapper.writeValueAsString(body)));
         default -> throw new IllegalArgumentException("Invalid method: " + method);
     }
 
     return CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString());
 }
-
+ 
 }
+

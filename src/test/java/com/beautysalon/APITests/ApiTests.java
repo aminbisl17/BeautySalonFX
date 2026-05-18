@@ -1,7 +1,6 @@
 package com.beautysalon.APITests;
 
 import com.beautysalon.gate.SessionManager;
-import com.beautysalon.gate.API.ClientsAPI;
 import com.beautysalon.gate.Model.clients.Client;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,30 +14,4 @@ import javax.naming.AuthenticationException;
 
 public class ApiTests {
 
-    private ClientsAPI clients;
-
-    @BeforeEach
-    void setup() {
-        clients = new ClientsAPI();
-
-        // IMPORTANT: token must exist for API calls
-        SessionManager.setToken("PUT_A_VALID_TEST_TOKEN_HERE");
-    }
-
-    @Test
-    void testFetchAllClientsSuccess() throws Exception {
-
-     
-    }
-
-    @Test
-    void testFetchClientsUnauthorized() {
-
-        // simulate expired token
-        SessionManager.setToken(null);
-
-        assertThrows(AuthenticationException.class, () -> {
-            clients.fetchAllClients();
-        });
-    }
 }

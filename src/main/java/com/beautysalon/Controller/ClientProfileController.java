@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.beautysalon.gate.SessionManager;
-import com.beautysalon.gate.API.Calls.APICalls;
+import com.beautysalon.gate.API.ClientCall;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
@@ -81,7 +81,7 @@ public class ClientProfileController {
     @FXML
     private TextArea pershkrimiField;
 
-    private boolean editMode = false;
+   // private boolean editMode = false;
 
   //  private ClientsAPI clientsService = new ClientsAPI();
 
@@ -96,7 +96,8 @@ public class ClientProfileController {
         return;
        }
  
-       APICalls.fetchClientHistory(client.getID()).thenAccept(e ->{
+       ClientCall.fetchClientHistory(client.getID()).thenAccept(e ->{
+        System.out.println(e);
             historyField.setItems(FXCollections.observableArrayList(e));
        });
 
@@ -169,7 +170,7 @@ if (client.getData_regjistrimit() != null) {
 
     private void setEditMode(boolean enable) {
 
-        editMode = enable;
+    //    editMode = enable;
 
         // editable only in edit mode
         emriField.setEditable(enable);
@@ -214,7 +215,7 @@ private void saveChanges() {
                 client.setEmail(emailField.getText());
                 client.setPershkrimi(pershkrimiField.getText());
 
-               APICalls.updateClient(client).thenAccept(e ->{
+               ClientCall.updateClient(client).thenAccept(e ->{
                   if(!e) client = SessionManager.getClient();
                });
                 setEditMode(false);
@@ -251,9 +252,9 @@ private void saveChanges() {
 
                 //deleteClientCall();
 
-                APICalls.deleteClient(client.getID()).thenAccept(e ->{
+                ClientCall.deleteClient(client.getID()).thenAccept(e ->{
                   if(e){
-                      APICalls.fetchClients();
+                      ClientCall.fetchClients();
                       CenterController.loadCenterContent("clientsview.fxml");
                   }
                 });

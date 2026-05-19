@@ -2,9 +2,10 @@ package com.beautysalon.gate.Configuration;
 
 import java.util.Map;
 
+
 public class APIEndpoints {
 
-    private final Map<String, String> endpoints;
+     private final Map<String, String> endpoints;
 
     public APIEndpoints(Map<String, String> endpoints) {
         this.endpoints = endpoints;

@@ -17,74 +17,77 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class APIGenericCalls {
 
- private static ObjectMapper mapper = MapperProvider.getMapper();
+    private static ObjectMapper mapper = MapperProvider.getMapper();
 
- private static HttpClient CLIENT = HttpClient.newBuilder()
+    private static HttpClient CLIENT = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .connectTimeout(Duration.ofSeconds(10))
             .build();
-    
-public static HttpResponse<String> getMethod(boolean auth, String URL)
-        throws IOException, InterruptedException, TokenException {
 
-    if (auth) validateToken();
+    public static HttpResponse<String> getMethod(boolean auth, String URL)
+            throws IOException, InterruptedException, TokenException {
 
-    HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-            .uri(URI.create(URL))
-            .GET();
+        if (auth)
+            validateToken();
 
-       requestBuilder.header("Content-Type", "application/json");
-    if (auth) {
-        requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(URI.create(URL))
+                .GET();
+
+        requestBuilder.header("Content-Type", "application/json");
+        if (auth) {
+            requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+        }
+
+        return CLIENT.send(
+                requestBuilder.build(),
+                HttpResponse.BodyHandlers.ofString());
     }
 
-    return CLIENT.send(
-            requestBuilder.build(),
-            HttpResponse.BodyHandlers.ofString()
-    );
-}
+    public static HttpResponse<String> postMethod(boolean auth, String URL, Map<String, String> values)
+            throws TokenException, InterruptedException, IOException {
 
-public static HttpResponse<String> postMethod(boolean auth, String URL, Map<String, String> values)
-        throws TokenException, InterruptedException, IOException {
+        if (auth)
+            validateToken();
 
-   if(auth)validateToken(); 
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(URI.create(URL))
+                .POST(HttpRequest.BodyPublishers.ofString(new ObjectMapper().writeValueAsString(values)));
 
-    HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-            .uri(URI.create(URL))
-            .POST(HttpRequest.BodyPublishers.ofString(new ObjectMapper().writeValueAsString(values)));
+        requestBuilder.header("Content-Type", "application/json");
+        if (auth) {
+            requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+        }
 
-             requestBuilder.header("Content-Type", "application/json");
-    if (auth) {
-        requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
-    } 
-
-    return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
-}
-
-public static HttpResponse<String> putMethod(boolean auth, String URL, Object body)
-        throws TokenException, InterruptedException, IOException {
-
-    if (auth) validateToken();
-
-    String jsonBody = MapperProvider.getMapper().writeValueAsString(body);
-
-    HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-            .uri(URI.create(URL))
-            .PUT(HttpRequest.BodyPublishers.ofString(jsonBody));
-
-    requestBuilder.header("Content-Type", "application/json");
-
-    if (auth) {
-        requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+        return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
-    return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
-}
+    public static HttpResponse<String> putMethod(boolean auth, String URL, Object body)
+            throws TokenException, InterruptedException, IOException {
+
+        if (auth)
+            validateToken();
+
+        String jsonBody = MapperProvider.getMapper().writeValueAsString(body);
+
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(URI.create(URL))
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonBody));
+
+        requestBuilder.header("Content-Type", "application/json");
+
+        if (auth) {
+            requestBuilder.header("Authorization", "Bearer " + SessionManager.getToken());
+        }
+
+        return CLIENT.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
+    }
 
     public static HttpResponse<String> deleteMethod(boolean auth, String URL)
             throws IOException, InterruptedException, TokenException {
 
-        if (auth) validateToken();
+        if (auth)
+            validateToken();
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(URL))
@@ -98,24 +101,23 @@ public static HttpResponse<String> putMethod(boolean auth, String URL, Object bo
 
         return CLIENT.send(
                 requestBuilder.build(),
-                HttpResponse.BodyHandlers.ofString()
-        );
+                HttpResponse.BodyHandlers.ofString());
     }
 
     private static void validateToken() throws TokenException {
-    String token = SessionManager.getToken();
+        String token = SessionManager.getToken();
         if (token == null || token.isEmpty()) {
             throw new TokenException();
         }
     }
-    
-    public static HttpResponse<String> sendRequest(
+
+public static HttpResponse<String> sendRequest(
         String method,
         String url,
         boolean auth,
         Object body
 ) throws IOException, InterruptedException, TokenException, ServerErrorException {
-System.out.println("sendRequest CALLED");
+
     if (auth) validateToken();
 
     HttpRequest.Builder builder = HttpRequest.newBuilder()
@@ -130,13 +132,30 @@ System.out.println("sendRequest CALLED");
     switch (method) {
         case "GET" -> builder.GET();
         case "DELETE" -> builder.DELETE();
-        case "POST" -> builder.POST(HttpRequest.BodyPublishers.ofString(body == null ? "" : mapper.writeValueAsString(body)));
-        case "PUT" -> builder.PUT(HttpRequest.BodyPublishers.ofString(body == null ? "" : mapper.writeValueAsString(body)));
+        case "POST" -> builder.POST(HttpRequest.BodyPublishers.ofString(
+                body == null ? "" : mapper.writeValueAsString(body)
+        ));
+        case "PUT" -> builder.PUT(HttpRequest.BodyPublishers.ofString(
+                body == null ? "" : mapper.writeValueAsString(body)
+        ));
         default -> throw new IllegalArgumentException("Invalid method: " + method);
     }
 
-    return CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString());
-}
- 
-}
+    HttpResponse<String> response =
+            CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString());
 
+    if (response.statusCode() == 401 || response.statusCode() == 403) {
+        throw new TokenException();
+    }
+
+    if (response.statusCode() == 500) {
+        throw new ServerErrorException("Internal server error");
+    }
+
+    if (response.statusCode() != 200) {
+        throw new RuntimeException("Fetch failed: " + response.statusCode());
+    }
+
+    return response;
+}
+}

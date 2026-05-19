@@ -2,11 +2,10 @@ package com.beautysalon.gate.Exceptions.Handler;
 
 import com.beautysalon.StageManager;
 import com.beautysalon.gate.SessionManager;
+import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Exceptions.TokenException;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-
 public final class APIErrorHandler {
 
     private APIErrorHandler() {}
@@ -16,26 +15,19 @@ public final class APIErrorHandler {
         StageManager.getStage().close();
         StageManager.login();
     }
-
-    private static void Alert(String title, String message){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(title);
-                alert.setContentText(message);
-                alert.showAndWait();
-    }
-
     public static void handle(Throwable ex) {
 
         if (ex instanceof TokenException) {
             Platform.runLater(() -> {
-                Alert("Session expired", ex.getMessage());
+            //    Alert("Session expired", ex.getMessage());
+                ModernAlert.danger("Session expired!", "");
                 RedirectAfterExpire();
             });
             return;
         }
 
         Platform.runLater(() -> {
-            Alert("Error", ex.getMessage());
+            ModernAlert.danger("Error", ex.getMessage());
         });
     }
 }

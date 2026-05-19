@@ -73,10 +73,15 @@ public class clientsviewController {
             return row;
         });
         
-        refreshbutton.setOnAction(e -> startServerPolling());
+        refreshbutton.setOnAction(e -> {
+            table.setItems(FXCollections.observableArrayList());
+       table.setPlaceholder(new ProgressIndicator());
+        loadClients();
+    });// startServerPolling());
 
         // ---------- INITIAL LOAD ----------
-      startServerPolling();
+     // startServerPolling();
+     loadClients();
     }
 
     private void loadClients() {
@@ -94,19 +99,19 @@ public class clientsviewController {
 
             if (success && SessionManager.getClients() != null) {
                serverNotification = true;
-                stopServerPolling();
+            //    stopServerPolling();
 
                 Platform.runLater(() ->
                         setupSearch(SessionManager.getClients()));
             } else {
                // serverHealth = false;
               // serverNotification = success;
-               stopServerPolling();
+            //   stopServerPolling();
             }
         })
         .exceptionally(ex -> {
          //   requestInFlight = false;
-            if(serverNotification){
+        //    if(serverNotification){
     
          serverNotification = false;
                     Platform.runLater(() -> {
@@ -115,10 +120,10 @@ public class clientsviewController {
                 "Failed to fetch client's data!"
         );
     });
-            }
+           // }
          //   Platform.runLater(this::stopLoadingAnimation);
 
-            stopServerPolling();
+           // stopServerPolling();
             return null;
         });
 }

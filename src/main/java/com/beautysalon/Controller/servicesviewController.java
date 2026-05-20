@@ -76,7 +76,9 @@ public class servicesviewController {
 
             row.setOnMouseClicked((event)->{
                    if(!row.isEmpty() && event.getClickCount() == 2){
-                          atributetSherbimeve(row.getItem());
+                         // atributetSherbimeve(row.getItem());
+                         SessionManager.setSherbimi(row.getItem());
+                         CenterController.loadCenterContent("servicedetails.fxml");
                    }
             });
             return row;

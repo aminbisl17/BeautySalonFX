@@ -13,8 +13,6 @@ import com.beautysalon.gate.Exceptions.ServerErrorException;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 public class APIGenericCalls {
 
     private static ObjectMapper mapper = MapperProvider.getMapper();

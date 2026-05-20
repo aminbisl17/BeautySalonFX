@@ -2,23 +2,17 @@ package com.beautysalon.gate.API;
 
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-
-import javax.management.RuntimeErrorException;
 
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Configuration.APIConfig;
-import com.beautysalon.gate.Configuration.APIEndpoints;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
-import com.beautysalon.gate.Configuration.DotEnv;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Configuration.APIConfig.category;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,7 +44,7 @@ public static CompletableFuture<Boolean> fetchClients() {
     APIErrorHandler.handle(te);
     return false;
 } catch (Exception e) {
-    e.printStackTrace();
+  //  e.printStackTrace();
     throw new RuntimeException(e);
 }
     });

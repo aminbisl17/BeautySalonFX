@@ -46,7 +46,6 @@ public class clientsviewController {
     @FXML
     public void initialize() {
 
-        // ---------- TABLE CONFIG ----------
         table.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         );
@@ -74,7 +73,7 @@ public class clientsviewController {
         });
         
         refreshbutton.setOnAction(e -> {
-            table.setItems(FXCollections.observableArrayList());
+       table.setItems(FXCollections.observableArrayList());
        table.setPlaceholder(new ProgressIndicator());
         loadClients();
     });// startServerPolling());

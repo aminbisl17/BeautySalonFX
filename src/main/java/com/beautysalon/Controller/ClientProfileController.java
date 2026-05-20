@@ -97,7 +97,7 @@ public class ClientProfileController {
        }
  
        ClientCall.fetchClientHistory(client.getID()).thenAccept(e ->{
-        System.out.println(e);
+    //    System.out.println(e);
             historyField.setItems(FXCollections.observableArrayList(e));
        });
 

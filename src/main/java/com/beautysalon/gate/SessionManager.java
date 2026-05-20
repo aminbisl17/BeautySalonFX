@@ -16,6 +16,7 @@ public class SessionManager {
 
     private static String token;
     private static List<Sherbimet> sherbimet;
+    private static Sherbimet sherbimi;
     private static List<Client> clients;
     private static Client client;
     private static loginResponse primaryResponse;
@@ -57,6 +58,15 @@ public class SessionManager {
             dotenv.get("WS_AUTHENTICATION")
         }
     };
+
+
+        public static Sherbimet getSherbimi() {
+        return sherbimi;
+    }
+
+    public static void setSherbimi(Sherbimet sherbimi) {
+        SessionManager.sherbimi = sherbimi;
+    }
 
     
     public static List<Client> getClients() {
@@ -114,6 +124,7 @@ public class SessionManager {
         primaryResponse = null;
         token = null;
         sherbimet = null;
+        sherbimi = null;
         clients = null;
         client = null;
     }

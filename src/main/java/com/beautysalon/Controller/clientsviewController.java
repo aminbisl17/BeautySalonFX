@@ -247,7 +247,7 @@ private void stopLoadingAnimation() {
         table.setItems(sortedData);
         return;
        }
-          table.setPlaceholder(new Label("No clients registered"));
+          table.setPlaceholder(new Label("Nuk ka klient të regjistruar!"));
         table.setItems(FXCollections.observableArrayList());
     }
 }

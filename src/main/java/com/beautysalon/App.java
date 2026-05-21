@@ -21,14 +21,14 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, AuthenticationException, ServerErrorException, InterruptedException {
          DotEnv.init();
          StageManager.init(stage);
-         StageManager.login();
+        // StageManager.login();
 
-   /*    loginResponse primaryresponse = new loginResponse();
+       loginResponse primaryresponse = new loginResponse();
       primaryresponse.setRole("ROLE_ADMIN");
-       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjM09USXhNelU1TUN3aVpYaHdJam94TnpjNU1qUTVOVGt3ZlEuUnR6aGRKMXZWMTc2SUlLTU5tTkhFWUhsalhmWXM5QnNXTmhsT3AxWXhYUSIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc3OTIxMzYwOSwiZXhwIjoxNzc5MjQ5NjA5fQ.zLRi4PW2GFTSkPBGArKVd-BnLIFQIqpmljcjx98wP0E");
+       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjM09UTTVNVEV4TVN3aVpYaHdJam94TnpjNU5ESTNNVEV4ZlEueTJBLW1zRW0tQnRPZmJSWXJvT292cFhUWVpHYXlkcUM1NElJWkI5S04xOCIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc3OTM5MTE3MiwiZXhwIjoxNzc5NDI3MTcyfQ.q_BS8lohfyEnqce20r5AsTS90otnjKnwaqET0zAPtAY");
        primaryresponse.setUsername("admin");
        SessionManager.setPrimaryResponse(primaryresponse);
-       StageManager.MainWindow(); */ 
+       StageManager.MainWindow();// */ 
     }
 
     public static void main(String[] args) {

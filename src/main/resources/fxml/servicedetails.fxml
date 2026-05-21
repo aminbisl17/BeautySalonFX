@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="pane" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/ClientProfile.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicedetails">
+<BorderPane styleClass="root" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/ClientProfile.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicedetails">
  <top>
 
         <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">

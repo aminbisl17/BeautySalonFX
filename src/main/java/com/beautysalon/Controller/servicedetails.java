@@ -1,5 +1,8 @@
 package com.beautysalon.Controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 import org.glassfish.grizzly.http.server.Session;
@@ -18,7 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Circle;
 
 public class servicedetails {
     
@@ -63,11 +69,16 @@ public class servicedetails {
     private Label kohezgjatjaLabel;
 
     private Sherbimet sherbimi = SessionManager.getSherbimi();
+
+    @FXML
+    ImageView serviceImage;
     
     @FXML
     public void initialize(){
           
         if(sherbimi == null) ModernAlert.warning("Deshtim", "Nuk ka te dhena!");
+
+      //  serviceImage.setClip(new Circle(45, 45, 45));
 
          idLabel.setText(sherbimi.getID().toString());
          emriLabel.setText(sherbimi.getEmri_sherbimit());
@@ -105,8 +116,23 @@ ServiceCall.fetchServiceAtributes(sherbimi.getID()).thenAccept(e -> {
             });
 
             atributetTable.setItems(FXCollections.observableArrayList(e.getAtributet()));
+
+                    if (e.getImagePath() != null && !e.getImagePath().isBlank()) {
+            byte[] imageBytes = Base64.getDecoder().decode(e.getImagePath());
+            InputStream is = new ByteArrayInputStream(imageBytes);
+            Image image = new Image(is);
+            serviceImage.setImage(image);
+            return;
+        }
+
         });
     }
+}).exceptionally(e ->{
+       ModernAlert.warning(
+                "Server unreachable",
+                "Failed to fetch service data!"
+        );
+    return null;
 });
 
     }

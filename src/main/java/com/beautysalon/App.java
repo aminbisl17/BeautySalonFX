@@ -25,7 +25,7 @@ public class App extends Application {
 
        loginResponse primaryresponse = new loginResponse();
       primaryresponse.setRole("ROLE_ADMIN");
-       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjM09UTTVNVEV4TVN3aVpYaHdJam94TnpjNU5ESTNNVEV4ZlEueTJBLW1zRW0tQnRPZmJSWXJvT292cFhUWVpHYXlkcUM1NElJWkI5S04xOCIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc3OTM5MTE3MiwiZXhwIjoxNzc5NDI3MTcyfQ.q_BS8lohfyEnqce20r5AsTS90otnjKnwaqET0zAPtAY");
+       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjM09UUTNOREF6TVN3aVpYaHdJam94TnpjNU5URXdNRE14ZlEuTklHWllSdzR4dU9qbkdGNzhSS0JYSWx4MzlTSDBMXzdGUjNOS1BZajl4SSIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc3OTQ3NDA3MSwiZXhwIjoxNzc5NTEwMDcxfQ.5j--t6VQZg18BM5gONCpCafHnVRTEl0FJd0XAUUWxXc");
        primaryresponse.setUsername("admin");
        SessionManager.setPrimaryResponse(primaryresponse);
        StageManager.MainWindow();// */ 

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.control.TextField?>
 <BorderPane
         xmlns="http://javafx.com/javafx/25"
         xmlns:fx="http://javafx.com/fxml/1"
@@ -47,6 +47,10 @@
                 </VBox>
 
                 <Region HBox.hgrow="ALWAYS"/>
+
+             <TextField fx:id="searchField"
+                       promptText="Kërko shërbim..."
+                       styleClass="search-field"/>
 
                 <Button
                         fx:id="refreshbtn"

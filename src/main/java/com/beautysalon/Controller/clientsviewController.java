@@ -36,12 +36,11 @@ public class clientsviewController {
 
     private final TableView<ClientHistory> historyTable = new TableView<>();
 
-    private Label loadingLabel = new Label("Loading");
+   // private Label loadingLabel = new Label("Loading");
 
     private Boolean serverNotification;
-    private volatile boolean requestInFlight = false;
+   
     private Timeline serverTimeLine;
-        private Timeline loadingAnimation;
 
     @FXML
     public void initialize() {
@@ -74,7 +73,7 @@ public class clientsviewController {
         
         refreshbutton.setOnAction(e -> {
        table.setItems(FXCollections.observableArrayList());
-       table.setPlaceholder(new ProgressIndicator());
+ //      table.setPlaceholder(new ProgressIndicator());
         loadClients();
     });// startServerPolling());
 
@@ -92,8 +91,7 @@ public class clientsviewController {
 
     ClientCall.fetchClients()
         .thenAccept(success -> {
-            requestInFlight = false;
-
+          
           //  Platform.runLater(this::stopLoadingAnimation);
 
             if (success && SessionManager.getClients() != null) {

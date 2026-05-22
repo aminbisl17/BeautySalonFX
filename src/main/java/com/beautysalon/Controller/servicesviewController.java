@@ -7,24 +7,31 @@ import java.util.Base64;
 import java.util.List;
 
 import com.beautysalon.gate.SessionManager;
-import com.beautysalon.gate.API.ServicesAPI;
+import com.beautysalon.gate.API.ServiceCall;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
+import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
+import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
 import com.beautysalon.gate.responses.ServiceInfoResponse;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,8 +39,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class servicesviewController {
-
-    private ServicesAPI service = new ServicesAPI();
 
     @FXML
     private Button refreshbtn;
@@ -43,15 +48,19 @@ public class servicesviewController {
 
     private TableView<Atributet_sherbimeve> t = new TableView<>();
 
-    private ImageView imageView = new ImageView();
+      @FXML
+    private TextField searchField;
 
+    boolean serverNotification;
     @FXML
     private void initialize(){
          
         
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
-         refreshbtn.setOnAction((_)->{ table.getItems().clear(); fetchServices(); });
+         table.setPlaceholder(new ProgressIndicator());
+
+         refreshbtn.setOnAction((_)->{     table.setItems(FXCollections.observableArrayList()); fetchServices(); });
 
          TableColumn<Sherbimet, Integer> idcol = new TableColumn<>("ID");
          idcol.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -84,134 +93,67 @@ public class servicesviewController {
             return row;
          });
 
-         if(SessionManager.getSherbimet() == null){
+       //  if(SessionManager.getSherbimet() == null){
             fetchServices();
-            return;
-         }
 
-         table.setItems(FXCollections.observableList(SessionManager.getSherbimet()));
     }
 
     private void fetchServices(){
-
-        Task<Void> task = new Task<>(){
-
-            @Override
-            protected Void call() throws Exception {
-                service.getAllSherbimet();
-                return null;
-            }  
-        };
-
-        task.setOnSucceeded((_)->{
-            
-            table.setItems(FXCollections.observableList(SessionManager.getSherbimet()));
+        ServiceCall.fetchServices().thenAccept(e ->{
+                if (e && SessionManager.getSherbimet() != null) {
+               serverNotification = true;
+                Platform.runLater(() ->
+                        setupSearch(SessionManager.getSherbimet()));
+            } 
+        })
+        .exceptionally(ex -> {
+    
+         serverNotification = false;
+                    Platform.runLater(() -> {
+        ModernAlert.warning(
+                "Server unreachable",
+                "Failed to fetch service data!"
+        );
         });
 
-        task.setOnFailed((_)->{
-
-            APIErrorHandler.handle(task.getException());
-        }); 
-
-        ExecutorConfig.submit(task);
-
-    }
-
-    private void fetchAtributetSherbimeve(Long ID){
-
-        Task<ServiceInfoResponse> task = new Task<>(){
-
-            @Override
-            protected ServiceInfoResponse call() throws Exception {
-                return service.getAtributet_sherbimit(ID);
-            }
-
-        };
-
-        task.setOnFailed((_) ->{
-           APIErrorHandler.handle(task.getException());
-        });
-
-    
-            task.setOnSucceeded((_)->{
-         
-                ServiceInfoResponse response = task.getValue();
-    
-        t.setItems(FXCollections.observableArrayList(response.getAtributet()));
-
-
-        if (response.getImagePath() != null && !response.getImagePath().isBlank()) {
-            byte[] imageBytes = Base64.getDecoder().decode(response.getImagePath());
-            InputStream is = new ByteArrayInputStream(imageBytes);
-            Image image = new Image(is);
-            imageView.setImage(image);
-            return;
-        }
-
-          imageView.setImage(null);
+        return null;
     });
-
-    ExecutorConfig.submit(task);
-    }
-
-    private void atributetSherbimeve(Sherbimet s){
-
-        t.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
-
-        TableColumn<Atributet_sherbimeve, Integer> idcol = new TableColumn<>("ID");
-         idcol.setCellValueFactory(new PropertyValueFactory<>("id_atributit"));
-
+}
     
-         TableColumn<Atributet_sherbimeve, String> opcol = new TableColumn<>("Emri");
-         opcol.setCellValueFactory(new PropertyValueFactory<>("opsioni"));
+     private void setupSearch(List<Sherbimet> sherbimet) {
 
-         TableColumn<Atributet_sherbimeve, String> pscol = new TableColumn<>("Pershkrimi");
-         pscol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
+        if (sherbimet == null) return;
 
-         TableColumn<Atributet_sherbimeve, Double> qcol = new TableColumn<>("Qmimi");
-         qcol.setCellValueFactory(new PropertyValueFactory<>("qmimi"));
+        FilteredList<Sherbimet> filteredData =
+                new FilteredList<>(
+                        FXCollections.observableArrayList(sherbimet),
+                        b -> true
+                );
 
-TableColumn<Atributet_sherbimeve, String> kzcol = new TableColumn<>("Kohëzgjatja");
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
 
-kzcol.setCellValueFactory(cellData -> {
-    int minutes = cellData.getValue().getKohezgjatja();
+            filteredData.setPredicate(sherbimi -> {
 
-    int hours = minutes / 60;
-    int mins = minutes % 60;
+                if (newVal == null || newVal.isEmpty()) {
+                    return true;
+                }
 
-    String formatted = (hours > 0)
-            ? hours + "h " + mins + "m"
-            : mins + "m";
+                String keyword = newVal.toLowerCase();
 
-    return new SimpleStringProperty(formatted);
-});
+                return (sherbimi.getEmri_sherbimit() != null &&
+                        sherbimi.getEmri_sherbimit().toLowerCase().contains(keyword));
 
-         TableColumn<Atributet_sherbimeve, Integer> zcol = new TableColumn<>("Zbritja");
-         zcol.setCellValueFactory(new PropertyValueFactory<>("zbritja"));
+                               });
+        });
 
-         t.getColumns().setAll(List.of(idcol, opcol, pscol, kzcol, zcol, qcol));
-
-        
-          imageView.setFitWidth(300);  // adjust width
-          imageView.setPreserveRatio(true);
-
-
-        t.getItems().clear();
-
-        fetchAtributetSherbimeve(s.getID());
-
-
-         Label title = new Label(
-        "Atributet e sherbimeve " + s.getEmri_sherbimit()
-    );
-
-    VBox root = new VBox(10, title, imageView, t);
-    root.setPadding(new Insets(10));
-
-    Stage stage = new Stage();
-    stage.setTitle("Kategorite");
-    stage.setScene(new Scene(root, 600, 400));
-    stage.showAndWait();
+        SortedList<Sherbimet> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+       if(!sortedData.isEmpty()){
+        table.setItems(sortedData);
+        return;
+       }
+          table.setPlaceholder(new Label("Nuk ka shërbim të regjistruar!"));
+        table.setItems(FXCollections.observableArrayList());
     }
 
 }

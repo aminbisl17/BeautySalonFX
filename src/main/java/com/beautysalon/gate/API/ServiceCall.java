@@ -39,16 +39,17 @@ public class ServiceCall {
  SessionManager.setSherbimet(mapper.readValue(response.body(),new TypeReference<List<Sherbimet>>() {}));
                     return true;
                 }
-                catch( TokenException e){
+                catch(TokenException e){
                     APIErrorHandler.handle(e);
                     return false;
                 }
-                 catch (IOException | InterruptedException | ServerErrorException e) {
+                 catch (Exception e) {
             
                   //  e.printStackTrace();
                   throw new RuntimeException(e);
                 //  return false;
-    }});
+    }
+            });
     }
 
 public static CompletableFuture<ServiceInfoResponse> fetchServiceAtributes(Long ID) {
@@ -68,9 +69,10 @@ public static CompletableFuture<ServiceInfoResponse> fetchServiceAtributes(Long 
             APIErrorHandler.handle(e);
             return null;
 
-        } catch (IOException | InterruptedException | ServerErrorException e) {
-            e.printStackTrace();
-            return null;
+        } catch (Exception e) {
+        //    e.printStackTrace();
+        throw new RuntimeException(e);
+
         }
     });
 }

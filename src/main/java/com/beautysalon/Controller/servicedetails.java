@@ -13,13 +13,17 @@ import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -72,6 +76,9 @@ public class servicedetails {
 
     @FXML
     ImageView serviceImage;
+
+       @FXML
+    private TextField searchField;
     
     @FXML
     public void initialize(){
@@ -95,9 +102,12 @@ String formatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
          zbritjaLabel.setText(String.valueOf(sherbimi.getZbritja()));
          cmimiLabel.setText(String.valueOf(sherbimi.getQmimi_baze()));
 
+
+
+         rollbackBtn.setOnAction( (_) -> {CenterController.loadCenterContent("servicesview.fxml");});
 ServiceCall.fetchServiceAtributes(sherbimi.getID()).thenAccept(e -> {
     if (e != null) {
-        javafx.application.Platform.runLater(() -> {
+        Platform.runLater(() -> {
             idCol.setCellValueFactory(new PropertyValueFactory<>("id_atributit"));
             emriCol.setCellValueFactory(new PropertyValueFactory<>("opsioni"));
             pershkrimiCol.setCellValueFactory(new PropertyValueFactory<>("pershkrimi"));
@@ -115,7 +125,8 @@ ServiceCall.fetchServiceAtributes(sherbimi.getID()).thenAccept(e -> {
                 return new SimpleStringProperty(formated);
             });
 
-            atributetTable.setItems(FXCollections.observableArrayList(e.getAtributet()));
+            //atributetTable.setItems(FXCollections.observableArrayList(e.getAtributet()));
+            setupSearch(e.getAtributet());
 
                     if (e.getImagePath() != null && !e.getImagePath().isBlank()) {
             byte[] imageBytes = Base64.getDecoder().decode(e.getImagePath());
@@ -136,5 +147,39 @@ ServiceCall.fetchServiceAtributes(sherbimi.getID()).thenAccept(e -> {
 });
 
     }
-    
+      private void setupSearch(List<Atributet_sherbimeve> sherbimet) {
+
+        if (sherbimet == null) return;
+
+        FilteredList<Atributet_sherbimeve> filteredData =
+                new FilteredList<>(
+                        FXCollections.observableArrayList(sherbimet),
+                        b -> true
+                );
+
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+
+            filteredData.setPredicate(sherbimi -> {
+
+                if (newVal == null || newVal.isEmpty()) {
+                    return true;
+                }
+
+                String keyword = newVal.toLowerCase();
+
+                return (sherbimi.getOpsioni() != null &&
+                        sherbimi.getOpsioni().toLowerCase().contains(keyword));
+
+                               });
+        });
+
+        SortedList<Atributet_sherbimeve> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(atributetTable.comparatorProperty());
+       if(!sortedData.isEmpty()){
+        atributetTable.setItems(sortedData);
+        return;
+       }
+        atributetTable.setPlaceholder(new Label("Nuk ka shërbim të regjistruar!"));
+        atributetTable.setItems(FXCollections.observableArrayList());
+    }
 }

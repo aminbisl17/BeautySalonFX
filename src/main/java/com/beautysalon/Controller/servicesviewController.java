@@ -46,8 +46,6 @@ public class servicesviewController {
     @FXML
     private TableView<Sherbimet> table;
 
-    private TableView<Atributet_sherbimeve> t = new TableView<>();
-
       @FXML
     private TextField searchField;
 

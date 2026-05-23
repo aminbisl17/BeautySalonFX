@@ -12,7 +12,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
-
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Region?>
 <BorderPane styleClass="root" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/ClientProfile.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicedetails">
  <top>
 
@@ -134,8 +135,17 @@
 
     <VBox spacing="15" styleClass="card" VBox.vgrow="ALWAYS">
 
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
         <Label styleClass="section-title" text="Atributet e Shërbimeve" />
 
+          <Region HBox.hgrow="ALWAYS" />
+        
+
+         <TextField fx:id="searchField"
+                       promptText="Kërko opsion..."
+                       styleClass="search-field"/>
+</HBox>
         <TableView fx:id="atributetTable" VBox.vgrow="ALWAYS">
 
             <columns>

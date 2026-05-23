@@ -229,3 +229,22 @@
     -fx-background-radius: 12;
     -fx-border-radius: 12;
 }
+
+.search-field{
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 14;
+
+    -fx-border-color: #dbe4f0;
+    -fx-border-radius: 14;
+
+    -fx-padding: 10 14 10 14;
+
+    -fx-font-size: 13px;
+
+    -fx-pref-width: 260;
+}
+
+.search-field:focused{
+    -fx-border-color: #6366f1;
+    -fx-border-width: 1.5;
+}

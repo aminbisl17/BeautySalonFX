@@ -36,12 +36,13 @@
 
                     <children>
 
-                        <Label text="Services Dashboard"
+                        <Label text="Paneli i shërbimeve"
                                styleClass="title-label"/>
 
+                    <!--
                         <Label text="Manage salon services and pricing"
                                styleClass="subtitle-label"/>
-
+                    -->
                     </children>
 
                 </VBox>
@@ -54,7 +55,7 @@
 
                 <Button
                         fx:id="refreshbtn"
-                        text="⟳ Refresh"
+                        text="⟳ Rifresko"
                         styleClass="primary-btn"/>
 
             </children>
@@ -88,10 +89,10 @@
 
                                     <children>
 
-                                        <Label text="Services Table"
+                                        <Label text="Tabela e shërbimeve"
                                                styleClass="section-title"/>
 
-                                        <Label text="View and manage all salon services"
+                                        <Label text="Shiko detajet e shërbimeve"
                                                styleClass="subtitle-label"/>
 
                                     </children>

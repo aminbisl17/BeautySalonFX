@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class StageManager {
 
@@ -46,11 +47,24 @@ public class StageManager {
 
     }
     public static void login(){
-       createStage("login", "/fxml/login.fxml", false);
+     //   ps.initStyle(StageStyle.UNDECORATED);
+     //  createStage("Kyçu", "/fxml/login.fxml", false);
+       Stage loginStage = new Stage();
+    loginStage.initStyle(StageStyle.UNDECORATED);
+
+    try {
+        loginStage.setScene(new Scene(FXMLLoader.load(StageManager.class.getResource("/fxml/login.fxml"))));
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+
+    loginStage.show();
     }
 
     public static void MainWindow(){ 
-        createStage("login", "/fxml/MainWindow.fxml", true);
+        ps.initStyle(StageStyle.DECORATED);
+        createStage("Ballina", "/fxml/MainWindow.fxml", true);
      }
 
 public static Stage getStage() {

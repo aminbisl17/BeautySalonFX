@@ -39,10 +39,10 @@
                         <Label text="Paneli i shërbimeve"
                                styleClass="title-label"/>
 
-                    <!--
-                        <Label text="Manage salon services and pricing"
+                    
+                        <Label text="Menaxho shërbimet"
                                styleClass="subtitle-label"/>
-                    -->
+            
                     </children>
 
                 </VBox>

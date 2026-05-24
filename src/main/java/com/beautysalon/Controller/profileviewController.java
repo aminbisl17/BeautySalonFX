@@ -48,7 +48,8 @@ private void initialize() {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            SessionManager.ClearToken();
+      //      SessionManager.ClearToken();
+            SessionManager.clear();
             StageManager.getStage().close();
             StageManager.login();
         }

@@ -1,5 +1,7 @@
 package com.beautysalon.Controller;
 
+import com.beautysalon.StageManager;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -7,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class mainController {
@@ -39,7 +42,6 @@ public class mainController {
 
     @FXML
     public void initialize() {
-
         CenterController.setMainpane(mainpane);
         CenterController.loadCenterContent("clientsview.fxml");
 

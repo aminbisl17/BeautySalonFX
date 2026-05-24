@@ -6,23 +6,15 @@ import java.util.List;
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ClientCall;
 import com.beautysalon.gate.Configuration.ModernAlert;
-import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.beautysalon.gate.Model.clients.Client;
 import com.beautysalon.gate.Model.clients.ClientHistory;
-
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Duration;
-
 public class clientsviewController {
 
     @FXML
@@ -36,11 +28,7 @@ public class clientsviewController {
 
     private final TableView<ClientHistory> historyTable = new TableView<>();
 
-   // private Label loadingLabel = new Label("Loading");
-
-    private Boolean serverNotification;
-   
-    private Timeline serverTimeLine;
+    private boolean serverNotification;
 
     @FXML
     public void initialize() {
@@ -74,41 +62,32 @@ public class clientsviewController {
         refreshbutton.setOnAction(e -> {
        table.setItems(FXCollections.observableArrayList());
  //      table.setPlaceholder(new ProgressIndicator());
-        loadClients();
-    });// startServerPolling());
-
-        // ---------- INITIAL LOAD ----------
-     // startServerPolling();
+    //   if(SessionManager.getClients() == null) {
+        loadClients(); 
+    //return;}
+    });
+    if(SessionManager.getClients() == null){
      loadClients();
+     return;
+    }
+    setupSearch(SessionManager.getClients());
     }
 
     private void loadClients() {
 
-  //  if (requestInFlight) return;
-   // requestInFlight = true;
-
- //   Platform.runLater(this::startLoadingAnimation);
-
     ClientCall.fetchClients()
         .thenAccept(success -> {
-          
-          //  Platform.runLater(this::stopLoadingAnimation);
-
+    
             if (success && SessionManager.getClients() != null) {
+                 System.out.println("works for client");
                serverNotification = true;
             //    stopServerPolling();
 
                 Platform.runLater(() ->
                         setupSearch(SessionManager.getClients()));
-            } else {
-               // serverHealth = false;
-              // serverNotification = success;
-            //   stopServerPolling();
             }
         })
         .exceptionally(ex -> {
-         //   requestInFlight = false;
-        //    if(serverNotification){
     
          serverNotification = false;
                     Platform.runLater(() -> {
@@ -117,62 +96,11 @@ public class clientsviewController {
                 "Failed to fetch client's data!"
         );
     });
-           // }
-         //   Platform.runLater(this::stopLoadingAnimation);
-
-           // stopServerPolling();
+      
             return null;
         });
 }
 
-    private void startServerPolling() {
-
-        stopServerPolling();
-
-       serverNotification = true;
-       table.setItems(FXCollections.observableArrayList());
-       table.setPlaceholder(new ProgressIndicator());
-
-       //  loadClients();
-        serverTimeLine = new Timeline(new KeyFrame(Duration.seconds(3), e -> loadClients()));
-
-        serverTimeLine.setCycleCount(Animation.INDEFINITE);
-        serverTimeLine.play();
-    }
-
-    private void stopServerPolling(){
-        if(serverTimeLine != null){
-            serverTimeLine.stop();
-        }
-    }
-
-    /* 
-    private void startLoadingAnimation() {
-
-    if (loadingAnimation != null &&
-            loadingAnimation.getStatus() == Animation.Status.RUNNING) {
-        return;
-    }
-
-    loadingAnimation = new Timeline(
-            new KeyFrame(Duration.ZERO, e -> loadingLabel.setText("Loading")),
-            new KeyFrame(Duration.seconds(0.5), e -> loadingLabel.setText("Loading.")),
-            new KeyFrame(Duration.seconds(1), e -> loadingLabel.setText("Loading..")),
-            new KeyFrame(Duration.seconds(1.5), e -> loadingLabel.setText("Loading..."))
-    );
-
-    loadingAnimation.setCycleCount(Animation.INDEFINITE);
-    loadingAnimation.play();
-}
-
-private void stopLoadingAnimation() {
-    if (loadingAnimation != null) {
-        loadingAnimation.stop();
-    }
-
-    loadingLabel.setText(""); // optional reset
-}
-*/
     private void setupColumns() {
 
         TableColumn<Client, Long> idCol = new TableColumn<>("ID");

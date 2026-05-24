@@ -1,30 +1,15 @@
 package com.beautysalon.Controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.time.format.DateTimeFormatter;
-import java.util.Base64;
 import java.util.List;
-
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.API.ServiceCall;
-import com.beautysalon.gate.Configuration.ExecutorConfig;
 import com.beautysalon.gate.Configuration.ModernAlert;
-import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
-import com.beautysalon.gate.Model.clients.Client;
-import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 import com.beautysalon.gate.Model.services.Sherbimet;
-import com.beautysalon.gate.responses.ServiceInfoResponse;
-
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -33,11 +18,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 public class servicesviewController {
 
     @FXML
@@ -91,9 +71,12 @@ public class servicesviewController {
             return row;
          });
 
-       //  if(SessionManager.getSherbimet() == null){
+         if(SessionManager.getSherbimet() == null){
             fetchServices();
+            return;
+         }
 
+         setupSearch(SessionManager.getSherbimet());
     }
 
     private void fetchServices(){

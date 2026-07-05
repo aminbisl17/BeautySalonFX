@@ -22,6 +22,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -80,6 +81,41 @@ public class loginController {
 
     private void fetchHealth() {
 
+        /* 
+        server.fetchServerHealth()
+    .thenAccept(e -> {
+        
+            if (e && !serverActivity) {
+                fetchQRCode();
+                serverActivity = true;
+                b = false;
+            }
+
+            if (!e) {
+                serverActivity = false;
+                 qrCard.setVisible(false);
+                qrCard.setManaged(false);
+                b = true;
+                qrcode.setVisible(false);
+            }
+    })
+    .exceptionally(ex -> {
+
+          Platform.runLater(() -> {
+                qrCard.setVisible(false);
+                qrCard.setManaged(false);
+                qrcode.setVisible(false);
+            });
+
+            if (serverActivity) {
+            APIErrorHandler.handle(ex);
+        }
+
+            b = true;
+            serverActivity = false;
+        return null;
+    });
+  */
         Task<Boolean> task = new Task<>() {
             @Override
             protected Boolean call() throws IOException, InterruptedException, TokenException {

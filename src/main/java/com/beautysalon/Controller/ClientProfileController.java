@@ -53,7 +53,6 @@ public class ClientProfileController {
     private TextField emailField;
 
     @FXML private Label idLabel;
-@FXML private Label gjiniaLabel;
 @FXML private Label usernameLabel;
 @FXML private Label dataRegjistrimitLabel;
 
@@ -114,7 +113,6 @@ public class ClientProfileController {
         pershkrimiField.setText(client.getPershkrimi());
 
        idLabel.setText(String.valueOf(client.getID()));
-gjiniaLabel.setText(client.getGjinia());
 usernameLabel.setText(client.getUsername());
 
 if (client.getData_regjistrimit() != null) {

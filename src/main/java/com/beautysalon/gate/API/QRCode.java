@@ -2,6 +2,7 @@ package com.beautysalon.gate.API;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
@@ -13,6 +14,8 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import com.beautysalon.StageManager;
 import com.beautysalon.gate.SessionManager;
+import com.beautysalon.gate.Configuration.APIConfig;
+import com.beautysalon.gate.Configuration.APIConfig.category;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
 import com.beautysalon.gate.Configuration.MapperProvider;
 import com.beautysalon.gate.Exceptions.ServerErrorException;
@@ -26,7 +29,7 @@ import javafx.application.Platform;
 
 public class QRCode {
     
-    private ObjectMapper MAPPER = MapperProvider.getMapper();
+    private static ObjectMapper MAPPER = MapperProvider.getMapper();
     private final WebSocketStompClient stompClient;
     private StompSession session;
 
@@ -59,6 +62,33 @@ public String GenerateAttendaceCode() throws TokenException, IOException, Interr
     } catch (Exception e) {
         throw new RuntimeException("Failed to parse response", e);
     }
+}
+
+public static CompletableFuture<String> fetchQrCode(){
+
+     return CompletableFuture.supplyAsync(() ->{
+      
+
+        try {
+
+            HttpResponse<String> response = APIGenericCalls.sendRequest(
+                        "GET",
+                         APIConfig.get(category.AUTHENTICATION).get("generate"),
+                          false, null);
+
+                           JsonNode node = MAPPER.readTree(response.body());
+
+        return node.get("code").asText(); 
+ }
+ catch(TokenException e){
+    APIErrorHandler.handle(e);
+    return null;
+ }
+ catch(Exception e){
+    e.printStackTrace();
+    return null;
+ }
+     });
 }
 
 
@@ -110,9 +140,9 @@ public String GenerateAttendaceCode() throws TokenException, IOException, Interr
             //    SessionManager.setToken(response.getToken());
 
                 Platform.runLater(() -> {
-                    StageManager.getStage().close();
+                     disconnect();
+                    StageManager.closeLoginForm();
                     StageManager.MainWindow();
-                    disconnect();
                 });
             }
         });

@@ -5,22 +5,42 @@ import java.util.concurrent.Executors;
 
 import javafx.concurrent.Task;
 
+/**
+ * Provides the application's shared thread pool for executing
+ * background tasks that should not block the JavaFX Application Thread.
+ */
 public class ExecutorConfig {
 
-    public final static ExecutorService executor = Executors.newFixedThreadPool(2);
+    /**
+     * Shared executor used for background operations such as
+     * network requests and other blocking tasks.
+     */
+    public static final ExecutorService executor =
+            Executors.newFixedThreadPool(2);
 
-    public static void submit(Task<?> task){
-          executor.submit(task);
+    /**
+     * Submits a JavaFX task for background execution.
+     *
+     * @param task the task to execute
+     */
+    public static void submit(Task<?> task) {
+        executor.submit(task);
     }
 
-    public static void close(){
-        if (!executor.isShutdown()) {
-            executor.shutdownNow();
-        }
+    /**
+     * Shuts down the shared executor and prevents new tasks
+     * from being submitted.
+     */
+    public static void close() {
+        executor.shutdown();
     }
 
-    public static ExecutorService getExecutor(){
+    /**
+     * Returns the application's shared executor.
+     *
+     * @return the shared executor service
+     */
+    public static ExecutorService getExecutor() {
         return executor;
     }
-
 }

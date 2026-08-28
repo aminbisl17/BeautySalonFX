@@ -2,6 +2,8 @@ package com.beautysalon;
 
 import java.io.IOException;
 
+import com.beautysalon.gate.SessionManager;
+
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,10 +15,12 @@ import javafx.stage.StageStyle;
 public class StageManager {
 
     private static Stage ps;
+    private static Stage loginStage;
 
     public static void init(Stage stage) {
         ps = stage;
         ps.setOnCloseRequest(e -> {
+            SessionManager.clear();
          Platform.exit();
            System.exit(0);
         });
@@ -47,15 +51,19 @@ public class StageManager {
 
     }
     public static void login(){
-     //   ps.initStyle(StageStyle.UNDECORATED);
-     //  createStage("Kyçu", "/fxml/login.fxml", false);
-       Stage loginStage = new Stage();
+
+    loginStage = new Stage();
     loginStage.initStyle(StageStyle.UNDECORATED);
+
+    loginStage.setOnCloseRequest(e -> {
+            SessionManager.clear();
+         Platform.exit();
+           System.exit(0);
+        });
 
     try {
         loginStage.setScene(new Scene(FXMLLoader.load(StageManager.class.getResource("/fxml/login.fxml"))));
     } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
     }
 
@@ -63,8 +71,12 @@ public class StageManager {
     }
 
     public static void MainWindow(){ 
-        ps.initStyle(StageStyle.DECORATED);
+    
         createStage("Ballina", "/fxml/MainWindow.fxml", true);
+     }
+
+     public static void closeLoginForm(){
+          loginStage.close();
      }
 
 public static Stage getStage() {

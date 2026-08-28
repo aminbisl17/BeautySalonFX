@@ -12,6 +12,7 @@ import com.beautysalon.StageManager;
 import com.beautysalon.gate.API.QRCode;
 import com.beautysalon.gate.API.ServerAPI;
 import com.beautysalon.gate.Configuration.ExecutorConfig;
+import com.beautysalon.gate.Configuration.ModernAlert;
 import com.beautysalon.gate.Exceptions.TokenException;
 import com.beautysalon.gate.Exceptions.Handler.APIErrorHandler;
 import com.google.zxing.BarcodeFormat;
@@ -32,10 +33,41 @@ import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+  /**
+     * * Controller for the application's login screen. * *
+     * <p>
+     * The login controller is responsible for monitoring the availability * of the
+     * REST API a nd providing QR-code-based authentication when the * server
+     * becomes available.
+     * </p>
+     * * *
+     * <p>
+     * When the login screen is initialized, the controller:
+     * </p>
+     * *
+     * <ul>
+     * *
+     * <li>Hides the QR-code authentication interface.</li> *
+     * <li>Starts the loading animation.</li> *
+     * <li>Begins periodically checking the server's health.</li> *
+     * </ul>
+     * * *
+     * <p>
+     * Once the server is available, a QR code is requested from the API * and
+     * displayed to the user. The QRCode service then establishes a * connection for
+     * authentication.
+     * </p>
+     * * *
+     * <p>
+     * The controller also manages the lifecycle of its JavaFX animations * and
+     * QR-code connection through {@link #shutdown()}.
+     * </p>
+     */
+    
 public class loginController {
 
     private final QRCode qrcodeService = new QRCode();
-    private final ServerAPI server = new ServerAPI();
+    // private final ServerAPI server = new ServerAPI();
 
     @FXML
     private VBox qrCard;
@@ -81,111 +113,155 @@ public class loginController {
 
     private void fetchHealth() {
 
-        /* 
-        server.fetchServerHealth()
-    .thenAccept(e -> {
-        
-            if (e && !serverActivity) {
-                fetchQRCode();
-                serverActivity = true;
-                b = false;
-            }
+        /*
+         * server.fetchServerHealth()
+         * .thenAccept(e -> {
+         * 
+         * if (e && !serverActivity) {
+         * fetchQRCode();
+         * serverActivity = true;
+         * b = false;
+         * }
+         * 
+         * if (!e) {
+         * serverActivity = false;
+         * qrCard.setVisible(false);
+         * qrCard.setManaged(false);
+         * b = true;
+         * qrcode.setVisible(false);
+         * }
+         * })
+         * .exceptionally(ex -> {
+         * 
+         * Platform.runLater(() -> {
+         * qrCard.setVisible(false);
+         * qrCard.setManaged(false);
+         * qrcode.setVisible(false);
+         * });
+         * 
+         * if (serverActivity) {
+         * APIErrorHandler.handle(ex);
+         * }
+         * 
+         * b = true;
+         * serverActivity = false;
+         * return null;
+         * });
+         */
 
-            if (!e) {
-                serverActivity = false;
-                 qrCard.setVisible(false);
-                qrCard.setManaged(false);
-                b = true;
-                qrcode.setVisible(false);
-            }
-    })
-    .exceptionally(ex -> {
+        /*
+         * Task<Boolean> task = new Task<>() {
+         * 
+         * @Override
+         * protected Boolean call() throws IOException, InterruptedException,
+         * TokenException {
+         * return server.isActive();
+         * }
+         * };
+         * 
+         * task.setOnFailed(e -> {
+         * qrCard.setVisible(false);
+         * qrCard.setManaged(false);
+         * qrcode.setVisible(false);
+         * b = true;
+         * if (serverActivity) {
+         * APIErrorHandler.handle(task.getException());
+         * }
+         * 
+         * serverActivity = false;
+         * });
+         * task.setOnSucceeded(e -> {
+         * 
+         * boolean isActive = task.getValue();
+         * 
+         * if (isActive && !serverActivity) {
+         * fetchQRCode();
+         * serverActivity = true;
+         * b = false;
+         * }
+         * 
+         * if (!isActive) {
+         * serverActivity = false;
+         * qrCard.setVisible(false);
+         * qrCard.setManaged(false);
+         * b = true;
+         * qrcode.setVisible(false);
+         * }
+         * });
+         * 
+         * ExecutorConfig.submit(task);
+         */
+        ServerAPI.fetchServerHealth().thenAccept(success -> {
 
-          Platform.runLater(() -> {
+            // System.out.println(success);
+            if (!success) {
                 qrCard.setVisible(false);
                 qrCard.setManaged(false);
                 qrcode.setVisible(false);
-            });
-
-            if (serverActivity) {
-            APIErrorHandler.handle(ex);
-        }
-
-            b = true;
-            serverActivity = false;
-        return null;
-    });
-  */
-        Task<Boolean> task = new Task<>() {
-            @Override
-            protected Boolean call() throws IOException, InterruptedException, TokenException {
-                return server.isActive();
-            }
-        };
-
-        task.setOnFailed(e -> {
-            qrCard.setVisible(false);
-            qrCard.setManaged(false);
-            qrcode.setVisible(false);
-            b = true;
-            if (serverActivity) {
-                APIErrorHandler.handle(task.getException());
-            }
-
-            serverActivity = false;
-        });
-        task.setOnSucceeded(e -> {
-
-            boolean isActive = task.getValue();
-
-            if (isActive && !serverActivity) {
-                fetchQRCode();
-                serverActivity = true;
-                b = false;
-            }
-
-            if (!isActive) {
-                serverActivity = false;
-                 qrCard.setVisible(false);
-                qrCard.setManaged(false);
                 b = true;
-                qrcode.setVisible(false);
-            }
-        });
 
-        ExecutorConfig.submit(task);
+                if (serverActivity) {
+
+                    Platform.runLater(() -> {
+                        ModernAlert.warning(
+                                "Server unreachable",
+                                "Failed to fetch server's health!");
+                    });
+
+                }
+
+                serverActivity = false;
+            }
+
+            if (success) {
+
+                if (!serverActivity) {
+                    fetchQRCode();
+                    serverActivity = true;
+                    b = false;
+                }
+            }
+        }).exceptionally(
+                ex -> {
+
+                    qrCard.setVisible(false);
+                    qrCard.setManaged(false);
+                    qrcode.setVisible(false);
+                    b = true;
+
+                    if (serverActivity) {
+                        APIErrorHandler.handle(ex);
+                    }
+                    serverActivity = false;
+
+                    return null;
+                });
     }
 
     private void fetchQRCode() {
 
-        Task<String> task = new Task<>() {
-            @Override
-            protected String call() throws Exception {
-                return qrcodeService.GenerateAttendaceCode();
-            }
-        };
+        QRCode.fetchQrCode().thenAccept(
+                success -> {
+                    String code = success;
+                    Image qrImage = generateQRCode(code, 220, 220);
 
-        task.setOnFailed(e -> APIErrorHandler.handle(task.getException()));
+                    qrcode.setImage(qrImage);
 
-        task.setOnSucceeded(e -> {
+                    qrCard.setVisible(true);
+                    qrCard.setManaged(true);
 
-            String code = task.getValue();
-           Image qrImage = generateQRCode(code, 220, 220);
+                    b = false;
 
-            qrcode.setImage(qrImage);
+                    qrcode.setVisible(true);
 
-            qrCard.setVisible(true);
-            qrCard.setManaged(true);
+                    qrcodeService.disconnect();
+                    qrcodeService.connect(code);
+                }).exceptionally(
+                        ex -> {
 
-            b = false;
-    
-            qrcode.setVisible(true);
-
-            qrcodeService.disconnect();
-            qrcodeService.connect(code);
-        });
-
-        ExecutorConfig.submit(task);
+                            APIErrorHandler.handle(ex);
+                            return null;
+                        });
     }
 
     private Image generateQRCode(String text, int width, int height) {

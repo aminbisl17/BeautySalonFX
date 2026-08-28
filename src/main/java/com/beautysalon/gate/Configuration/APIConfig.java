@@ -46,7 +46,15 @@ public class APIConfig {
             category.USER,
             new APIEndpoints(Map.of(
                     "data", require("API_USER_DATA")
-            ))
+            )),
+            category.SERVER, new APIEndpoints(Map.of(
+                "health", require("API_SERVER_HEALTH")
+            )),
+
+            category.AUTHENTICATION,
+            new APIEndpoints(
+                Map.of("generate", require("API_AUTHENTICATION_ATTENDANCE_GENERATE"))
+            )
     );
 
     public static APIEndpoints get(category apicategory) {

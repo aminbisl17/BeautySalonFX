@@ -22,8 +22,8 @@ public class ServerAPI {
                     HttpResponse<String> response = 
                     APIGenericCalls.sendRequest(
                         "GET",
-                         APIConfig.get(category.SERVICES).get("all"),
-                          true, null);
+                         APIConfig.get(category.SERVER).get("health"),
+                          false, null);
 
                     return response.statusCode() == 200 ? true : false;
                 }
@@ -33,9 +33,9 @@ public class ServerAPI {
                 }
                  catch (Exception e) {
             
-                  //  e.printStackTrace();
+                //    e.printStackTrace();
                   throw new RuntimeException(e);
-                //  return false;
+                  
     }
             });
     }

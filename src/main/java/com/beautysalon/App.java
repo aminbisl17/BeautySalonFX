@@ -21,14 +21,14 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, AuthenticationException, ServerErrorException, InterruptedException {
          DotEnv.init();
          StageManager.init(stage);
-         StageManager.login();
+        // StageManager.login();
 
-    //   loginResponse primaryresponse = new loginResponse();
-     // primaryresponse.setRole("ROLE_ADMIN");
-      // primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjM09UWTBOamswTWl3aVpYaHdJam94TnpjNU5qZ3lPVFF5ZlEuRTVuV2lmaUEtZGt2RlVjUnlfWlgzY290ejJnQk00RmdiRk9XaGowU29DOCIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc3OTY0NzAwMiwiZXhwIjoxNzc5NjgzMDAyfQ._CcTXnNG94WaF1da5Dnag_0KmZ0qxYqcqBsTjGOjy2Q");
-      // primaryresponse.setUsername("admin");
-       //SessionManager.setPrimaryResponse(primaryresponse);
-       //StageManager.MainWindow();// */ 
+       loginResponse primaryresponse = new loginResponse();
+      primaryresponse.setRole("ROLE_ADMIN");
+       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleUpoYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSmhaRzFwYmlJc0ltbGtJam96TENKeWIyeGxJam9pVWs5TVJWOUJSRTFKVGlJc0ltbGhkQ0k2TVRjNE56a3pPVGMwT0N3aVpYaHdJam94TnpnNE1ESTJNVFE0ZlEuNi1ZemtESFdWTVczYzh3aXpJZl9ja25PRzhyQlpPOUdLTm1JajJEaFlmTSIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc4NzkzOTc4OSwiZXhwIjoxNzg4MDI2MTg5fQ.DZJ5g5c2H214gf81L7zuSnvX51XtBt9N4mqQBpcbvVU");
+       primaryresponse.setUsername("admin");
+       SessionManager.setPrimaryResponse(primaryresponse);
+       StageManager.MainWindow();// */ 
     }
 
     public static void main(String[] args) {

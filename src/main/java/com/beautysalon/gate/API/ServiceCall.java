@@ -76,4 +76,19 @@ public static CompletableFuture<ServiceInfoResponse> fetchServiceAtributes(Long 
         }
     });
 }
+public static CompletableFuture<Boolean> updateServices(Sherbimet sherbimet){
+
+    return CompletableFuture.supplyAsync(()->{
+
+
+        try{
+
+            (APIGenericCalls.sendRequest("put", APIConfig.get(category.SERVICES).get("update"), true, sherbimet)).body();
+            return true;
+        } catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    });
+
+}
 }

@@ -40,7 +40,8 @@ public class APIConfig {
             category.SERVICES,
             new APIEndpoints(Map.of(
                     "all", require("API_SERVICES_ALL"),
-                    "attribute", require("API_SERVICES_ATTRIBUTE")
+                    "attribute", require("API_SERVICES_ATTRIBUTE"),
+                    "update", require("API_SERVICES_UPDATE")
             )),
 
             category.USER,

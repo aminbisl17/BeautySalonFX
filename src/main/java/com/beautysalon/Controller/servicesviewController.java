@@ -101,6 +101,25 @@ public class servicesviewController {
     });
 }
     
+private void updateService(Sherbimet s){
+
+    ServiceCall.updateServices(s).thenAccept(
+        success ->{
+            Platform.runLater(()->{
+                ModernAlert.success("Success", "Service updated");
+            });
+        }
+    ).exceptionally(ex ->{
+
+        Platform.runLater(()->{
+            ModernAlert.danger("Failed", ex.getMessage());
+        });
+        return null;
+    });
+
+}
+
+
      private void setupSearch(List<Sherbimet> sherbimet) {
 
         if (sherbimet == null) return;

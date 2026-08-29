@@ -3,18 +3,21 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Region?>
-<BorderPane styleClass="root" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/ClientProfile.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicedetails">
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="root" stylesheets="@../css/ClientProfile.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicedetails">
  <top>
 
         <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
@@ -43,6 +46,15 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="10">
 
+                    
+    <Button fx:id="editBtn" styleClass="action-btn" text="Ndrysho të dhënat" visible="false" />
+
+    <Button fx:id="saveBtn" managed="false" styleClass="save-btn" text="Ruaj ndryshimet" visible="false" />
+
+    <Button fx:id="cancelBtn" managed="false" styleClass="cancel-btn" text="Anulo ndryshimet" visible="false" />
+
+    <Button fx:id="deleteBtn" styleClass="delete-btn" text="Fshi" visible="false" />
+    
     <Button fx:id="rollbackBtn" styleClass="rollback-btn" text="← Kthehu" />
 
 </HBox>
@@ -62,13 +74,9 @@
 
     <VBox spacing="18" styleClass="card">
 
-<HBox spacing="15" alignment="CENTER_LEFT">
+<HBox alignment="CENTER_LEFT" spacing="15">
 
-        <ImageView fx:id="serviceImage"
-                   fitWidth="90"
-                   fitHeight="90"
-                   preserveRatio="true"
-                   styleClass="service-image"/>
+        <ImageView fx:id="serviceImage" fitHeight="90" fitWidth="90" preserveRatio="true" styleClass="service-image" />
 
         <VBox spacing="4">
 
@@ -101,32 +109,38 @@
     <!-- Emri -->
     <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
         <Label styleClass="field-label" text="Emri i shërbimit" />
-        <Label fx:id="emriLabel" styleClass="readonly-label" />
+                     <TextField fx:id="EmriField" />
     </VBox>
 
     <!-- Përshkrimi -->
-    <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
-        <Label styleClass="field-label" text="Përshkrimi" />
-        <Label fx:id="pershkrimiLabel" styleClass="readonly-label" />
+    <VBox prefHeight="142.0" prefWidth="214.0" spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                     <children>
+           <Label styleClass="field-label" text="Çmimi" />
+                        <TextField fx:id="cmimiField" />
+                     </children>
     </VBox>
 
     <!-- Çmimi -->
     <VBox spacing="4" GridPane.columnIndex="3" GridPane.rowIndex="0">
-        <Label styleClass="field-label" text="Çmimi" />
-        <Label fx:id="cmimiLabel" styleClass="readonly-label" />
+        <Label styleClass="field-label" text="Përshkrimi" />
+                     <TextArea fx:id="pershkrimiField" prefHeight="150.0" prefWidth="214.0" />
     </VBox>
 
     <!-- Kohezgjatja (NEW ROW) -->
     <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <Label styleClass="field-label" text="Kohëzgjatja" />
-        <Label fx:id="kohezgjatjaLabel" styleClass="readonly-label" />
+                     <Spinner fx:id="kohezgjatjaField" />
     </VBox>
 
     <!-- Zbritja -->
     <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <Label styleClass="field-label" text="Zbritja" />
-        <Label fx:id="zbritjaLabel" styleClass="readonly-label" />
+                     <TextField fx:id="zbritjaField" />
     </VBox>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
 
 </GridPane>
         </VBox>
@@ -136,15 +150,13 @@
     <VBox spacing="15" styleClass="card" VBox.vgrow="ALWAYS">
 
 
-    <HBox spacing="10" alignment="CENTER_LEFT">
+    <HBox alignment="CENTER_LEFT" spacing="10">
         <Label styleClass="section-title" text="Atributet e Shërbimeve" />
 
           <Region HBox.hgrow="ALWAYS" />
         
 
-         <TextField fx:id="searchField"
-                       promptText="Kërko opsion..."
-                       styleClass="search-field"/>
+         <TextField fx:id="searchField" promptText="Kërko opsion..." styleClass="search-field" />
 </HBox>
         <TableView fx:id="atributetTable" VBox.vgrow="ALWAYS">
 

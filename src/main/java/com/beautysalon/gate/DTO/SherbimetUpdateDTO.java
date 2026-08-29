@@ -1,39 +1,18 @@
-package com.beautysalon.gate.Model.services;
+package com.beautysalon.gate.DTO;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Sherbimet {
-
-    @JsonProperty("ID")
-    private Long ID;
-
-    private String emri_sherbimit;
+public class SherbimetUpdateDTO {
+     private String emri_sherbimit;
     private String pershkrimi;
     private Double qmimi_baze;
-    private int zbritja, kohezgjatja;
-
+    private int zbritja;
+    private int kohezgjatja;
     private List<Atributet_sherbimeve> atributet;
-
-    public Sherbimet(){}
-    
-    public List<Atributet_sherbimeve> getAtributet() {
-        return atributet;
-    }
-    public void setAtributet(List<Atributet_sherbimeve> atributet) {
-        this.atributet = atributet;
-    }
-    public Long getID() {
-        return ID;
-    }
-    public void setID(Long iD) {
-        ID = iD;
-    }
+    private boolean is_active;
+    private boolean removeImage;
     public String getEmri_sherbimit() {
         return emri_sherbimit;
     }
@@ -64,4 +43,22 @@ public class Sherbimet {
     public void setKohezgjatja(int kohezgjatja) {
         this.kohezgjatja = kohezgjatja;
     }
+    public List<Atributet_sherbimeve> getAtributet() {
+        return atributet;
+    }
+    public void setAtributet(List<Atributet_sherbimeve> atributet) {
+        this.atributet = atributet;
+    }
+    public boolean isIs_active() {
+        return is_active;
+    }
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
+    public boolean isRemoveImage() {
+        return removeImage;
+    }
+    public void setRemoveImage(boolean removeImage) {
+        this.removeImage = removeImage;
+    } 
 }

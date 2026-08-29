@@ -1,7 +1,12 @@
 package com.beautysalon.gate.API;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -21,6 +26,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.beautysalon.gate.Configuration.APIConfig.category;
+import com.beautysalon.gate.DTO.SherbimetUpdateDTO;
 
 public class ServiceCall {
     
@@ -76,19 +82,93 @@ public static CompletableFuture<ServiceInfoResponse> fetchServiceAtributes(Long 
         }
     });
 }
-public static CompletableFuture<Boolean> updateServices(Sherbimet sherbimet){
 
-    return CompletableFuture.supplyAsync(()->{
+public static CompletableFuture<Boolean> updateServices(SherbimetUpdateDTO sherbimet, Long ID) {
 
+    return CompletableFuture.supplyAsync(() -> {
 
-        try{
+        try {
 
-            (APIGenericCalls.sendRequest("put", APIConfig.get(category.SERVICES).get("update"), true, sherbimet)).body();
+            if (true) {
+               String token = SessionManager.getToken();
+        if (token == null || token.isEmpty()) {
+            throw new TokenException();
+        }
+            }
+
+            String url = APIConfig.get(category.SERVICES).get("update")+ ID;
+
+                    System.out.println(url);
+
+            String boundary = "----JavaBoundary" + System.currentTimeMillis();
+
+            String json = mapper.writeValueAsString(sherbimet);
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            // data part
+            output.write((
+                    "--" + boundary + "\r\n" +
+                    "Content-Disposition: form-data; name=\"data\"\r\n" +
+                    "Content-Type: application/json\r\n\r\n" +
+                    json + "\r\n"
+            ).getBytes(StandardCharsets.UTF_8));
+
+            // end multipart
+            output.write((
+                    "--" + boundary + "--\r\n"
+            ).getBytes(StandardCharsets.UTF_8));
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .timeout(Duration.ofSeconds(10))
+                    .header(
+                            "Content-Type",
+                            "multipart/form-data; boundary=" + boundary
+                    )
+                    .header(
+                            "Authorization",
+                            "Bearer " + SessionManager.getToken()
+                )
+                    .method(
+                            "PATCH",
+                            HttpRequest.BodyPublishers.ofByteArray(
+                                    output.toByteArray()
+                            )
+                    )
+                    .build();
+
+            HttpResponse<String> response = APIGenericCalls.CLIENT.send(
+                    request,
+                    HttpResponse.BodyHandlers.ofString()
+            );
+
+            System.out.println("token: " + SessionManager.getToken());
+            System.out.println(response.statusCode());
+
+            if (response.statusCode() == 401 ||
+                response.statusCode() == 403) {
+                throw new TokenException();
+            }
+
+            if (response.statusCode() == 500) {
+                throw new ServerErrorException(
+                        "Internal server error"
+                );
+            }
+
+            if (response.statusCode() != 200) {
+                throw new RuntimeException(
+                        "Update failed: " + response.statusCode()
+                );
+            }
+
             return true;
-        } catch(Exception e){
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     });
-
 }
+
 }

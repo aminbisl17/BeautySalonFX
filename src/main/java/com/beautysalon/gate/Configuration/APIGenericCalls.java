@@ -17,7 +17,7 @@ public class APIGenericCalls {
 
     private static ObjectMapper mapper = MapperProvider.getMapper();
 
-    private static HttpClient CLIENT = HttpClient.newBuilder()
+    public static HttpClient CLIENT = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .connectTimeout(Duration.ofSeconds(10))
             .build();
@@ -136,6 +136,12 @@ public static HttpResponse<String> sendRequest(
         case "PUT" -> builder.PUT(HttpRequest.BodyPublishers.ofString(
                 body == null ? "" : mapper.writeValueAsString(body)
         ));
+        case "PATCH" -> builder.method(
+    "PATCH",
+    HttpRequest.BodyPublishers.ofString(
+        body == null ? "" : mapper.writeValueAsString(body)
+    )
+);
         default -> throw new IllegalArgumentException("Invalid method: " + method);
     }
 

@@ -15,6 +15,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import com.beautysalon.StageManager;
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Configuration.APIConfig;
+import com.beautysalon.gate.Configuration.APIConfig.AUTHENTICATION;
 import com.beautysalon.gate.Configuration.APIConfig.category;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
 import com.beautysalon.gate.Configuration.MapperProvider;
@@ -73,7 +74,7 @@ public static CompletableFuture<String> fetchQrCode(){
 
             HttpResponse<String> response = APIGenericCalls.sendRequest(
                         "GET",
-                         APIConfig.get(category.AUTHENTICATION).get("generate"),
+                         APIConfig.Get(AUTHENTICATION.GENERATE),
                           false, null);
 
                            JsonNode node = MAPPER.readTree(response.body());
@@ -99,7 +100,7 @@ public static CompletableFuture<String> fetchQrCode(){
 
       
             stompClient.connectAsync(
-        SessionManager.URL[5][0],
+        APIConfig.Get(AUTHENTICATION.WS),
         new StompSessionHandlerAdapter() {}
 ).thenAccept(session -> {
     this.session = session;

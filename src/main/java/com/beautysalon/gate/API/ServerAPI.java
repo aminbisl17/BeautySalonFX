@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.beautysalon.gate.SessionManager;
 import com.beautysalon.gate.Configuration.APIConfig;
+import com.beautysalon.gate.Configuration.APIConfig.SERVER;
 import com.beautysalon.gate.Configuration.APIConfig.category;
 import com.beautysalon.gate.Configuration.APIGenericCalls;
 import com.beautysalon.gate.Exceptions.TokenException;
@@ -22,7 +23,7 @@ public class ServerAPI {
                     HttpResponse<String> response = 
                     APIGenericCalls.sendRequest(
                         "GET",
-                         APIConfig.get(category.SERVER).get("health"),
+                         APIConfig.Get(SERVER.HEALTH),
                           false, null);
 
                     return response.statusCode() == 200 ? true : false;

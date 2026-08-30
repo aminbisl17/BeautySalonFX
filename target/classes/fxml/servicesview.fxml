@@ -4,30 +4,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextField?>
-<BorderPane
-        xmlns="http://javafx.com/javafx/25"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.beautysalon.Controller.servicesviewController"
-        stylesheets="@../css/tables.css"
-        prefWidth="1200"
-        prefHeight="750"
-        styleClass="root">
+
+<BorderPane prefHeight="750" prefWidth="1200" styleClass="root" stylesheets="@../css/tables.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beautysalon.Controller.servicesviewController">
 
     <!-- TOP HEADER -->
     <top>
 
-        <HBox spacing="15"
-              alignment="CENTER_LEFT"
-              styleClass="top-bar">
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
 
             <padding>
-                <Insets top="20" right="40" bottom="20" left="40"/>
+                <Insets bottom="20" left="40" right="40" top="20" />
             </padding>
 
             <children>
@@ -36,27 +27,20 @@
 
                     <children>
 
-                        <Label text="Paneli i shërbimeve"
-                               styleClass="title-label"/>
+                        <Label styleClass="title-label" text="Paneli i shërbimeve" />
 
                     
-                        <Label text="Menaxho shërbimet"
-                               styleClass="subtitle-label"/>
+                        <Label styleClass="subtitle-label" text="Menaxho shërbimet" />
             
                     </children>
 
                 </VBox>
 
-                <Region HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS" />
 
-             <TextField fx:id="searchField"
-                       promptText="Kërko shërbim..."
-                       styleClass="search-field"/>
+             <TextField fx:id="searchField" promptText="Kërko shërbim..." styleClass="search-field" />
 
-                <Button
-                        fx:id="refreshbtn"
-                        text="⟳ Rifresko"
-                        styleClass="primary-btn"/>
+                <Button fx:id="refreshbtn" styleClass="primary-btn" text="⟳ Rifresko" />
 
             </children>
 
@@ -70,14 +54,12 @@
         <VBox BorderPane.alignment="CENTER">
 
             <padding>
-                <Insets top="0" right="40" bottom="35" left="40"/>
+                <Insets bottom="35" left="40" right="40" top="0" />
             </padding>
 
             <children>
 
-                <VBox spacing="18"
-                      VBox.vgrow="ALWAYS"
-                      styleClass="card">
+                <VBox spacing="18" styleClass="card" VBox.vgrow="ALWAYS">
 
                     <children>
 
@@ -89,22 +71,27 @@
 
                                     <children>
 
-                                        <Label text="Tabela e shërbimeve"
-                                               styleClass="section-title"/>
+                                        <Label styleClass="section-title" text="Tabela e shërbimeve" />
 
-                                        <Label text="Shiko detajet e shërbimeve"
-                                               styleClass="subtitle-label"/>
+                                        <Label styleClass="subtitle-label" text="Shiko detajet e shërbimeve" />
 
                                     </children>
 
                                 </VBox>
 
+                                    <Region HBox.hgrow="ALWAYS" />
+
+                       <Button
+    fx:id="registerbtn"
+    mnemonicParsing="false"
+    styleClass="register-btn"
+    text="+  Regjistro shërbim" />
+
                             </children>
 
                         </HBox>
 
-                        <TableView fx:id="table"
-                                   VBox.vgrow="ALWAYS"/>
+                        <TableView fx:id="table" VBox.vgrow="ALWAYS" />
 
                     </children>
 

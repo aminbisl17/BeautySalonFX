@@ -24,16 +24,25 @@ public class servicesviewController {
     private Button refreshbtn;
 
     @FXML
+    private Button registerbtn;
+
+    @FXML
     private TableView<Sherbimet> table;
 
       @FXML
     private TextField searchField;
 
     boolean serverNotification;
+
     @FXML
     private void initialize(){
          
-        
+        if(SessionManager.getPrimaryResponse().getRole().equals("ROLE_ADMIN")) registerbtn.setVisible(true);
+
+        registerbtn.setOnAction((_)->{
+            CenterController.loadCenterContent("ServiceRegisterForm.fxml");
+        });
+
          table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
          table.setPlaceholder(new ProgressIndicator());

@@ -25,6 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.beautysalon.gate.Configuration.APIConfig.SERVICES;
 import com.beautysalon.gate.Configuration.APIConfig.category;
 import com.beautysalon.gate.DTO.SherbimetUpdateDTO;
 
@@ -39,7 +40,7 @@ public class ServiceCall {
                     HttpResponse<String> response = 
                     APIGenericCalls.sendRequest(
                         "GET",
-                         APIConfig.get(category.SERVICES).get("all"),
+                         APIConfig.Get(SERVICES.ALL),
                           true, null);
 
  SessionManager.setSherbimet(mapper.readValue(response.body(),new TypeReference<List<Sherbimet>>() {}));
@@ -64,7 +65,7 @@ public static CompletableFuture<ServiceInfoResponse> fetchServiceAtributes(Long 
             HttpResponse<String> response =
                     APIGenericCalls.sendRequest(
                             "GET",
-                            APIConfig.get(category.SERVICES).get("attribute") + ID,
+                            APIConfig.Get(SERVICES.ATTRIBUTES) + ID,
                             true,
                             null
                     );
@@ -96,9 +97,9 @@ public static CompletableFuture<Boolean> updateServices(SherbimetUpdateDTO sherb
         }
             }
 
-            String url = APIConfig.get(category.SERVICES).get("update")+ ID;
+            String url = APIConfig.Get(SERVICES.UPDATE)+ ID;
 
-                    System.out.println(url);
+                   // System.out.println(url);
 
             String boundary = "----JavaBoundary" + System.currentTimeMillis();
 
@@ -143,8 +144,8 @@ public static CompletableFuture<Boolean> updateServices(SherbimetUpdateDTO sherb
                     HttpResponse.BodyHandlers.ofString()
             );
 
-            System.out.println("token: " + SessionManager.getToken());
-            System.out.println(response.statusCode());
+           // System.out.println("token: " + SessionManager.getToken());
+           // System.out.println(response.statusCode());
 
             if (response.statusCode() == 401 ||
                 response.statusCode() == 403) {

@@ -54,26 +54,23 @@ public static enum AUTHENTICATION{
     }
 
     private static final Map<Object, String> test =
-     Map.of(
+  
+    Map.ofEntries(
+    Map.entry(CLIENTS.ALL, require("API_CLIENTS_ALL")),
+    Map.entry(CLIENTS.HISTORY, require("API_CLIENTS_HISTORY")),
+    Map.entry(CLIENTS.UPDATE, require("API_CLIENTS_UPDATE")),
+    Map.entry(CLIENTS.DELETE, require("API_CLIENTS_DELETE")),
 
-        // Klientet
-            CLIENTS.ALL, require("API_CLIENTS_ALL"),
-            CLIENTS.HISTORY ,require("API_CLIENTS_HISTORY"),
-            CLIENTS.UPDATE, require("API_CLIENTS_UPDATE"),
-            CLIENTS.DELETE, require("API_CLIENTS_DELETE"),
+    Map.entry(SERVICES.ALL, require("API_SERVICES_ALL")),
+    Map.entry(SERVICES.ATTRIBUTES, require("API_SERVICES_ATTRIBUTE")),
+    Map.entry(SERVICES.UPDATE, require("API_SERVICES_UPDATE")),
+    Map.entry(SERVICES.DELETE, require("API_SERVICES_DELETE")),
 
-        // Sherbimet
-            SERVICES.ALL, require("API_SERVICES_ALL"),
-            SERVICES.ATTRIBUTES, require("API_SERVICES_ATTRIBUTE"),
-            SERVICES.UPDATE, require("API_SERVICES_UPDATE"),
+    Map.entry(USER.DATA, require("API_USER_DATA")),
 
-        // Perdoruesi
-           USER.DATA, require("API_USER_DATA"),
-
-           AUTHENTICATION.GENERATE, require("API_AUTHENTICATION_ATTENDANCE_GENERATE"),
-           AUTHENTICATION.WS, require("WS_AUTHENTICATION")
-
-        );
+    Map.entry(AUTHENTICATION.GENERATE, require("API_AUTHENTICATION_ATTENDANCE_GENERATE")),
+    Map.entry(AUTHENTICATION.WS, require("WS_AUTHENTICATION"))
+);
 
     private static final Map<category, APIEndpoints> endpoints =
             Map.of(

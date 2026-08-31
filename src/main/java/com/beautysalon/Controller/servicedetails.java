@@ -164,7 +164,30 @@ kohezgjatjaField.setValueFactory(valueFactory);
 
         saveBtn.setOnAction(e -> saveChanges());
 
-     //   deleteBtn.setOnAction(e -> deleteClient());
+        deleteBtn.setOnAction(e -> 
+
+              ModernAlert.confirm("Fshij Shërbimin", "Dëshironi të fshijni këtë shërbim?")
+        .ifPresent(response -> {
+
+            ServiceCall.deleteService(sherbimi.getID()).thenAccept( success ->{
+
+                if(success){
+                    Platform.runLater(()->{
+                ModernAlert.success("Informatë", "Shërbimi u fshi me sukses!");
+            });
+                }
+    
+            }).exceptionally(ex->{
+                     System.out.println(ex);
+                  ModernAlert.warning(
+                "Server unreachable",
+                "Failed to delete service !"
+        );
+                return null;
+            });
+        })
+
+        );
 
         cancelBtn.setOnAction(e -> cancelEdit());
 

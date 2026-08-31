@@ -172,4 +172,18 @@ public static CompletableFuture<Boolean> updateServices(SherbimetUpdateDTO sherb
     });
 }
 
+public static CompletableFuture<Boolean> deleteService(Long ID){
+  return CompletableFuture.supplyAsync(()->{
+        try{
+       
+            HttpResponse<String> req = APIGenericCalls.sendRequest("DELETE", APIConfig.Get(SERVICES.DELETE) + ID, true, null);
+
+       //     System.out.println( APIConfig.Get(SERVICES.DELETE) + ID + " " + req.statusCode());
+
+            return req.statusCode() == 200 ? true : false;
+        } catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    });
+}
 }

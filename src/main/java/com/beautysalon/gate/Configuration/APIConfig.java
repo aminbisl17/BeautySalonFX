@@ -27,7 +27,8 @@ public static enum SERVICES {
     ALL,
     ATTRIBUTES,
     UPDATE,
-    DELETE
+    DELETE,
+    REGISTER
 }
 
 public static enum USER{
@@ -65,6 +66,7 @@ public static enum AUTHENTICATION{
     Map.entry(SERVICES.ATTRIBUTES, require("API_SERVICES_ATTRIBUTE")),
     Map.entry(SERVICES.UPDATE, require("API_SERVICES_UPDATE")),
     Map.entry(SERVICES.DELETE, require("API_SERVICES_DELETE")),
+    Map.entry(SERVICES.REGISTER, require("API_SERVICES_REGISTER")),
 
     Map.entry(USER.DATA, require("API_USER_DATA")),
 

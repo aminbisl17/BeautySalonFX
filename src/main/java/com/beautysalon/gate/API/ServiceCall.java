@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.beautysalon.gate.Configuration.APIConfig.SERVICES;
 import com.beautysalon.gate.Configuration.APIConfig.category;
+import com.beautysalon.gate.DTO.SherbimetRegisterDTO;
 import com.beautysalon.gate.DTO.SherbimetUpdateDTO;
 
 public class ServiceCall {
@@ -186,4 +187,176 @@ public static CompletableFuture<Boolean> deleteService(Long ID){
         }
     });
 }
+
+
+public static CompletableFuture<Boolean> registerService(
+        SherbimetRegisterDTO service,
+        java.io.File imageFile) {
+
+    return CompletableFuture.supplyAsync(() -> {
+
+        try {
+
+            String token = SessionManager.getToken();
+
+            if (token == null || token.isEmpty()) {
+                throw new TokenException();
+            }
+
+            String url = APIConfig.Get(SERVICES.REGISTER);
+
+            System.out.println(url);
+            // Put attributes inside the service object
+           
+
+            // Convert service to JSON
+            String json = mapper.writeValueAsString(service);
+
+            String boundary =
+                    "----JavaBoundary" + System.currentTimeMillis();
+
+            ByteArrayOutputStream output =
+                    new ByteArrayOutputStream();
+
+            // ============================================
+            // DATA
+            // ============================================
+
+            output.write((
+                    "--" + boundary + "\r\n" +
+                    "Content-Disposition: form-data; name=\"data\"\r\n" +
+                    "Content-Type: application/json; charset=UTF-8\r\n" +
+                    "\r\n" +
+                    json +
+                    "\r\n"
+            ).getBytes(StandardCharsets.UTF_8));
+
+
+            // ============================================
+            // IMAGE
+            // ============================================
+
+            if (imageFile != null && imageFile.exists()) {
+
+                String fileName = imageFile.getName();
+
+                String mimeType =
+                        java.nio.file.Files.probeContentType(
+                                imageFile.toPath()
+                        );
+
+                if (mimeType == null) {
+                    mimeType = "application/octet-stream";
+                }
+
+                output.write((
+                        "--" + boundary + "\r\n" +
+                        "Content-Disposition: form-data; " +
+                        "name=\"image\"; filename=\"" +
+                        fileName +
+                        "\"\r\n" +
+                        "Content-Type: " +
+                        mimeType +
+                        "\r\n" +
+                        "\r\n"
+                ).getBytes(StandardCharsets.UTF_8));
+
+                output.write(
+                        java.nio.file.Files.readAllBytes(
+                                imageFile.toPath()
+                        )
+                );
+
+                output.write(
+                        "\r\n".getBytes(StandardCharsets.UTF_8)
+                );
+            }
+
+
+            // ============================================
+            // END MULTIPART
+            // ============================================
+
+            output.write((
+                    "--" + boundary + "--\r\n"
+            ).getBytes(StandardCharsets.UTF_8));
+
+
+            // ============================================
+            // REQUEST
+            // ============================================
+
+            HttpRequest request =
+                    HttpRequest.newBuilder()
+                            .uri(URI.create(url))
+                            .timeout(Duration.ofSeconds(15))
+                            .header(
+                                    "Content-Type",
+                                    "multipart/form-data; boundary=" +
+                                    boundary
+                            )
+                            .header(
+                                    "Authorization",
+                                    "Bearer " + SessionManager.getToken()
+                            )
+                            .POST(
+                                    HttpRequest.BodyPublishers.ofByteArray(
+                                            output.toByteArray()
+                                    )
+                            )
+                            .build();
+
+
+            HttpResponse<String> response =
+                    APIGenericCalls.CLIENT.send(
+                            request,
+                            HttpResponse.BodyHandlers.ofString()
+                    );
+
+
+            // ============================================
+            // RESPONSE
+            // ============================================
+
+       System.out.println("Status: " + response.statusCode());
+System.out.println("Body: " + response.body());
+
+            if (response.statusCode() == 401 ||
+                response.statusCode() == 403) {
+
+                throw new TokenException();
+            }
+
+            if (response.statusCode() == 500) {
+
+                throw new ServerErrorException(
+                        "Internal server error"
+                );
+            }
+
+            if (response.statusCode() != 200) {
+
+                throw new RuntimeException(
+                        "Service registration failed: " +
+                        response.statusCode() +
+                        " - " +
+                        response.body()
+                );
+            }
+
+            return true;
+
+        } catch (TokenException e) {
+
+            APIErrorHandler.handle(e);
+            return false;
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+    });
+}
+
+
 }

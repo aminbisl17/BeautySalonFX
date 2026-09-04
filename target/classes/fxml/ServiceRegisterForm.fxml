@@ -143,7 +143,6 @@
                                 styleClass="cancel-btn" 
                                 text="Anulo"/>
                         <Button fx:id="registerButton" 
-                                onAction="#register" 
                                 styleClass="register-btn" 
                                 text="+ Regjistro shërbim"/>
                     </HBox>

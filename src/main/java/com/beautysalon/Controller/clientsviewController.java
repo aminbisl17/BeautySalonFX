@@ -79,7 +79,7 @@ public class clientsviewController {
         .thenAccept(success -> {
     
             if (success && SessionManager.getClients() != null) {
-                 System.out.println("works for client");
+               
                serverNotification = true;
             //    stopServerPolling();
 

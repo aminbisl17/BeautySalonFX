@@ -173,8 +173,9 @@ kohezgjatjaField.setValueFactory(valueFactory);
 
                 if(success){
                     Platform.runLater(()->{
+
+                ServiceCall.fetchServices();
                 ModernAlert.success("Informatë", "Shërbimi u fshi me sukses!");
-                 ServiceCall.fetchServices();
                  CenterController.loadCenterContent("servicesview.fxml");
             });
                 }

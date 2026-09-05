@@ -28,6 +28,7 @@ com\beautysalon\Controller\ServiceRegisterFormController$AttributeInput.class
 com\beautysalon\gate\API\QRCode$2.class
 com\beautysalon\Controller\ServiceRegisterFormController.class
 com\beautysalon\gate\Configuration\APIEndpoints.class
+com\beautysalon\gate\DTO\Atributet_SherbimeveDTO.class
 com\beautysalon\gate\Configuration\APIConfig$SERVICES.class
 com\beautysalon\gate\Configuration\ModernAlert.class
 com\beautysalon\gate\Exceptions\ServerErrorException.class

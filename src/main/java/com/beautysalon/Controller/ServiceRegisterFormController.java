@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beautysalon.gate.API.ServiceCall;
+import com.beautysalon.gate.Configuration.ModernAlert;
+import com.beautysalon.gate.DTO.Atributet_SherbimeveDTO;
 import com.beautysalon.gate.DTO.SherbimetRegisterDTO;
 import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 
@@ -71,6 +73,9 @@ public class ServiceRegisterFormController {
 
     @FXML
     private Button addAttributeButton;
+
+    @FXML
+    private Button rollbackBtn;
 
     @FXML
     private VBox attributesContainer;
@@ -638,7 +643,7 @@ public class ServiceRegisterFormController {
         // BUILD ATTRIBUTES
         // ========================================================
 
-        List<Atributet_sherbimeve> attributeList =
+        List<Atributet_SherbimeveDTO> attributeList =
                 new ArrayList<>();
 
         for (AttributeInput input : attributeInputs) {
@@ -785,8 +790,8 @@ public class ServiceRegisterFormController {
             // CREATE ATTRIBUTE
             // ----------------------------------------------------
 
-            Atributet_sherbimeve newAttribute =
-                    new Atributet_sherbimeve();
+            Atributet_SherbimeveDTO newAttribute =
+                    new Atributet_SherbimeveDTO();
 
             newAttribute.setOpsioni(option);
 
@@ -806,40 +811,7 @@ public class ServiceRegisterFormController {
                     newAttribute);
         }
 
-        // ========================================================
-        // SET ATTRIBUTES
-        // ========================================================
-
         dto.setAtributet(attributeList);
-
-        // ========================================================
-        // DEBUG
-        // ========================================================
-
-        System.out.println(
-                "Service name: " +
-                dto.getEmri_sherbimit());
-
-        System.out.println(
-                "Price: " +
-                dto.getQmimi_baze());
-
-        System.out.println(
-                "Discount: " +
-                dto.getZbritja());
-
-        System.out.println(
-                "Duration: " +
-                dto.getKohezgjatja() +
-                " minutes");
-
-        System.out.println(
-                "Attributes: " +
-                attributeList.size());
-
-        // ========================================================
-        // DISABLE BUTTON
-        // ========================================================
 
         registerButton.setDisable(true);
 
@@ -849,9 +821,6 @@ public class ServiceRegisterFormController {
         System.out.println(
                 "Registering...");
 
-        // ========================================================
-        // API CALL
-        // ========================================================
 
         ServiceCall.registerService(
                 dto,
@@ -865,15 +834,15 @@ public class ServiceRegisterFormController {
 
                         if (success) {
 
-                            errorLabel.setText(
-                                    "Service registered successfully!");
 
+                            ServiceCall.fetchServices();
+
+                            ModernAlert.success("Informate", "Sherbimi u regjistrua!");
                             clearForm();
 
                         } else {
 
-                            errorLabel.setText(
-                                    "Authentication failed.");
+                           ModernAlert.warning("Error", "Something went wrong");
                         }
                     });
                 })
@@ -944,14 +913,12 @@ public class ServiceRegisterFormController {
 
         imagePreview.setFitWidth(90);
         imagePreview.setFitHeight(90);
-
+      rollbackBtn.setOnAction( (_) -> {CenterController.loadCenterContent("servicesview.fxml");});
         imagePreview.setClip(
                 new Circle(45, 45, 45));
 
         errorLabel.setText("");
 
-        // FXML does NOT use onAction="#register".
-        // The button is connected here instead.
         registerButton.setOnAction(
                 event -> register());
     }

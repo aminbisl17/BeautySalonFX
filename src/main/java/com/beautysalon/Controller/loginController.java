@@ -217,7 +217,6 @@ public class loginController {
 
                 if (!serverActivity) {
                     fetchQRCode();
-                    serverActivity = true;
                     b = false;
                 }
             }
@@ -242,6 +241,8 @@ public class loginController {
 
         QRCode.fetchQrCode().thenAccept(
                 success -> {
+
+                    serverActivity = true;
                     String code = success;
                     Image qrImage = generateQRCode(code, 220, 220);
 

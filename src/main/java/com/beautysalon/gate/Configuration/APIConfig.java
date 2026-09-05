@@ -71,7 +71,8 @@ public static enum AUTHENTICATION{
     Map.entry(USER.DATA, require("API_USER_DATA")),
 
     Map.entry(AUTHENTICATION.GENERATE, require("API_AUTHENTICATION_ATTENDANCE_GENERATE")),
-    Map.entry(AUTHENTICATION.WS, require("WS_AUTHENTICATION"))
+    Map.entry(AUTHENTICATION.WS, require("WS_AUTHENTICATION")),
+    Map.entry(SERVER.HEALTH, require("API_SERVER_HEALTH"))
 );
 
     private static final Map<category, APIEndpoints> endpoints =

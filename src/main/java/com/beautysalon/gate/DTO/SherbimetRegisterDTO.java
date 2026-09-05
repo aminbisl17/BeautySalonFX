@@ -2,7 +2,6 @@ package com.beautysalon.gate.DTO;
 
 import java.util.List;
 
-import com.beautysalon.gate.Model.services.Atributet_sherbimeve;
 
 public class SherbimetRegisterDTO {
 
@@ -11,13 +10,13 @@ public class SherbimetRegisterDTO {
     private Double qmimi_baze;
     private int zbritja;
     private int kohezgjatja;
-    private List<Atributet_sherbimeve> atributet;
+    private List<Atributet_SherbimeveDTO> atributet;
 
-    public List<Atributet_sherbimeve> getAtributet() {
+    public List<Atributet_SherbimeveDTO> getAtributet() {
         return atributet;
     }
 
-    public void setAtributet(List<Atributet_sherbimeve> atributet) {
+    public void setAtributet(List<Atributet_SherbimeveDTO> atributet) {
         this.atributet = atributet;
     }
 

@@ -1,6 +1,7 @@
 com\beautysalon\gate\API\ServiceCall$1.class
 com\beautysalon\gate\API\QRCode.class
 com\beautysalon\gate\Configuration\APIGenericCalls.class
+com\beautysalon\gate\API\TerminetService.class
 com\beautysalon\gate\responses\ServiceInfoResponse.class
 com\beautysalon\gate\Model\clients\Historiku_detajet.class
 com\beautysalon\Controller\servicedetails.class
@@ -24,16 +25,19 @@ com\beautysalon\gate\API\ServiceCall.class
 com\beautysalon\gate\Configuration\APIConfig$CLIENTS.class
 com\beautysalon\App.class
 com\beautysalon\Controller\CenterController.class
+com\beautysalon\gate\Configuration\APIConfig$TERMINET.class
 com\beautysalon\Controller\ServiceRegisterFormController$AttributeInput.class
 com\beautysalon\gate\API\QRCode$2.class
 com\beautysalon\Controller\ServiceRegisterFormController.class
 com\beautysalon\gate\Configuration\APIEndpoints.class
+com\beautysalon\gate\DTO\Terminet\TerminetGetDTO.class
 com\beautysalon\gate\DTO\Atributet_SherbimeveDTO.class
 com\beautysalon\gate\Configuration\APIConfig$SERVICES.class
 com\beautysalon\gate\Configuration\ModernAlert.class
 com\beautysalon\gate\Exceptions\ServerErrorException.class
 com\beautysalon\gate\Exceptions\Handler\APIErrorHandler.class
 com\beautysalon\Controller\loginController.class
+com\beautysalon\gate\DTO\Terminet\DetajetTerminitDTO.class
 com\beautysalon\gate\Exceptions\TokenException.class
 com\beautysalon\Controller\servicedetails$1$1.class
 com\beautysalon\gate\API\QRCode$1.class
@@ -47,4 +51,6 @@ com\beautysalon\gate\Model\services\Sherbimet.class
 com\beautysalon\gate\Configuration\APIConfig$SERVER.class
 com\beautysalon\gate\Configuration\APIConfig$USER.class
 com\beautysalon\gate\API\ClientCall$2.class
+com\beautysalon\gate\DTO\Terminet\SherbimetDTO.class
 com\beautysalon\gate\API\ClientCall.class
+com\beautysalon\gate\API\TerminetService$1.class

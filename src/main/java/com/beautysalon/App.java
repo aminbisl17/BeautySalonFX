@@ -24,8 +24,8 @@ public class App extends Application {
      //    StageManager.login();
 
        loginResponse primaryresponse = new loginResponse();
-    primaryresponse.setRole("ROLE_ADMIN");
-       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlkIjozLCJyb2xlIjoiUk9MRV9BRE1JTiIsInR5cGUiOiJDT01QQU5ZX0FDQ0VTUyIsImlhdCI6MTc4ODU1MjQwNSwiZXhwIjoxNzg4NjM4ODA1fQ.E0e1fvyIO956vVbL8Zq0vrAX9dxhW3QsQ7WWDCb8TiE");
+    primaryresponse.setRole("ROLE_EMPLOYEE");
+       primaryresponse.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWQiOjEwMTUsInJvbGUiOiJST0xFX0VNUExPWUVFIiwidHlwZSI6IkNPTVBBTllfQUNDRVNTIiwiaWF0IjoxNzg4OTgwMzI5LCJleHAiOjE3ODkwNjY3Mjl9.v6MmFNnEWNljKFmmQ4h86K_BXC_UZqMX3a6ZzuK1YwM");
        primaryresponse.setUsername("admin");
        SessionManager.setPrimaryResponse(primaryresponse);
        StageManager.MainWindow();// */ 

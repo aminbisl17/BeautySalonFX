@@ -43,6 +43,10 @@ public static enum AUTHENTICATION{
     WS
 }
 
+public static enum TERMINET{
+    GET_ID
+}
+
     private static String require(String key) {
         String value = env.get(key);
         if (value == null || value.isBlank()) {
@@ -70,8 +74,11 @@ public static enum AUTHENTICATION{
 
     Map.entry(USER.DATA, require("API_USER_DATA")),
 
+    Map.entry(TERMINET.GET_ID, require("API_TERMINET_GET_ID")),
+    
     Map.entry(AUTHENTICATION.GENERATE, require("API_AUTHENTICATION_ATTENDANCE_GENERATE")),
     Map.entry(AUTHENTICATION.WS, require("WS_AUTHENTICATION")),
+
     Map.entry(SERVER.HEALTH, require("API_SERVER_HEALTH"))
 );
 

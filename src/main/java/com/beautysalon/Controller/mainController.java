@@ -1,6 +1,7 @@
 package com.beautysalon.Controller;
 
 import com.beautysalon.StageManager;
+import com.beautysalon.gate.API.TerminetService;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -60,6 +61,18 @@ public class mainController {
 
         profilebutton.setOnAction(e ->
                 CenterController.loadCenterContent("profileview.fxml"));
+
+        terminetbutton.setOnAction(e->{
+            TerminetService.fetchAppointmentsByEmployeeId(1015l).thenAccept(s->{
+
+                System.out.println(s);
+
+            }).exceptionally(ex-> {
+                
+                System.out.println(ex);
+                return null;
+            });
+        });
     }
 
     private void toggleSidebar() {

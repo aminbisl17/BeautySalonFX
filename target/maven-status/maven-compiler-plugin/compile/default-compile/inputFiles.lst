@@ -6,6 +6,8 @@ C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\ma
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\API\ClientCall.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\API\ServiceCall.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\Controller\clientsviewController.java
+C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\DTO\Terminet\DetajetTerminitDTO.java
+C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\DTO\Terminet\TerminetGetDTO.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\Configuration\APIConfig.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\Model\clients\Client.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\responses\ServiceInfoResponse.java
@@ -24,6 +26,7 @@ C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\ma
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\Controller\mainController.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\DTO\SherbimetRegisterDTO.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\Model\services\Sherbimet.java
+C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\API\TerminetService.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\Controller\servicedetails.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\Controller\loginController.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\SessionManager.java
@@ -34,3 +37,4 @@ C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\ma
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\Configuration\ExecutorConfig.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\Configuration\DotEnv.java
 C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\DTO\Atributet_SherbimeveDTO.java
+C:\Users\aminb\OneDrive\Desktop\BeautySalonManagementSystem\BeautySalonFX\src\main\java\com\beautysalon\gate\DTO\Terminet\SherbimetDTO.java
